@@ -1,0 +1,43 @@
+.bar-gragh-wrap {
+    position: relative;
+    height: 500px;
+    width: 1000px;
+    overflow: hidden;
+}
+
+.bar-gragh-wrap .graph {
+    height: 500px;
+    width: 1000px;
+    margin: 10px;
+    display: flex;
+    align-items: center;
+    animation: graphAnim 1s forwards;
+}
+
+.bar-gragh-wrap .graph > div {
+    width: 50px;
+    margin: 20px;
+    background: blue;
+}
+
+.bar-gragh-wrap .graph.jan {
+    height: 500px;
+}
+
+.bar-gragh-wrap .graph.feb {
+    height: 300px;
+}
+
+@keyframes graphAnim {
+    0% {
+        transform: translateY(100%);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+.graph span {
+    padding: 10px;
+    font-size: 14px;
+}

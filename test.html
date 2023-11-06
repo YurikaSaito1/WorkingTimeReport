@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="css/test.css">
+        <title>作業時間報告</title>
+    </head>
+    <body>
+        <div id="appendCategory">
+            <form id="categoryText">
+                <input type="text"/>
+                <button id="appendCategoryButton" type="button">カテゴリーの追加</button>
+            </form>
+        </div>
+        <div id="contents">
+            <div class="graphArea">
+                <div class="category">
+                    <select id="categoryPullDown" name="categoryPullDown">
+                        <option>動画編集</option>
+                        <option>Web構築</option>
+                    </select>
+                </div>
+                <div class="input">
+                    <input type="text" id="time" name="time"/>
+                    <p>時間</p>
+                </div>
+                <div class="bar-gragh-wrap">
+                    <div class="graph">
+                        <span class="number">0%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="js/test.js"></script>
+    </body>

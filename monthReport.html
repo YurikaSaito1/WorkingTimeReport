@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="css/monthReport.css">
+        <title>作業時間報告</title>
+    </head>
+    <body>
+        <div class="percent">
+            <svg>
+                <circle class="base" cx="75" cy="75" r="70"></circle>
+                <circle class="active" id="line" cx="75" cy="75" r="70"></circle>
+            </svg>
+            <div class="number">
+                <p>残り</p>
+                <h3 id="title"><div id="time_form_area">5</div><span>時間</span></h3>
+            </div>
+        </div>
+        <div id="appendCategory">
+            <form id="categoryText" name="categoryText">
+                <input type="text" name="inputText"/>
+                <button id="appendCategoryButton" type="button">カテゴリーの追加</button>
+            </form>
+        </div>
+        <div id="contents">
+            <div class="graphArea">
+                <div class="date">
+                    <p>日付</p>
+                    <input type="date">
+                </div>
+                <div class="category">
+                    <select id="categoryPullDown" name="categoryPullDown">
+                        <option>動画編集</option>
+                        <option>Web構築</option>
+                    </select>
+                </div>
+                <div class="input">
+                    <input type="text" class="time" name="time"/>
+                    <p>時間</p>
+                </div>
+            </div>
+        </div>
+        <button id="appendButton" type="button">追加</button>
+        <button id="calculateButton" type="button">計算する</button>
+        <div class="link">
+            <a href="index.html" id="topPage">トップページ</a>
+        </div>
+        <script src="js/monthReport.js"></script>
+    </body>
+</html>
