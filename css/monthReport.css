@@ -62,13 +62,12 @@ svg circle.passive {
     display: flex;
     align-items: center;
     justify-items: right;
+    text-align: center;
 }
 
 #time_form_area {
     height: 75px;
     width: 101.52px;
-    display: flex;
-    text-align: center;
 }
 
 #title span {

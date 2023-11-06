@@ -27,6 +27,8 @@ var addition = `
 </div>
 `;
 
+var MAX_TIME = Number(timeFormArea.innerHTML);
+
 timeFormArea.addEventListener("click", () => {
     if (document.getElementById("inputTime") != null) {
     } else {
@@ -46,6 +48,8 @@ document.body.addEventListener("keydown", (e) => {
     const inputTime = document.getElementById("inputTime");
     if (e.key == "Enter" && inputTime === document.activeElement) {
         timeFormArea.innerHTML = inputTime.value;
+        MAX_TIME = Number(inputTime.value);
+        inputTime.remove();
     }
 });
 
@@ -67,8 +71,8 @@ calculateButton.addEventListener("click", () => {
     for(let i=0; i<time.length; i++) {
         sum += parseInt(time.item(i).value);
     }
-    title.innerHTML = 100 - sum + "<span>時間<\span>";
-    line.style.strokeDashoffset = 440 - (440 * (100 - sum)) / 100;
+    timeFormArea.innerHTML = Number(timeFormArea.innerHTML) - sum;
+    line.style.strokeDashoffset = 440 - (440 * (MAX_TIME - (MAX_TIME - Number(timeFormArea.innerHTML)))) / MAX_TIME;
     setTimeout(() => {
         line.classList.replace("passive", "active");
     }, 300);
