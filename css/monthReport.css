@@ -81,6 +81,10 @@ svg circle.passive {
     font-size: 14px;
 }
 
+.loadSave {
+    margin: 10px 0 0 0;
+}
+
 #appendCategory {
     padding: 10px;
 }

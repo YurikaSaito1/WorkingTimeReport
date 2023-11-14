@@ -1,6 +1,9 @@
 const line = document.getElementById("line");
 const title = document.getElementById("title");
 const timeFormArea = document.getElementById("time_form_area");
+const load = document.getElementById("load");
+const save = document.getElementById("save");
+const selectedFile = document.getElementById("selectedFile");
 const appendCategory = document.getElementById("appendCategory");
 const appendCategoryButton = document.getElementById("appendCategoryButton");
 const contents = document.getElementById("contents");
@@ -16,18 +19,19 @@ var addition = `
     <input type="date">
     </div>
 <div class="category">
-    <select id="category" name="category">
+    <select id="categoryPullDown` + categoryNum + `" name="category">
         <option>動画編集</option>
         <option>Web構築</option>
     </select>
 </div>
 <div class="input">
-    <input type="text" class="time" name="time"/>
+    <input type="text" class="time" id="time` + categoryNum + `" name="time"/>
     <p>時間</p>
 </div>
 `;
 
 var MAX_TIME = Number(timeFormArea.innerHTML);
+var categoryNum = 0;
 
 timeFormArea.addEventListener("click", () => {
     if (document.getElementById("inputTime") != null) {
@@ -53,6 +57,29 @@ document.body.addEventListener("keydown", (e) => {
     }
 });
 
+selectedFile.addEventListener("change", (event) => {
+    var files = selectedFile.files;
+    var f = files[0];
+    var reader = new FileReader();
+    reader.readAsText(f);
+    reader.onload = function() {
+        let array = reader.result.split(",");
+        workInput(array);
+    }
+});
+
+function workInput(array) {
+    const category = document.getElementById("categoryPullDown" + categoryNum);
+    let options = category.options;
+    for (let option of options) {
+        if (option.value == array[1]) {
+            category.value = array[1];
+        }
+    }
+    const time = document.getElementById("time" + categoryNum);
+    time.value = array[2];
+}
+
 appendCategoryButton.addEventListener("click", () => {
     var text = document.forms.categoryText.inputText.value;
     var option = document.createElement("option");
@@ -62,6 +89,7 @@ appendCategoryButton.addEventListener("click", () => {
 });
 
 appendButton.addEventListener("click", () => {
+    categoryNum++;
     contents.insertAdjacentHTML("beforeend", addition);
 });
 
