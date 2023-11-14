@@ -71,8 +71,18 @@ selectedFile.addEventListener("change", (event) => {
 function workInput(array) {
     const category = document.getElementById("categoryPullDown" + categoryNum);
     let options = category.options;
+    let i = 0;
     for (let option of options) {
         if (option.value == array[1]) {
+            category.value = array[1];
+            break;
+        }
+        i++;
+        if (options.length == i) {
+            var newOption = new Option();
+            newOption.text = array[1];
+            console.log(newOption.value);
+            category.appendChild(newOption);
             category.value = array[1];
         }
     }
