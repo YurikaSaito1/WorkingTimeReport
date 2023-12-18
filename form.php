@@ -24,20 +24,51 @@
             </form>
         </div>
         <div id="contents">
+        <?php
+
+// 接続
+$mysqli = new mysqli('localhost', 'root', '2856', 'my_app');
+ 
+//接続状況の確認
+if (mysqli_connect_errno()) {
+    echo "データベース接続失敗" . PHP_EOL;
+    echo "errno: " . mysqli_connect_errno() . PHP_EOL;
+    echo "error: " . mysqli_connect_error() . PHP_EOL;
+    exit();
+}
+
+// データを挿入する
+$sql = "SELECT * FROM monthReport_table";
+$stmt = $mysqli->prepare($sql);
+$stmt->execute();
+
+// 結果を取得
+$result = $stmt->get_result();
+
+// 結果を出力
+while( $row_data = $result->fetch_array(MYSQLI_NUM) ) {
+  $dbdate = $row_data[1];
+  $dbcategory = $row_data[2];
+  $dbtime = $row_data[3];
+}
+
+$mysqli->close();
+
+?>
             <form action="monthReport.php" method="post">
                 <div class="graphArea">
                     <div class="date">
                         <p>日付</p>
-                        <input type="date" name="date">
+                        <input type="date" name="date" value=<?= $dbdate ?>>
                     </div>
                     <div class="category">
-                        <select id="categoryPullDown0" name="categoryPullDown">
+                        <select id="categoryPullDown0" name="categoryPullDown" value=<?= $dbcategory ?>>
                             <option>動画編集</option>
                             <option>Web構築</option>
                         </select>
                     </div>
                     <div class="input">
-                        <input type="text" class="time" id="time0" name="time"/>
+                        <input type="text" class="time" id="time0" name="time" value=<?= $dbtime ?>>
                         <p>時間</p>
                     </div>
                 </div>

@@ -43,9 +43,6 @@
                 </div>
                 <input type="submit">
             </form>
-            <form action="form.php" method="post">
-                <input type="submit" value="読込">
-            </form>
         </div>
         <button id="appendButton" type="button">追加</button>
         <button id="calculateButton" type="button">計算する</button>
@@ -53,5 +50,31 @@
             <a href="index.html" id="topPage">トップページ</a>
         </div>
         <script src="js/monthReport.js"></script>
+<?php
+
+// 接続
+$mysqli = new mysqli('localhost', 'root', '2856', 'my_app');
+ 
+//接続状況の確認
+if (mysqli_connect_errno()) {
+    echo "データベース接続失敗" . PHP_EOL;
+    echo "errno: " . mysqli_connect_errno() . PHP_EOL;
+    echo "error: " . mysqli_connect_error() . PHP_EOL;
+    exit();
+}
+
+// データを挿入する
+$sql = "INSERT INTO monthReport_table (date, category, time) VALUES (?,?,?)";
+$stmt = $mysqli->prepare($sql);
+$date = $_POST["date"];
+$fruits = $_POST["categoryPullDown"];
+$time = $_POST["time"];
+$stmt->bind_param('ssi', $date, $fruits, $time);
+$stmt->execute();
+
+// 切断
+$stmt->close();
+
+?>
     </body>
 </html>
