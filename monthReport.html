@@ -25,26 +25,25 @@
         </div>
         <div id="contents">
             <form action="monthReport.php" method="post">
-                <div class="graphArea">
-                    <div class="date">
-                        <p>日付</p>
-                        <input type="date" name="date">
-                    </div>
-                    <div class="category">
-                        <select id="categoryPullDown0" name="categoryPullDown">
-                            <option>動画編集</option>
-                            <option>Web構築</option>
-                        </select>
-                    </div>
-                    <div class="input">
-                        <input type="text" class="time" id="time0" name="time"/>
-                        <p>時間</p>
+                <div class="graphArea" id="graphArea">
+                    <div class="formArea">
+                        <div class="date">
+                            <p>日付</p>
+                            <input type="date" name="date0">
+                        </div>
+                        <div class="category">
+                            <select id="categoryPullDown0" name="categoryPullDown0">
+                                <option>動画編集</option>
+                                <option>Web構築</option>
+                            </select>
+                        </div>
+                        <div class="input">
+                            <input type="text" class="time" id="time0" name="time0"/>
+                            <p>時間</p>
+                        </div>
                     </div>
                 </div>
                 <input type="submit">
-            </form>
-            <form action="form.php" method="post">
-                <input type="submit" value="読込">
             </form>
         </div>
         <button id="appendButton" type="button">追加</button>

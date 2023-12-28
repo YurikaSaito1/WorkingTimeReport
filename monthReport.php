@@ -26,24 +26,29 @@
         <div id="contents">
             <form action="monthReport.php" method="post">
                 <div class="graphArea">
-                    <div class="date">
-                        <p>日付</p>
-                        <input type="date" name="date">
-                    </div>
-                    <div class="category">
-                        <select id="categoryPullDown0" name="categoryPullDown">
-                            <option>動画編集</option>
-                            <option>Web構築</option>
-                        </select>
-                    </div>
-                    <div class="input">
-                        <input type="text" class="time" id="time0" name="time"/>
-                        <p>時間</p>
+                    <div class="formArea">
+                        <div class="date">
+                            <p>日付</p>
+                            <input type="date" name="date">
+                        </div>
+                        <div class="category">
+                            <select id="categoryPullDown0" name="categoryPullDown">
+                                <option>動画編集</option>
+                                <option>Web構築</option>
+                            </select>
+                        </div>
+                        <div class="input">
+                            <input type="text" class="time" id="time0" name="time0"/>
+                            <p>時間</p>
+                        </div>
                     </div>
                 </div>
-                <input type="submit">
             </form>
         </div>
+        <input type="submit">
+        <form action="form.php" method="post">
+            <input type="submit" value="読込">
+        </form>
         <button id="appendButton" type="button">追加</button>
         <button id="calculateButton" type="button">計算する</button>
         <div class="link">
@@ -64,13 +69,15 @@ if (mysqli_connect_errno()) {
 }
 
 // データを挿入する
-$sql = "INSERT INTO monthReport_table (date, category, time) VALUES (?,?,?)";
-$stmt = $mysqli->prepare($sql);
-$date = $_POST["date"];
-$fruits = $_POST["categoryPullDown"];
-$time = $_POST["time"];
-$stmt->bind_param('ssi', $date, $fruits, $time);
-$stmt->execute();
+for ($i=0; isset($_POST["time$i"]); $i++) {
+    $sql = "INSERT INTO monthReport_table (date, category, time) VALUES (?,?,?)";
+    $stmt = $mysqli->prepare($sql);
+    $date = $_POST["date$i"];
+    $category = $_POST["categoryPullDown$i"];
+    $time = $_POST["time$i"];
+    $stmt->bind_param('ssi', $date, $category, $time);
+    $stmt->execute();
+}
 
 // 切断
 $stmt->close();

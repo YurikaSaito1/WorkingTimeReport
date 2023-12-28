@@ -7,28 +7,11 @@ const selectedFile = document.getElementById("selectedFile");
 const appendCategory = document.getElementById("appendCategory");
 const appendCategoryButton = document.getElementById("appendCategoryButton");
 const contents = document.getElementById("contents");
+const graphArea = document.getElementById("graphArea");
 const categoryPullDown = document.getElementById("categoryPullDown");
 const time = document.getElementsByClassName("time");
 const appendButton = document.getElementById("appendButton");
 const calculateButton = document.getElementById("calculateButton");
-
-var addition = `
-<div class="graphArea">
-<div class="date">
-    <p>日付</p>
-    <input type="date">
-    </div>
-<div class="category">
-    <select id="categoryPullDown` + categoryNum + `" name="category">
-        <option>動画編集</option>
-        <option>Web構築</option>
-    </select>
-</div>
-<div class="input">
-    <input type="text" class="time" id="time` + categoryNum + `" name="time"/>
-    <p>時間</p>
-</div>
-`;
 
 var MAX_TIME = Number(timeFormArea.innerHTML);
 var categoryNum = 0;
@@ -100,7 +83,24 @@ appendCategoryButton.addEventListener("click", () => {
 
 appendButton.addEventListener("click", () => {
     categoryNum++;
-    contents.insertAdjacentHTML("beforeend", addition);
+    graphArea.insertAdjacentHTML("beforeend", `
+    <div class="formArea">
+        <div class="date">
+            <p>日付</p>
+            <input type="date" name="date${categoryNum}">
+        </div>
+        <div class="category">
+            <select id="categoryPullDown${categoryNum}" name="categoryPullDown${categoryNum}">
+                <option>動画編集</option>
+                <option>Web構築</option>
+            </select>
+        </div>
+        <div class="input">
+            <input type="text" class="time" id="time${categoryNum}" name="time${categoryNum}"/>
+            <p>時間</p>
+        </div>
+    </div>
+    `);
 });
 
 calculateButton.addEventListener("click", () => {
