@@ -8,10 +8,10 @@ const appendCategory = document.getElementById("appendCategory");
 const appendCategoryButton = document.getElementById("appendCategoryButton");
 const contents = document.getElementById("contents");
 const graphArea = document.getElementById("graphArea");
-const categoryPullDown = document.getElementById("categoryPullDown");
 const time = document.getElementsByClassName("time");
 const appendButton = document.getElementById("appendButton");
 const calculateButton = document.getElementById("calculateButton");
+const memo = document.getElementById("memo");
 
 var MAX_TIME = Number(timeFormArea.innerHTML);
 var categoryNum = 0;
@@ -64,7 +64,6 @@ function workInput(array) {
         if (options.length == i) {
             var newOption = new Option();
             newOption.text = array[1];
-            console.log(newOption.value);
             category.appendChild(newOption);
             category.value = array[1];
         }
@@ -75,9 +74,18 @@ function workInput(array) {
 
 appendCategoryButton.addEventListener("click", () => {
     var text = document.forms.categoryText.inputText.value;
-    var option = document.createElement("option");
-    option.text = text;
-    categoryPullDown.appendChild(option);
+    var option = [];
+    let i = 0;
+    while(document.getElementById("categoryPullDown" + i) != null) {
+        option[i] = document.createElement("option");
+        option[i].text = text;
+        i++;
+    }
+    i = 0;
+    while(document.getElementById("categoryPullDown" + i) != null) {
+        document.getElementById("categoryPullDown" + i).appendChild(option[i]);
+        i++;
+    }
     document.forms.categoryText.inputText.value = "";
 });
 
@@ -91,8 +99,6 @@ appendButton.addEventListener("click", () => {
         </div>
         <div class="category">
             <select id="categoryPullDown${categoryNum}" name="categoryPullDown${categoryNum}">
-                <option>動画編集</option>
-                <option>Web構築</option>
             </select>
         </div>
         <div class="input">
@@ -101,6 +107,16 @@ appendButton.addEventListener("click", () => {
         </div>
     </div>
     `);
+    const categoryPullDown0 = document.getElementById("categoryPullDown0");
+    let str = [];
+    for (let i = 0; i < categoryPullDown0.length; i++) {
+        str[i] = categoryPullDown0.options[i];
+    }
+    for (let i = 0; i < categoryPullDown0.length; i++) {
+        let option = document.createElement('option');
+        option.textContent = str[i].value;
+        document.getElementById("categoryPullDown" + categoryNum).appendChild(option);
+    }
 });
 
 calculateButton.addEventListener("click", () => {

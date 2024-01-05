@@ -24,6 +24,8 @@
             </form>
         </div>
         <div id="contents">
+            <form action="monthReport.php" method="post">
+                <div class="graphArea" id="graphArea">
 <?php
 
 // 接続
@@ -53,20 +55,20 @@ while( $row_data = $result->fetch_array(MYSQLI_NUM) ) {
   $dbcategory[$i] = $row_data[2];
   $dbtime[$i] = $row_data[3];
   ?>
-  <form action="monthReport.php" method="post">
-                <div class="graphArea">
-                    <div class="date">
-                        <p>日付</p>
-                        <input type="date" name="date" value=<?= $dbdate[$i] ?>>
-                    </div>
-                    <div class="category">
-                        <select id="categoryPullDown0" name="categoryPullDown">
-                            <option><?= $dbcategory[$i] ?></option>
-                        </select>
-                    </div>
-                    <div class="input">
-                        <input type="text" class="time" id="time0" name="time" value=<?= $dbtime[$i] ?>>
-                        <p>時間</p>
+                    <div class="formArea">
+                        <div class="date">
+                            <p>日付</p>
+                            <input type="date" name="date<?= $i ?>" value=<?= $dbdate[$i] ?>>
+                        </div>
+                        <div class="category">
+                            <select id="categoryPullDown<?= $i ?>" name="categoryPullDown<?= $i ?>">
+                                <option><?= $dbcategory[$i] ?></option>
+                            </select>
+                        </div>
+                        <div class="input">
+                            <input type="text" class="time" id="time<?= $i ?>" name="time<?= $i ?>" value=<?= $dbtime[$i] ?>>
+                            <p>時間</p>
+                        </div>
                     </div>
                 </div>
 <?php
@@ -76,7 +78,7 @@ $i++;
 $mysqli->close();
 
 ?>
-            <input type="submit">
+        <input type="submit">
         </form>
         <form action="form.php" method="post">
             <input type="submit" value="読込">
