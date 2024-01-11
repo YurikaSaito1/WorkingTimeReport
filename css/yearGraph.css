@@ -1,31 +1,85 @@
 .bar-gragh-wrap {
     position: relative;
-    height: 500px;
-    width: 1000px;
+    height: 80vh;
+    width: 90vw;
     overflow: hidden;
 }
 
 .bar-gragh-wrap .graph {
-    height: 500px;
-    width: 1000px;
+    position: absolute;
+    height: 80vh;
+    width: 90vw;
     margin: 10px;
     display: flex;
-    align-items: center;
     animation: graphAnim 1s forwards;
 }
 
 .bar-gragh-wrap .graph > div {
-    width: 50px;
+    position: absolute;
+    width: 5%;
+    bottom: 0;
     margin: 20px;
-    background: blue;
+    background: orange;
 }
 
-.bar-gragh-wrap .graph.jan {
-    height: 500px;
+.bar-gragh-wrap .graph .jan {
+    left: 3%;
+    height: 50%;
 }
 
-.bar-gragh-wrap .graph.feb {
-    height: 300px;
+.bar-gragh-wrap .graph .feb {
+    left: 11%;
+    height: 80%;
+}
+
+.bar-gragh-wrap .graph .mar {
+    left: 19%;
+    height: 50%;
+}
+
+.bar-gragh-wrap .graph .apr {
+    left: 27%;
+    height: 80%;
+}
+
+.bar-gragh-wrap .graph .may {
+    left: 35%;
+    height: 50%;
+}
+
+.bar-gragh-wrap .graph .jun {
+    left: 43%;
+    height: 80%;
+}
+
+.bar-gragh-wrap .graph .jul {
+    left: 51%;
+    height: 50%;
+}
+
+.bar-gragh-wrap .graph .aug {
+    left: 59%;
+    height: 80%;
+}
+
+.bar-gragh-wrap .graph .sep {
+    left: 67%;
+    height: 50%;
+}
+
+.bar-gragh-wrap .graph .oct {
+    left: 75%;
+    height: 80%;
+}
+
+.bar-gragh-wrap .graph .nov {
+    left: 83%;
+    height: 50%;
+}
+
+.bar-gragh-wrap .graph .dec {
+    left: 91%;
+    height: 80%;
 }
 
 @keyframes graphAnim {
