@@ -29,13 +29,17 @@
                     <div class="formArea">
                         <div class="date">
                             <p>日付</p>
-                            <input type="date" name="date">
+                            <input type="date" name="date0">
                         </div>
                         <div class="category">
-                            <select id="categoryPullDown0" name="categoryPullDown">
+                            <select id="categoryPullDown0" name="categoryPullDown0">
                                 <option>動画編集</option>
                                 <option>Web構築</option>
                             </select>
+                        </div>
+                        <div class="input">
+                            <p>URL:</p>
+                            <input type="text" class="url" id="url0" name="url0"/>
                         </div>
                         <div class="input">
                             <input type="text" class="time" id="time0" name="time0"/>
@@ -43,9 +47,9 @@
                         </div>
                     </div>
                 </div>
+                <input type="submit">
             </form>
         </div>
-        <input type="submit">
         <form action="form.php" method="post">
             <input type="submit" value="読込">
         </form>
@@ -70,12 +74,13 @@ if (mysqli_connect_errno()) {
 
 // データを挿入する
 for ($i=0; isset($_POST["time$i"]); $i++) {
-    $sql = "INSERT INTO monthReport_table (date, category, time) VALUES (?,?,?)";
+    $sql = "INSERT INTO monthReport_table (date, category, url, time) VALUES (?,?,?,?)";
     $stmt = $mysqli->prepare($sql);
     $date = $_POST["date$i"];
     $category = $_POST["categoryPullDown$i"];
+    $url = $_POST["url$i"];
     $time = $_POST["time$i"];
-    $stmt->bind_param('ssi', $date, $category, $time);
+    $stmt->bind_param('sssi', $date, $category, $url, $time);
     $stmt->execute();
 }
 

@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <link rel="stylesheet" href="css/monthReport.css">
+        <link rel="stylesheet" href="css/taihi_monthReport.css">
         <title>作業時間報告</title>
     </head>
     <body>
@@ -24,8 +24,41 @@
             </form>
         </div>
         <div id="contents">
-            <form action="monthReport.php" method="post">
-                <div class="graphArea" id="graphArea">
+            <form action="taihi_monthReport.php" method="post">
+                <div class="graphArea">
+                    <div class="formArea">
+                        <div class="date">
+                            <p>日付</p>
+                            <input type="date" name="date0">
+                        </div>
+                        <div class="category">
+                            <select id="categoryPullDown0" name="categoryPullDown0">
+                                <option>動画編集</option>
+                                <option>Web構築</option>
+                            </select>
+                        </div>
+                        <div class="input">
+                            <p>URL:</p>
+                            <input type="text" class="url" id="url0" name="url0"/>
+                        </div>
+                        <div class="input">
+                            <input type="text" class="time" id="time0" name="time0"/>
+                            <p>時間</p>
+                        </div>
+                    </div>
+                </div>
+                <input type="submit">
+            </form>
+        </div>
+        <form action="taihi_form.php" method="post">
+            <input type="submit" value="読込">
+        </form>
+        <button id="appendButton" type="button">追加</button>
+        <button id="calculateButton" type="button">計算する</button>
+        <div class="link">
+            <a href="index.html" id="topPage">トップページ</a>
+        </div>
+        <script src="js/taihi_monthReport.js"></script>
 <?php
 
 // 接続
@@ -40,65 +73,20 @@ if (mysqli_connect_errno()) {
 }
 
 // データを挿入する
-$sql = "SELECT * FROM monthReport_table";
-$stmt = $mysqli->prepare($sql);
-$stmt->execute();
-
-// 結果を取得
-$result = $stmt->get_result();
-
-$i = 0;
-
-// 結果を出力
-while( $row_data = $result->fetch_array(MYSQLI_NUM) ) {
-  $dbdate[$i] = $row_data[0];
-  $dbcategory[$i] = $row_data[1];
-  $dburl[$i] = $row_data[2];
-  $dbtime[$i] = $row_data[3];
-  ?>
-                    <div class="formArea">
-                        <div class="date">
-                            <p>日付</p>
-                            <input type="date" name="date<?= $i ?>" value=<?= $dbdate[$i] ?>>
-                        </div>
-                        <div class="category">
-                            <select id="categoryPullDown<?= $i ?>" name="categoryPullDown<?= $i ?>">
-                                <option><?= $dbcategory[$i] ?></option>
-                            </select>
-                        </div>
-                        <div class="input">
-                            <p>URL:</p>
-                            <input type="text" class="url" id="url<?= $i ?>" name="url<?= $i ?>" value=<?= $dburl[$i] ?>>
-                        </div>
-                        <div class="input">
-                            <input type="text" class="time" id="time<?= $i ?>" name="time<?= $i ?>" value=<?= $dbtime[$i] ?>>
-                            <p>時間</p>
-                        </div>
-                    </div>
-                </div>
-<?php
-$i++;
+for ($i=0; isset($_POST["time$i"]); $i++) {
+    $sql = "INSERT INTO monthReport_table_2 (date, category, url, time) VALUES (?,?,?,?)";
+    $stmt = $mysqli->prepare($sql);
+    $date = $_POST["date$i"];
+    $category = $_POST["categoryPullDown$i"];
+    $url = $_POST["url$i"];
+    $time = $_POST["time$i"];
+    $stmt->bind_param('sssi', $date, $category, $url, $time);
+    $stmt->execute();
 }
 
-$mysqli->close();
+// 切断
+$stmt->close();
 
 ?>
-        <script>
-            categoryNum = 0;
-        </script>
-        <input type="submit">
-        </form>
-        <form action="form.php" method="post">
-            <input type="submit" value="読込">
-        </form>
-        </div>
-        <div id=number>
-        </div>
-        <button id="appendButton" type="button">追加</button>
-        <button id="calculateButton" type="button">計算する</button>
-        <div class="link">
-            <a href="index.html" id="topPage">トップページ</a>
-        </div>
-        <script src="js/monthReport.js"></script>
     </body>
 </html>

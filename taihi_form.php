@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <link rel="stylesheet" href="css/monthReport.css">
+        <link rel="stylesheet" href="css/taihi_monthReport.css">
         <title>作業時間報告</title>
     </head>
     <body>
@@ -24,7 +24,7 @@
             </form>
         </div>
         <div id="contents">
-            <form action="monthReport.php" method="post">
+            <form action="taihi_monthReport.php" method="post">
                 <div class="graphArea" id="graphArea">
 <?php
 
@@ -40,7 +40,7 @@ if (mysqli_connect_errno()) {
 }
 
 // データを挿入する
-$sql = "SELECT * FROM monthReport_table";
+$sql = "SELECT * FROM monthReport_table_2";
 $stmt = $mysqli->prepare($sql);
 $stmt->execute();
 
@@ -88,7 +88,7 @@ $mysqli->close();
         </script>
         <input type="submit">
         </form>
-        <form action="form.php" method="post">
+        <form action="taihi_form.php" method="post">
             <input type="submit" value="読込">
         </form>
         </div>
@@ -99,6 +99,6 @@ $mysqli->close();
         <div class="link">
             <a href="index.html" id="topPage">トップページ</a>
         </div>
-        <script src="js/monthReport.js"></script>
+        <script src="js/taihi_monthReport.js"></script>
     </body>
 </html>
