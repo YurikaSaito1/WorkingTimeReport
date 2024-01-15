@@ -1,0 +1,108 @@
+.bar-gragh-wrap {
+    position: relative;
+    left: 5vw;
+    height: 80vh;
+    width: 90vw;
+    overflow: hidden;
+}
+
+.bar-gragh-wrap .graph {
+    height: 80vh;
+    display: flex;
+    animation: graphAnim 1s forwards;
+}
+
+.bar-gragh-wrap .graph > div {
+    position: absolute;
+    bottom: 0;
+    width: 5%;
+    margin: 20px;
+    background: orange;
+}
+
+.bar-gragh-wrap .graph .jan{
+    height: 50%;
+}
+
+.bar-gragh-wrap .graph .feb {
+    left: 8%;
+    height: 80%;
+}
+
+.bar-gragh-wrap .graph .mar {
+    left: 16%;
+    height: 50%;
+}
+
+.bar-gragh-wrap .graph .apr {
+    left: 24%;
+    height: 80%;
+}
+
+.bar-gragh-wrap .graph .may {
+    left: 32%;
+    height: 50%;
+}
+
+.bar-gragh-wrap .graph .jun {
+    left: 40%;
+    height: 80%;
+}
+
+.bar-gragh-wrap .graph .jul {
+    left: 48%;
+    height: 50%;
+}
+
+.bar-gragh-wrap .graph .aug {
+    left: 56%;
+    height: 80%;
+}
+
+.bar-gragh-wrap .graph .sep {
+    left: 64%;
+    height: 50%;
+}
+
+.bar-gragh-wrap .graph .oct {
+    left: 72%;
+    height: 80%;
+}
+
+.bar-gragh-wrap .graph .nov {
+    left: 80%;
+    height: 50%;
+}
+
+.bar-gragh-wrap .graph .dec {
+    left: 88%;
+    height: 80%;
+}
+
+@keyframes graphAnim {
+    0% {
+        transform: translateY(100%);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+.graph .number {
+    font-size: 14px;
+    text-align: center;
+}
+
+.monthArea {
+    position: relative;
+    left: 5vw;
+    width: 90vw;
+    display: flex;
+}
+
+.monthArea p {
+    width: 5%;
+    left: 50%;
+    margin: 0 20px 0 20px;
+    transform: translateX(-50%);
+}
