@@ -40,7 +40,13 @@ if (mysqli_connect_errno()) {
 }
 
 // データを挿入する
-$sql = "SELECT * FROM monthReport_table_2";
+$month = substr($_POST["month"],0,1);
+switch ($month) {
+    case 1:
+        $month = "jan";
+        break;
+}
+$sql = "SELECT * FROM $month";
 $stmt = $mysqli->prepare($sql);
 $stmt->execute();
 
@@ -88,14 +94,14 @@ $mysqli->close();
         </script>
         <input type="submit">
         </form>
-        <form action="taihi_form.php" method="post">
-            <input type="submit" value="読込">
-        </form>
         </div>
         <div id=number>
         </div>
         <button id="appendButton" type="button">追加</button>
         <button id="calculateButton" type="button">計算する</button>
+        <div class="link">
+            <a href="taihi_yearGraph.html">月選択</a>
+        </div>
         <div class="link">
             <a href="index.html" id="topPage">トップページ</a>
         </div>

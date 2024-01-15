@@ -50,11 +50,9 @@
                 <input type="submit">
             </form>
         </div>
-        <form action="taihi_form.php" method="post">
-            <input type="submit" value="読込">
-        </form>
         <button id="appendButton" type="button">追加</button>
         <button id="calculateButton" type="button">計算する</button>
+        <a href="taihi_yearGraph.html">月選択</a>
         <div class="link">
             <a href="index.html" id="topPage">トップページ</a>
         </div>
@@ -74,7 +72,7 @@ if (mysqli_connect_errno()) {
 
 // データを挿入する
 for ($i=0; isset($_POST["time$i"]); $i++) {
-    $sql = "INSERT INTO monthReport_table_2 (date, category, url, time) VALUES (?,?,?,?)";
+    $sql = "INSERT INTO jan (date, category, url, time) VALUES (?,?,?,?)";
     $stmt = $mysqli->prepare($sql);
     $date = $_POST["date$i"];
     $category = $_POST["categoryPullDown$i"];
