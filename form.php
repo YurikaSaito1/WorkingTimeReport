@@ -40,12 +40,7 @@ if (mysqli_connect_errno()) {
 }
 
 // データを挿入する
-$month = substr($_POST["month"],0,1);
-switch ($month) {
-    case 1:
-        $month = "jan";
-        break;
-}
+$month = $_POST["month"];
 $sql = "SELECT * FROM $month";
 $stmt = $mysqli->prepare($sql);
 $stmt->execute();
@@ -84,6 +79,32 @@ while( $row_data = $result->fetch_array(MYSQLI_NUM) ) {
                 </div>
 <?php
 $i++;
+}
+
+if ($i == 0) {
+?>
+                    <div class="formArea">
+                        <div class="date">
+                            <p>日付</p>
+                            <input type="date" name="date0">
+                        </div>
+                        <div class="category">
+                            <select id="categoryPullDown0" name="categoryPullDown0">
+                                <option>動画編集</option>
+                                <option>Web構築</option>
+                            </select>
+                        </div>
+                        <div class="input">
+                            <p>URL:</p>
+                            <input type="text" class="url" id="url0" name="url0"/>
+                        </div>
+                        <div class="input">
+                            <input type="text" class="time" id="time0" name="time0"/>
+                            <p>時間</p>
+                        </div>
+                    </div>
+                </div>
+<?php
 }
 
 $mysqli->close();
