@@ -121,6 +121,11 @@ $mysqli->close();
         </div>
         <div id=number>
         </div>
+        <form action="form.php" method="post">
+            <input type="hidden" name="month" value="jan">
+            <input type="hidden" name="month_jp" value="1月">
+            <input type="submit" value="読込">
+        </form>
         <button id="appendButton" type="button">追加</button>
         <button id="calculateButton" type="button">計算する</button>
         <div class="link">
