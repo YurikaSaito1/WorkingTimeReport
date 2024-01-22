@@ -89,37 +89,37 @@ svg circle.passive {
     margin: 10px 0 0 0;
 }
 
-#appendCategory {
-    padding: 10px;
-}
-
 .formArea {
     display: flex;
     align-items: center;
 }
 
-.date {
+.inputTable {
+    height: 30px;
+}
+
+.inputTable input {
     padding: 10px;
-    display: flex;
+    height: 30px;
 }
 
 .who {
-    padding: 10px;
-    display: flex;
+    width: 50px;
 }
 
 .category {
-    padding: 10px;
-    display: flex;
+    width: 100px;
 }
 
 .detail {
-    padding: 10px;
-    display: flex;
+    width: 300px;
+}
+
+.time {
+    width: 50px;
 }
 
 .input {
-    display: flex;
     padding: 10px;
 }
 

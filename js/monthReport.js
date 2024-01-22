@@ -7,6 +7,7 @@ const save = document.getElementById("save");
 //const appendCategory = document.getElementById("appendCategory");
 //const appendCategoryButton = document.getElementById("appendCategoryButton");
 const contents = document.getElementById("contents");
+const inputTable = document.getElementById("inputTable");
 const graphArea = document.getElementById("graphArea");
 const time = document.getElementsByClassName("time");
 const appendButton = document.getElementById("appendButton");
@@ -91,29 +92,14 @@ function workInput(array) {
 
 appendButton.addEventListener("click", () => {
     categoryNum++;
-    graphArea.insertAdjacentHTML("beforeend", `
-    <div class="formArea">
-        <div class="date">
-            <p>日付</p>
-            <input type="date" name="date${categoryNum}">
-        </div>
-        <div class="who">
-            <p>誰に</p>
-            <input type="text" class="who" id="who${categoryNum}" name="who${categoryNum}"/>
-        </div>
-        <div class="category">
-            <p>内容</p>
-            <input type="text" class="category" id="category${categoryNum}" name="category${categoryNum}"/>
-        </div>
-        <div class="detail">
-            <p>詳細</p>
-            <input type="text" class="" id="detail${categoryNum}" name="detail${categoryNum}"/>
-        </div>
-        <div class="input">
-            <input type="text" class="time" id="time${categoryNum}" name="time${categoryNum}"/>
-            <p>時間</p>
-        </div>
-    </div>
+    inputTable.insertAdjacentHTML("beforeend", `
+    <tr>
+        <td><input type="date" class="date" id="date${categoryNum}" name="date${categoryNum}"></td>
+        <td><input type="text" class="who" id="who${categoryNum}" name="who${categoryNum}"/></td>
+        <td><input type="text" class="category" id="category${categoryNum}" name="category${categoryNum}"/></td>
+        <td><input type="text" class="detail" id="detail${categoryNum}" name="detail${categoryNum}"/></td>
+        <td><input type="text" class="time" id="time${categoryNum}" name="time${categoryNum}"/></td>
+    </tr>
     `);
     /*const categoryPullDown0 = document.getElementById("categoryPullDown0");
     let str = [];
