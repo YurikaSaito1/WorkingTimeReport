@@ -26,30 +26,16 @@
             <form action="monthReport.php" method="post">
                 <div class="graphArea">
                     <div class="formArea">
-                        <div class="date">
-                            <p>日付</p>
-                            <input type="date" name="date0">
-                        </div>
-                        <div class="who">
-                            <p>誰に</p>
-                            <input type="text" class="who" id="who0" name="who0"/>
-                        </div>
-                        <div class="category">
-                            <p>内容</p>
-                            <input type="text" class="category" id="category0" name="category0"/>
-                        </div>
-                        <div class="detail">
-                            <p>詳細</p>
-                            <input type="text" class="" id="detail0" name="detail0"/>
-                        </div>
-                        <!--<div class="input">
-                            <p>URL:</p>
-                            <input type="text" class="url" id="url0" name="url0"/>
-                        </div>-->
-                        <div class="input">
-                            <input type="text" class="time" id="time0" name="time0"/>
-                            <p>時間</p>
-                        </div>
+                        <table class="inputTable" id="inputTable">
+                            <tr><th>日付</th><th>誰に</th><th>内容</th><th>詳細</th><th>時間</th></tr>
+                            <tr>
+                                <td><input type="date" class="date" id="date0" name="date0"></td>
+                                <td><input type="text" class="who" id="who0" name="who0"/></td>
+                                <td><input type="text" class="category" id="category0" name="category0"/></td>
+                                <td><input type="text" class="detail" id="detail0" name="detail0"/></td>
+                                <td><input type="text" class="time" id="time0" name="time0"/></td>
+                            </tr>
+                        </table>
                     </div>
                 </div>
                 <input type="submit">

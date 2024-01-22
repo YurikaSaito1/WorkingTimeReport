@@ -28,6 +28,9 @@
         <div id="contents">
             <form action="monthReport.php" method="post">
                 <div class="graphArea" id="graphArea">
+                    <div class="formArea">
+                        <table class="inputTable" id="inputTable">
+                            <tr><th>日付</th><th>誰に</th><th>内容</th><th>詳細</th><th>時間</th></tr>
 <?php
 
 // 接続
@@ -60,58 +63,26 @@ while( $row_data = $result->fetch_array(MYSQLI_NUM) ) {
   $dbdetail[$i] = $row_data[3];
   $dbtime[$i] = $row_data[4];
   ?>
-                    <div class="formArea">
-                        <div class="date">
-                            <p>日付</p>
-                            <input type="date" name="date<?= $i ?>" value=<?= $dbdate[$i] ?>>
-                        </div>
-                        <div class="who">
-                            <p>誰に</p>
-                            <input type="text" class="who" id="who<?= $i ?>" name="who<?= $i ?>" value=<?= $dbwho[$i] ?>>
-                        </div>
-                        <div class="category">
-                            <p>内容</p>
-                            <input type="text" class="category" id="category<?= $i ?>" name="category<?= $i ?>" value=<?= $dbcategory[$i] ?>>
-                        </div>
-                        <div class="detail">
-                            <p>詳細</p>
-                            <input type="text" class="" id="detail<?= $i ?>" name="detail<?= $i ?>" value=<?= $dbdetail[$i] ?>>
-                        </div>
-                        <div class="input">
-                            <input type="text" class="time" id="time<?= $i ?>" name="time<?= $i ?>" value=<?= $dbtime[$i] ?>>
-                            <p>時間</p>
-                        </div>
-                    </div>
-                </div>
+                            <tr>
+                                <td><input type="date" class="date" id="date<?= $i ?>" name="date<?= $i ?>" value=<?= $dbdate[$i] ?>></td>
+                                <td><input type="text" class="who" id="who<?= $i ?>" name="who<?= $i ?>" value=<?= $dbwho[$i] ?>></td>
+                                <td><input type="text" class="category" id="category<?= $i ?>" name="category<?= $i ?>" value=<?= $dbcategory[$i] ?>></td>
+                                <td><input type="text" class="detail" id="detail<?= $i ?>" name="detail<?= $i ?>" value=<?= $dbdetail[$i] ?>></td>
+                                <td><input type="text" class="time" id="time<?= $i ?>" name="time<?= $i ?>" value=<?= $dbtime[$i] ?>></td>
+                            </tr>
 <?php
 $i++;
 }
 
 if ($i == 0) {
 ?>
-                    <div class="formArea">
-                        <div class="date">
-                            <p>日付</p>
-                            <input type="date" name="date0">
-                        </div>
-                        <div class="who">
-                            <p>誰に</p>
-                            <input type="text" class="who" id="who0" name="who0"/>
-                        </div>
-                        <div class="category">
-                            <p>内容</p>
-                            <input type="text" class="category" id="category0" name="category0"/>
-                        </div>
-                        <div class="detail">
-                            <p>詳細</p>
-                            <input type="text" class="" id="detail0" name="detail0"/>
-                        </div>
-                        <div class="input">
-                            <input type="text" class="time" id="time0" name="time0"/>
-                            <p>時間</p>
-                        </div>
-                    </div>
-                </div>
+                            <tr>
+                                <td><input type="date" class="date" id="date0" name="date0"></td>
+                                <td><input type="text" class="who" id="who0" name="who0"/></td>
+                                <td><input type="text" class="category" id="category0" name="category0"/></td>
+                                <td><input type="text" class="detail" id="detail0" name="detail0"/></td>
+                                <td><input type="text" class="time" id="time0" name="time0"/></td>
+                            </tr>
 <?php
 $i++;
 }
@@ -119,6 +90,9 @@ $i++;
 $mysqli->close();
 
 ?>
+                        </table>
+                    </div>
+                </div>
         <script>
             categoryNum = <?= $i ?>;
         </script>
