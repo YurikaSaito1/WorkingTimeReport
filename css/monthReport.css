@@ -103,14 +103,19 @@ svg circle.passive {
     display: flex;
 }
 
-.category {
+.who {
     padding: 10px;
+    display: flex;
 }
 
-.category select {
-    height: 50px;
-    width: 200px;
-    font-size: 20px;
+.category {
+    padding: 10px;
+    display: flex;
+}
+
+.detail {
+    padding: 10px;
+    display: flex;
 }
 
 .input {

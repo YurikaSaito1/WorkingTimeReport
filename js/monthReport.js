@@ -3,9 +3,9 @@ const title = document.getElementById("title");
 const timeFormArea = document.getElementById("time_form_area");
 const load = document.getElementById("load");
 const save = document.getElementById("save");
-const selectedFile = document.getElementById("selectedFile");
-const appendCategory = document.getElementById("appendCategory");
-const appendCategoryButton = document.getElementById("appendCategoryButton");
+//const selectedFile = document.getElementById("selectedFile");
+//const appendCategory = document.getElementById("appendCategory");
+//const appendCategoryButton = document.getElementById("appendCategoryButton");
 const contents = document.getElementById("contents");
 const graphArea = document.getElementById("graphArea");
 const time = document.getElementsByClassName("time");
@@ -40,7 +40,7 @@ document.body.addEventListener("keydown", (e) => {
     }
 });
 
-selectedFile.addEventListener("change", (event) => {
+/*selectedFile.addEventListener("change", (event) => {
     var files = selectedFile.files;
     var f = files[0];
     var reader = new FileReader();
@@ -70,9 +70,9 @@ function workInput(array) {
     }
     const time = document.getElementById("time" + categoryNum);
     time.value = array[2];
-}
+}*/
 
-appendCategoryButton.addEventListener("click", () => {
+/*appendCategoryButton.addEventListener("click", () => {
     var text = document.forms.categoryText.inputText.value;
     var option = [];
     let i = 0;
@@ -87,7 +87,7 @@ appendCategoryButton.addEventListener("click", () => {
         i++;
     }
     document.forms.categoryText.inputText.value = "";
-});
+});*/
 
 appendButton.addEventListener("click", () => {
     categoryNum++;
@@ -97,13 +97,17 @@ appendButton.addEventListener("click", () => {
             <p>日付</p>
             <input type="date" name="date${categoryNum}">
         </div>
-        <div class="category">
-            <select id="categoryPullDown${categoryNum}" name="categoryPullDown${categoryNum}">
-            </select>
+        <div class="who">
+            <p>誰に</p>
+            <input type="text" class="who" id="who${categoryNum}" name="who${categoryNum}"/>
         </div>
-        <div class="input">
-            <p>URL:</p>
-            <input type="text" class="url" id="url${categoryNum}" name="url${categoryNum}"/>
+        <div class="category">
+            <p>内容</p>
+            <input type="text" class="category" id="category${categoryNum}" name="category${categoryNum}"/>
+        </div>
+        <div class="detail">
+            <p>詳細</p>
+            <input type="text" class="" id="detail${categoryNum}" name="detail${categoryNum}"/>
         </div>
         <div class="input">
             <input type="text" class="time" id="time${categoryNum}" name="time${categoryNum}"/>
@@ -111,7 +115,7 @@ appendButton.addEventListener("click", () => {
         </div>
     </div>
     `);
-    const categoryPullDown0 = document.getElementById("categoryPullDown0");
+    /*const categoryPullDown0 = document.getElementById("categoryPullDown0");
     let str = [];
     for (let i = 0; i < categoryPullDown0.length; i++) {
         str[i] = categoryPullDown0.options[i];
@@ -120,7 +124,7 @@ appendButton.addEventListener("click", () => {
         let option = document.createElement('option');
         option.textContent = str[i].value;
         document.getElementById("categoryPullDown" + categoryNum).appendChild(option);
-    }
+    }*/
 });
 
 calculateButton.addEventListener("click", () => {

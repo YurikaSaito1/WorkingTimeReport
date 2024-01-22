@@ -16,13 +16,7 @@
                 <h3 id="title"><div id="time_form_area">5</div><span>時間</span></h3>
             </div>
         </div>
-        <input type="file" id="selectedFile" multiple />
-        <div id="appendCategory">
-            <form id="categoryText" name="categoryText">
-                <input type="text" name="inputText"/>
-                <button id="appendCategoryButton" type="button">カテゴリーの追加</button>
-            </form>
-        </div>
+        
         <div id="contents">
             <form action="monthReport.php" method="post">
                 <div class="graphArea" id="graphArea">
@@ -31,16 +25,22 @@
                             <p>日付</p>
                             <input type="date" name="date0">
                         </div>
-                        <div class="category">
-                            <select id="categoryPullDown0" name="categoryPullDown0">
-                                <option>動画編集</option>
-                                <option>Web構築</option>
-                            </select>
+                        <div class="who">
+                            <p>誰に</p>
+                            <input type="text" class="who" id="who0" name="who0"/>
                         </div>
-                        <div class="input">
+                        <div class="category">
+                            <p>内容</p>
+                            <input type="text" class="category" id="category0" name="category0"/>
+                        </div>
+                        <div class="detail">
+                            <p>詳細</p>
+                            <input type="text" class="" id="detail0" name="detail0"/>
+                        </div>
+                        <!--<div class="input">
                             <p>URL:</p>
                             <input type="text" class="url" id="url0" name="url0"/>
-                        </div>
+                        </div>-->
                         <div class="input">
                             <input type="text" class="time" id="time0" name="time0"/>
                             <p>時間</p>

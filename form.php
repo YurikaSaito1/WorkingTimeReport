@@ -19,12 +19,12 @@
                 <h3 id="title"><div id="time_form_area">5</div><span>時間</span></h3>
             </div>
         </div>
-        <div id="appendCategory">
+        <!--<div id="appendCategory">
             <form id="categoryText" name="categoryText">
                 <input type="text" name="inputText"/>
                 <button id="appendCategoryButton" type="button">カテゴリーの追加</button>
             </form>
-        </div>
+        </div>-->
         <div id="contents">
             <form action="monthReport.php" method="post">
                 <div class="graphArea" id="graphArea">
@@ -43,7 +43,7 @@ if (mysqli_connect_errno()) {
 
 // データを挿入する
 $month = $_POST["month"];
-$sql = "SELECT * FROM $month";
+$sql = "SELECT * FROM monthreport_table";
 $stmt = $mysqli->prepare($sql);
 $stmt->execute();
 
@@ -55,23 +55,27 @@ $i = 0;
 // 結果を出力
 while( $row_data = $result->fetch_array(MYSQLI_NUM) ) {
   $dbdate[$i] = $row_data[0];
-  $dbcategory[$i] = $row_data[1];
-  $dburl[$i] = $row_data[2];
-  $dbtime[$i] = $row_data[3];
+  $dbwho[$i] = $row_data[1];
+  $dbcategory[$i] = $row_data[2];
+  $dbdetail[$i] = $row_data[3];
+  $dbtime[$i] = $row_data[4];
   ?>
                     <div class="formArea">
                         <div class="date">
                             <p>日付</p>
                             <input type="date" name="date<?= $i ?>" value=<?= $dbdate[$i] ?>>
                         </div>
-                        <div class="category">
-                            <select id="categoryPullDown<?= $i ?>" name="categoryPullDown<?= $i ?>">
-                                <option><?= $dbcategory[$i] ?></option>
-                            </select>
+                        <div class="who">
+                            <p>誰に</p>
+                            <input type="text" class="who" id="who<?= $i ?>" name="who<?= $i ?>" value=<?= $dbwho[$i] ?>>
                         </div>
-                        <div class="input">
-                            <p>URL:</p>
-                            <input type="text" class="url" id="url<?= $i ?>" name="url<?= $i ?>" value=<?= $dburl[$i] ?>>
+                        <div class="category">
+                            <p>内容</p>
+                            <input type="text" class="category" id="category<?= $i ?>" name="category<?= $i ?>" value=<?= $dbcategory[$i] ?>>
+                        </div>
+                        <div class="detail">
+                            <p>詳細</p>
+                            <input type="text" class="" id="detail<?= $i ?>" name="detail<?= $i ?>" value=<?= $dbdetail[$i] ?>>
                         </div>
                         <div class="input">
                             <input type="text" class="time" id="time<?= $i ?>" name="time<?= $i ?>" value=<?= $dbtime[$i] ?>>
@@ -90,15 +94,17 @@ if ($i == 0) {
                             <p>日付</p>
                             <input type="date" name="date0">
                         </div>
-                        <div class="category">
-                            <select id="categoryPullDown0" name="categoryPullDown0">
-                                <option>動画編集</option>
-                                <option>Web構築</option>
-                            </select>
+                        <div class="who">
+                            <p>誰に</p>
+                            <input type="text" class="who" id="who0" name="who0"/>
                         </div>
-                        <div class="input">
-                            <p>URL:</p>
-                            <input type="text" class="url" id="url0" name="url0"/>
+                        <div class="category">
+                            <p>内容</p>
+                            <input type="text" class="category" id="category0" name="category0"/>
+                        </div>
+                        <div class="detail">
+                            <p>詳細</p>
+                            <input type="text" class="" id="detail0" name="detail0"/>
                         </div>
                         <div class="input">
                             <input type="text" class="time" id="time0" name="time0"/>

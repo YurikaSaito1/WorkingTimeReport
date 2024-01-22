@@ -16,12 +16,12 @@
                 <h3 id="title"><div id="time_form_area">5</div><span>時間</span></h3>
             </div>
         </div>
-        <div id="appendCategory">
+        <!--<div id="appendCategory">
             <form id="categoryText" name="categoryText">
                 <input type="text" name="inputText"/>
                 <button id="appendCategoryButton" type="button">カテゴリーの追加</button>
             </form>
-        </div>
+        </div>-->
         <div id="contents">
             <form action="monthReport.php" method="post">
                 <div class="graphArea">
@@ -30,16 +30,22 @@
                             <p>日付</p>
                             <input type="date" name="date0">
                         </div>
-                        <div class="category">
-                            <select id="categoryPullDown0" name="categoryPullDown0">
-                                <option>動画編集</option>
-                                <option>Web構築</option>
-                            </select>
+                        <div class="who">
+                            <p>誰に</p>
+                            <input type="text" class="who" id="who0" name="who0"/>
                         </div>
-                        <div class="input">
+                        <div class="category">
+                            <p>内容</p>
+                            <input type="text" class="category" id="category0" name="category0"/>
+                        </div>
+                        <div class="detail">
+                            <p>詳細</p>
+                            <input type="text" class="" id="detail0" name="detail0"/>
+                        </div>
+                        <!--<div class="input">
                             <p>URL:</p>
                             <input type="text" class="url" id="url0" name="url0"/>
-                        </div>
+                        </div>-->
                         <div class="input">
                             <input type="text" class="time" id="time0" name="time0"/>
                             <p>時間</p>
@@ -76,13 +82,14 @@ if (mysqli_connect_errno()) {
 
 // データを挿入する
 for ($i=0; isset($_POST["time$i"]); $i++) {
-    $sql = "INSERT INTO jan (date, category, url, time) VALUES (?,?,?,?)";
+    $sql = "INSERT INTO monthreport_table (date, who, category, detail, time) VALUES (?,?,?,?,?)";
     $stmt = $mysqli->prepare($sql);
     $date = $_POST["date$i"];
-    $category = $_POST["categoryPullDown$i"];
-    $url = $_POST["url$i"];
+    $who = $_POST["who$i"];
+    $category = $_POST["category$i"];
+    $detail = $_POST["detail$i"];
     $time = $_POST["time$i"];
-    $stmt->bind_param('sssi', $date, $category, $url, $time);
+    $stmt->bind_param('ssssi', $date, $who, $category, $detail, $time);
     $stmt->execute();
 }
 
