@@ -16,7 +16,6 @@
                 <h3 id="title"><div id="time_form_area">5</div><span>時間</span></h3>
             </div>
         </div>
-        <input type="file" id="selectedFile" multiple />
         <div id="appendCategory">
             <form id="categoryText" name="categoryText">
                 <input type="text" name="inputText"/>
@@ -50,6 +49,11 @@
                 <input type="submit">
             </form>
         </div>
+        <form action="taihi_form.php" method="post">
+            <input type="hidden" name="month" value="jan">
+            <input type="hidden" name="month_jp" value="1月">
+            <input type="submit" value="読込">
+        </form>
         <button id="appendButton" type="button">追加</button>
         <button id="calculateButton" type="button">計算する</button>
         <a href="taihi_yearGraph.html">月選択</a>

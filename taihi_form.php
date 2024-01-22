@@ -6,6 +6,9 @@
         <title>作業時間報告</title>
     </head>
     <body>
+        <div class="monthDisplay">
+            <p><?= $_POST["month_jp"] ?></p>
+        </div>
         <div class="percent">
             <svg>
                 <circle class="base" cx="75" cy="75" r="70"></circle>
@@ -16,7 +19,6 @@
                 <h3 id="title"><div id="time_form_area">5</div><span>時間</span></h3>
             </div>
         </div>
-        <input type="file" id="selectedFile" multiple />
         <div id="appendCategory">
             <form id="categoryText" name="categoryText">
                 <input type="text" name="inputText"/>
@@ -105,19 +107,25 @@ if ($i == 0) {
                     </div>
                 </div>
 <?php
+$i++;
 }
 
 $mysqli->close();
 
 ?>
         <script>
-            categoryNum = 0;
+            categoryNum = <?= $i ?>;
         </script>
         <input type="submit">
         </form>
         </div>
         <div id=number>
         </div>
+        <form action="taihi_form.php" method="post">
+            <input type="hidden" name="month" value="jan">
+            <input type="hidden" name="month_jp" value="1月">
+            <input type="submit" value="読込">
+        </form>
         <button id="appendButton" type="button">追加</button>
         <button id="calculateButton" type="button">計算する</button>
         <div class="link">
