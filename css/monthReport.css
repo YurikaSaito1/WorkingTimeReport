@@ -1,3 +1,7 @@
+.monthDisplay p {
+    font-size: 20px; 
+}
+
 .percent {
     position: relative;
     width: 150px;

@@ -50,9 +50,16 @@
                 <input type="submit">
             </form>
         </div>
+        <form action="form.php" method="post">
+            <input type="hidden" name="month" value="jan">
+            <input type="hidden" name="month_jp" value="1月">
+            <input type="submit" value="読込">
+        </form>
         <button id="appendButton" type="button">追加</button>
         <button id="calculateButton" type="button">計算する</button>
-        <a href="yearGraph.html">月選択</a>
+        <div class="link">
+            <a href="yearGraph.html">月選択</a>
+        </div>
         <div class="link">
             <a href="index.html" id="topPage">トップページ</a>
         </div>
