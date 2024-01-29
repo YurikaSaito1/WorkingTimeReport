@@ -95,21 +95,21 @@ svg circle.passive {
 }
 
 .inputTable {
-    height: 50px;
+    height: 40px;
 }
 
 .inputTable input {
     padding: 10px;
-    height: 50px;
+    height: 40px;
 }
 
 .inputTable textarea {
     padding: 10px;
-    height: 50px;
+    height: 40px;
 }
 
 .date {
-    width: 80px;
+    width: 40px;
 }
 
 .who {
@@ -121,19 +121,23 @@ svg circle.passive {
 }
 
 .detail {
-    width: 300px;
+    width: 200px;
 }
 
 .time {
-    width: 50px;
+    width: 40px;
 }
 
 .deadline {
-    width: 120px;
+    width: 100px;
 }
 
 .manager {
-    width: 80px;
+    width: 50px;
+}
+
+.status {
+    width: 20px;
 }
 
 .input {
