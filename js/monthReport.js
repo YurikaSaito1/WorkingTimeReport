@@ -94,7 +94,7 @@ appendButton.addEventListener("click", () => {
     categoryNum++;
     inputTable.insertAdjacentHTML("beforeend", `
     <tr>
-        <td><input type="date" class="date" id="date${categoryNum}" name="date${categoryNum}"></td>
+        <td><input type="text" class="date" id="date${categoryNum}" name="date${categoryNum}"></td>
         <td><input type="text" class="who" id="who${categoryNum}" name="who${categoryNum}"/></td>
         <td><input type="text" class="category" id="category${categoryNum}" name="category${categoryNum}"/></td>
         <td><input type="text" class="detail" id="detail${categoryNum}" name="detail${categoryNum}"/></td>

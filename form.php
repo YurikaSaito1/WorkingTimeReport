@@ -64,7 +64,7 @@ while( $row_data = $result->fetch_array(MYSQLI_NUM) ) {
   $dbtime[$i] = $row_data[4];
   ?>
                             <tr>
-                                <td><input type="date" class="date" id="date<?= $i ?>" name="date<?= $i ?>" value=<?= $dbdate[$i] ?>></td>
+                                <td><input type="text" class="date" id="date<?= $i ?>" name="date<?= $i ?>" value=<?= $dbdate[$i] ?>></td>
                                 <td><input type="text" class="who" id="who<?= $i ?>" name="who<?= $i ?>" value=<?= $dbwho[$i] ?>></td>
                                 <td><input type="text" class="category" id="category<?= $i ?>" name="category<?= $i ?>" value=<?= $dbcategory[$i] ?>></td>
                                 <td><input type="text" class="detail" id="detail<?= $i ?>" name="detail<?= $i ?>" value=<?= $dbdetail[$i] ?>></td>
@@ -77,7 +77,7 @@ $i++;
 if ($i == 0) {
 ?>
                             <tr>
-                                <td><input type="date" class="date" id="date0" name="date0"></td>
+                                <td><input type="text" class="date" id="date0" name="date0"></td>
                                 <td><input type="text" class="who" id="who0" name="who0"/></td>
                                 <td><input type="text" class="category" id="category0" name="category0"/></td>
                                 <td><input type="text" class="detail" id="detail0" name="detail0"/></td>

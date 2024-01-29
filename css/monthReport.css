@@ -103,8 +103,12 @@ svg circle.passive {
     height: 30px;
 }
 
+.date {
+    width: 80px;
+}
+
 .who {
-    width: 50px;
+    width: 100px;
 }
 
 .category {

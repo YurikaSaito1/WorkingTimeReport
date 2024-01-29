@@ -29,7 +29,7 @@
                         <table class="inputTable" id="inputTable">
                             <tr><th>日付</th><th>誰に</th><th>内容</th><th>詳細</th><th>時間</th></tr>
                             <tr>
-                                <td><input type="date" class="date" id="date0" name="date0"></td>
+                                <td><input type="text" class="date" id="date0" name="date0"></td>
                                 <td><input type="text" class="who" id="who0" name="who0"/></td>
                                 <td><input type="text" class="category" id="category0" name="category0"/></td>
                                 <td><input type="text" class="detail" id="detail0" name="detail0"/></td>
