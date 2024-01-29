@@ -1,29 +1,21 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <link rel="stylesheet" href="css/monthReport.css">
-        <title>作業時間報告</title>
-    </head>
-    <body>
 <?php
 require_once("lib/TCPDF-main/tcpdf.php");
 $tcpdf = new TCPDF();
+$tcpdf->setPrintHeader( false );
+$tcpdf->SetFont('kozminproregular', '', 11);
 $tcpdf -> AddPage();
-$html = <<< EOF
-<p>hello world</p>
+$tcpdf -> setXY(150, 10);
+$tcpdf -> Write(10, date("Y年n月j日"));
+$tcpdf -> setXY(10, 25);
+$tcpdf -> Write(20, "旭建設株式会社　御中");
+/*$html = <<< EOF
+<?php
+$date = date(Y-m-d);
+?>
+<p>エアグラウンド株式会社</p>
 EOF;
-$tcpdf -> writeHTML($html);
+$tcpdf -> writeHTML($html);*/
 $fileName = 'sample.pdf';
 ob_end_clean();
 $tcpdf -> Output($fileName, "I");
 ?>
-        <div class="link">
-            <a href="yearGraph.html">月選択</a>
-        </div>
-        <div class="link">
-            <a href="index.html" id="topPage">トップページ</a>
-        </div>
-        <script src="js/monthReport.js"></script>
-    </body>
-</html>
