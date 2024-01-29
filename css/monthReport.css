@@ -132,6 +132,10 @@ svg circle.passive {
     width: 120px;
 }
 
+.manager {
+    width: 80px;
+}
+
 .input {
     padding: 10px;
 }

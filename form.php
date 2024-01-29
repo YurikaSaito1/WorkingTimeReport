@@ -30,7 +30,7 @@
                 <div class="graphArea" id="graphArea">
                     <div class="formArea">
                         <table class="inputTable" id="inputTable">
-                            <tr><th>日付</th><th>誰に</th><th>内容</th><th>詳細</th><th>時間</th></tr>
+                            <tr><th>日付</th><th>誰に</th><th>内容</th><th>詳細</th><th>時間</th><th>締切</th><th>担当者</th></tr>
 <?php
 
 // 接続
@@ -63,6 +63,7 @@ while( $row_data = $result->fetch_array(MYSQLI_NUM) ) {
   $dbdetail[$i] = $row_data[3];
   $dbtime[$i] = $row_data[4];
   $dbdeadline[$i] = $row_data[5];
+  $dbmanager[$i] = $row_data[6];
   ?>
                             <tr>
                                 <td><input type="text" class="date" id="date<?= $i ?>" name="date<?= $i ?>" value=<?= $dbdate[$i] ?>></td>
@@ -71,6 +72,7 @@ while( $row_data = $result->fetch_array(MYSQLI_NUM) ) {
                                 <td><textarea class="detail" id="detail<?= $i ?>" name="detail<?= $i ?>"><?= $dbdetail[$i] ?></textarea></td>
                                 <td><input type="text" class="time" id="time<?= $i ?>" name="time<?= $i ?>" value=<?= $dbtime[$i] ?>></td>
                                 <td><input type="date" class="deadline" id="deadline<?= $i ?>" name="deadline<?= $i ?>" value=<?= $dbdeadline[$i] ?>></td>
+                                <td><input type="text" class="manager" id="manager<?= $i ?>" name="manager<?= $i ?>" value=<?= $dbmanager[$i] ?>></td>
                             </tr>
 <?php
 $i++;
@@ -85,6 +87,7 @@ if ($i == 0) {
                                 <td><textarea class="detail" id="detail0" name="detail0"></textarea</td>
                                 <td><input type="text" class="time" id="time0" name="time0"/></td>
                                 <td><input type="date" class="deadline" id="deadline0" name="deadline0"></td>
+                                <td><input type="text" class="manager" id="manager0" name="manager0"></td>
                             </tr>
 <?php
 $i++;

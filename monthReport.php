@@ -27,7 +27,7 @@
                 <div class="graphArea">
                     <div class="formArea">
                         <table class="inputTable" id="inputTable">
-                            <tr><th>日付</th><th>誰に</th><th>内容</th><th>詳細</th><th>時間</th></tr>
+                            <tr><th>日付</th><th>誰に</th><th>内容</th><th>詳細</th><th>時間</th><th>締切</th><th>担当者</th></tr>
                             <tr>
                                 <td><input type="text" class="date" id="date0" name="date0"></td>
                                 <td><input type="text" class="who" id="who0" name="who0"/></td>
@@ -35,6 +35,7 @@
                                 <td><textarea class="detail" id="detail0" name="detail0"></textarea></td>
                                 <td><input type="text" class="time" id="time0" name="time0"/></td>
                                 <td><input type="date" class="deadline" id="deadline0" name="deadline0"></td>
+                                <td><input type="text" class="manager" id="manager0" name="manager0"></td>
                             </tr>
                         </table>
                     </div>
@@ -69,7 +70,7 @@ if (mysqli_connect_errno()) {
 
 // データを挿入する
 for ($i=0; isset($_POST["time$i"]); $i++) {
-    $sql = "INSERT INTO monthreport_table (date, who, category, detail, time, deadline) VALUES (?,?,?,?,?,?)";
+    $sql = "INSERT INTO monthreport_table (date, who, category, detail, time, deadline, manager) VALUES (?,?,?,?,?,?,?)";
     $stmt = $mysqli->prepare($sql);
     $date = $_POST["date$i"];
     $who = $_POST["who$i"];
@@ -77,7 +78,8 @@ for ($i=0; isset($_POST["time$i"]); $i++) {
     $detail = $_POST["detail$i"];
     $time = $_POST["time$i"];
     $deadline = $_POST["deadline$i"];
-    $stmt->bind_param('ssssis', $date, $who, $category, $detail, $time, $deadline);
+    $manager = $_POST["manager$i"];
+    $stmt->bind_param('ssssiss', $date, $who, $category, $detail, $time, $deadline, $manager);
     $stmt->execute();
 }
 
