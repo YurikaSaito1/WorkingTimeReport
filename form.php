@@ -117,6 +117,9 @@ $mysqli->close();
         </form>
         <button id="appendButton" type="button">追加</button>
         <button id="calculateButton" type="button">計算する</button>
+        <form action="pdf.php" method="post">
+            <input type="submit" value="PDFで出力">
+        </form>
         <div class="link">
             <a href="yearGraph.html">月選択</a>
         </div>
