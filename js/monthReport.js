@@ -99,6 +99,7 @@ appendButton.addEventListener("click", () => {
         <td><input type="text" class="category" id="category${categoryNum}" name="category${categoryNum}"/></td>
         <td><input type="text" class="detail" id="detail${categoryNum}" name="detail${categoryNum}"/></td>
         <td><input type="text" class="time" id="time${categoryNum}" name="time${categoryNum}"/></td>
+        <td><input type="date" class="deadline" id="deadline${categoryNum}" name="deadline${categoryNum}"></td>
     </tr>
     `);
     /*const categoryPullDown0 = document.getElementById("categoryPullDown0");

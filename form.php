@@ -62,6 +62,7 @@ while( $row_data = $result->fetch_array(MYSQLI_NUM) ) {
   $dbcategory[$i] = $row_data[2];
   $dbdetail[$i] = $row_data[3];
   $dbtime[$i] = $row_data[4];
+  $dbdeadline[$i] = $row_data[5];
   ?>
                             <tr>
                                 <td><input type="text" class="date" id="date<?= $i ?>" name="date<?= $i ?>" value=<?= $dbdate[$i] ?>></td>
@@ -69,6 +70,7 @@ while( $row_data = $result->fetch_array(MYSQLI_NUM) ) {
                                 <td><input type="text" class="category" id="category<?= $i ?>" name="category<?= $i ?>" value=<?= $dbcategory[$i] ?>></td>
                                 <td><input type="text" class="detail" id="detail<?= $i ?>" name="detail<?= $i ?>" value=<?= $dbdetail[$i] ?>></td>
                                 <td><input type="text" class="time" id="time<?= $i ?>" name="time<?= $i ?>" value=<?= $dbtime[$i] ?>></td>
+                                <td><input type="date" class="deadline" id="deadline<?= $i ?>" name="deadline<?= $i ?>" value=<?= $dbdeadline[$i] ?>></td>
                             </tr>
 <?php
 $i++;
@@ -82,6 +84,7 @@ if ($i == 0) {
                                 <td><input type="text" class="category" id="category0" name="category0"/></td>
                                 <td><input type="text" class="detail" id="detail0" name="detail0"/></td>
                                 <td><input type="text" class="time" id="time0" name="time0"/></td>
+                                <td><input type="date" class="deadline" id="deadline0" name="deadline0"></td>
                             </tr>
 <?php
 $i++;

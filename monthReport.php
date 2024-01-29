@@ -34,6 +34,7 @@
                                 <td><input type="text" class="category" id="category0" name="category0"/></td>
                                 <td><input type="text" class="detail" id="detail0" name="detail0"/></td>
                                 <td><input type="text" class="time" id="time0" name="time0"/></td>
+                                <td><input type="date" class="deadline" id="deadline0" name="deadline0"></td>
                             </tr>
                         </table>
                     </div>
@@ -68,14 +69,15 @@ if (mysqli_connect_errno()) {
 
 // データを挿入する
 for ($i=0; isset($_POST["time$i"]); $i++) {
-    $sql = "INSERT INTO monthreport_table (date, who, category, detail, time) VALUES (?,?,?,?,?)";
+    $sql = "INSERT INTO monthreport_table (date, who, category, detail, time, deadline) VALUES (?,?,?,?,?,?)";
     $stmt = $mysqli->prepare($sql);
     $date = $_POST["date$i"];
     $who = $_POST["who$i"];
     $category = $_POST["category$i"];
     $detail = $_POST["detail$i"];
     $time = $_POST["time$i"];
-    $stmt->bind_param('ssssi', $date, $who, $category, $detail, $time);
+    $deadline = $_POST["deadline$i"];
+    $stmt->bind_param('ssssis', $date, $who, $category, $detail, $time, $deadline);
     $stmt->execute();
 }
 

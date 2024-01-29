@@ -123,6 +123,10 @@ svg circle.passive {
     width: 50px;
 }
 
+.deadline {
+    width: 120px;
+}
+
 .input {
     padding: 10px;
 }
