@@ -97,7 +97,7 @@ appendButton.addEventListener("click", () => {
         <td><input type="text" class="date" id="date${categoryNum}" name="date${categoryNum}"></td>
         <td><input type="text" class="who" id="who${categoryNum}" name="who${categoryNum}"/></td>
         <td><input type="text" class="category" id="category${categoryNum}" name="category${categoryNum}"/></td>
-        <td><input type="text" class="detail" id="detail${categoryNum}" name="detail${categoryNum}"/></td>
+        <td><textarea class="detail" id="detail${categoryNum}" name="detail${categoryNum}"></textarea></td>
         <td><input type="text" class="time" id="time${categoryNum}" name="time${categoryNum}"/></td>
         <td><input type="date" class="deadline" id="deadline${categoryNum}" name="deadline${categoryNum}"></td>
     </tr>

@@ -95,12 +95,17 @@ svg circle.passive {
 }
 
 .inputTable {
-    height: 30px;
+    height: 50px;
 }
 
 .inputTable input {
     padding: 10px;
-    height: 30px;
+    height: 50px;
+}
+
+.inputTable textarea {
+    padding: 10px;
+    height: 50px;
 }
 
 .date {
