@@ -24,6 +24,12 @@
         </div>-->
         <div id="contents">
             <form action="monthReport.php" method="post">
+                <div class="companyArea">
+                    <input type="text" class="company" id="company" name="company">
+                </div>
+                <div class="webArea">
+                    <input type="text" class="web" id="web" name="web">
+                </div>
                 <div class="graphArea">
                     <div class="formArea">
                         <table class="inputTable" id="inputTable">
@@ -41,15 +47,15 @@
                         </table>
                     </div>
                 </div>
+                <input type="hidden" name="state" value="insert">
                 <input type="submit">
             </form>
         </div>
-        <form action="form.php" method="post">
-            <input type="hidden" name="month" value="jan">
-            <input type="hidden" name="month_jp" value="1月">
+        <form action="monthReport.php" method="post">
+            <input type="hidden" name="state" value="select">
             <input type="submit" value="読込">
         </form>
-        <button id="appendButton" type="button">追加</button>
+        <button id="appendButton" type="button" onclick="append()">追加</button>
         <button id="calculateButton" type="button">計算する</button>
         <a href="yearGraph.html">月選択</a>
         <div class="link">
@@ -57,37 +63,100 @@
         </div>
         <script src="js/monthReport.js"></script>
 <?php
+// 入力欄を初期状態にするか(initial)、データベースに記録するか(insert)、データベースから挿入するか(select)
+switch ($_POST["state"]) {
+    case "initial":
+        $company = json_encode($_POST["company"]);
+        echo <<< EOM
+        <script type="text/javascript">
+            initial($company);
+        </script>
+        EOM;
+        break;
+    case "insert":
+        // 接続
+        $mysqli = new mysqli('localhost', 'root', '2856', 'my_app');
+        
+        //接続状況の確認
+        if (mysqli_connect_errno()) {
+            echo "データベース接続失敗" . PHP_EOL;
+            echo "errno: " . mysqli_connect_errno() . PHP_EOL;
+            echo "error: " . mysqli_connect_error() . PHP_EOL;
+            exit();
+        }
 
-// 接続
-$mysqli = new mysqli('localhost', 'root', '2856', 'my_app');
- 
-//接続状況の確認
-if (mysqli_connect_errno()) {
-    echo "データベース接続失敗" . PHP_EOL;
-    echo "errno: " . mysqli_connect_errno() . PHP_EOL;
-    echo "error: " . mysqli_connect_error() . PHP_EOL;
-    exit();
+        $sql = "DELETE FROM monthreport_table";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->execute();
+        // データを挿入する
+        for ($i=0; isset($_POST["time$i"]); $i++) {
+            $sql = "INSERT INTO monthreport_table (date, who, category, detail, time, deadline, manager, status) VALUES (?,?,?,?,?,?,?,?)";
+            $stmt = $mysqli->prepare($sql);
+            $date = $_POST["date$i"];
+            $who = $_POST["who$i"];
+            $category = $_POST["category$i"];
+            $detail = $_POST["detail$i"];
+            $time = $_POST["time$i"];
+            $deadline = $_POST["deadline$i"];
+            $manager = $_POST["manager$i"];
+            $status = $_POST["status$i"];
+            $stmt->bind_param('ssssisss', $date, $who, $category, $detail, $time, $deadline, $manager, $status);
+            $stmt->execute();
+        }
+
+        // 切断
+        $stmt->close();
+        break;
+    case "select":
+        // 接続
+        $mysqli = new mysqli('localhost', 'root', '2856', 'my_app');
+        
+        //接続状況の確認
+        if (mysqli_connect_errno()) {
+            echo "データベース接続失敗" . PHP_EOL;
+            echo "errno: " . mysqli_connect_errno() . PHP_EOL;
+            echo "error: " . mysqli_connect_error() . PHP_EOL;
+            exit();
+        }
+
+        // データを挿入する
+        $sql = "SELECT * FROM monthreport_table";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->execute();
+
+        // 結果を取得
+        $result = $stmt->get_result();
+
+        $i = 0;
+
+        // 結果を出力
+        while( $row_data = $result->fetch_array(MYSQLI_NUM) ) {
+            $current = json_encode($row_data);
+
+            if ($i != 0) {
+                echo <<< EOM
+                <script type="text/javascript">
+                    append();
+                </script>
+                EOM;
+            }
+
+            echo <<<EOM
+            <script type="text/javascript">
+                inputForm($i, $current);
+            </script>
+            EOM;
+
+            $i++;
+        }
+
+        $mysqli->close();
+
+        break;
 }
-
-// データを挿入する
-for ($i=0; isset($_POST["time$i"]); $i++) {
-    $sql = "INSERT INTO monthreport_table (date, who, category, detail, time, deadline, manager, status) VALUES (?,?,?,?,?,?,?,?)";
-    $stmt = $mysqli->prepare($sql);
-    $date = $_POST["date$i"];
-    $who = $_POST["who$i"];
-    $category = $_POST["category$i"];
-    $detail = $_POST["detail$i"];
-    $time = $_POST["time$i"];
-    $deadline = $_POST["deadline$i"];
-    $manager = $_POST["manager$i"];
-    $status = $_POST["status$i"];
-    $stmt->bind_param('ssssisss', $date, $who, $category, $detail, $time, $deadline, $manager, $status);
-    $stmt->execute();
-}
-
-// 切断
-$stmt->close();
-
 ?>
+        <form action="pdf.php" method="post">
+            <input type="submit" value="PDFで出力">
+        </form>
     </body>
 </html>

@@ -7,7 +7,11 @@
     </head>
     <body>
         <div class="link">
-            <a href="monthReport.html" class="monthReport">月次報告</a>
+            <form action="monthReport.php" method="post">
+                <input type="hidden" name="state" value="initial">
+                <input type="hidden" name="company" value="asahikensetsu">
+                <input type="submit" value="旭建設">
+            </form>
             <a href="taihi_monthReport.html" class="taihi">taihi</a><br>
             <a href="yearGraph.html" class="yearGraph">月毎のグラフ</a>
             <a href="taihi_yearGraph.html" class="taihi">taihi</a>

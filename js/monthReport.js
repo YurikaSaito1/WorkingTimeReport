@@ -90,7 +90,7 @@ function workInput(array) {
     document.forms.categoryText.inputText.value = "";
 });*/
 
-appendButton.addEventListener("click", () => {
+function append() {
     categoryNum++;
     inputTable.insertAdjacentHTML("beforeend", `
     <tr>
@@ -114,7 +114,7 @@ appendButton.addEventListener("click", () => {
         option.textContent = str[i].value;
         document.getElementById("categoryPullDown" + categoryNum).appendChild(option);
     }*/
-});
+}
 
 calculateButton.addEventListener("click", () => {
     line.classList.replace("active", "passive");
@@ -128,3 +128,18 @@ calculateButton.addEventListener("click", () => {
         line.classList.replace("passive", "active");
     }, 300);
 });
+
+function initial (company) {
+    document.getElementById("company").value = company;
+}
+
+function inputForm (i, row_data) {
+    document.getElementById("date" + i).value = row_data[1];
+    document.getElementById("who" + i).value = row_data[2];
+    document.getElementById("category" + i).value = row_data[3];
+    document.getElementById("detail" + i).value = row_data[4];
+    document.getElementById("time" + i).value = row_data[5];
+    document.getElementById("deadline" + i).value = row_data[6];
+    document.getElementById("manager" + i).value = row_data[7];
+    document.getElementById("status" + i).value = row_data[8];
+}
