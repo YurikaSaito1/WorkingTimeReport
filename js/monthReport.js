@@ -130,6 +130,7 @@ calculateButton.addEventListener("click", () => {
 });
 
 function initial (company) {
+    
     document.getElementById("company").value = company;
 }
 

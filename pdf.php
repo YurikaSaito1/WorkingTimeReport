@@ -1,4 +1,5 @@
 <?php
+$company = $_POST["companyJan"]."　御中";
 require_once("lib/TCPDF-main/tcpdf.php");
 $pdf = new TCPDF();
 $pdf->setPrintHeader( false );
@@ -8,7 +9,7 @@ $pdf -> setXY(150, 10);
 $pdf -> Write(10, date("Y年n月j日"));
 $pdf -> setXY(30, 25);
 $pdf -> setFont("", "U", 15);
-$pdf -> Write(20, "旭建設株式会社　御中");
+$pdf -> Write(20, $company);
 $pdf -> setXY(30, 40);
 $pdf -> setFont("", "", 10);
 $pdf -> MultiCell(130, 10, "下記の通り作業を行いましたのでご報告
@@ -20,6 +21,11 @@ $pdf -> MultiCell(130, 10, "事業所名　株式会社エアグラウンド
 　　　　　新井ビル2F
 電話番号　06-6435-9992
 FAX番号　06-6435-9982", 0, "L");
+$pdf -> setFont("", "", 20);
+$pdf -> setY(70);
+$pdf -> Write(40, "業務報告書", "", false, "C");
+$pdf -> setFont("", "", 10);
+
 // 接続
 $mysqli = new mysqli('localhost', 'root', '2856', 'my_app');
         
@@ -41,7 +47,7 @@ $result = $stmt->get_result();
 
 $i = 0;
 
-$pdf -> setY(90);
+$pdf -> setY(100);
 
 // 結果を出力
 while( $row_data = $result->fetch_array(MYSQLI_NUM) ) {

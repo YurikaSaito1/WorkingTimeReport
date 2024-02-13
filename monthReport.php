@@ -22,6 +22,7 @@
                 <button id="appendCategoryButton" type="button">カテゴリーの追加</button>
             </form>
         </div>-->
+
         <div id="contents">
             <form action="monthReport.php" method="post">
                 <div class="companyArea">
@@ -47,12 +48,29 @@
                         </table>
                     </div>
                 </div>
+<?php
+$companyName = $_POST["companyName"];
+// 企業名表示
+switch ($_POST["companyName"]) {
+    case 'asahikensetsu':
+        $company = '旭建設株式会社';
+        break;
+}
+echo <<< EOM
+<script type="text/javascript">
+    let company = '$company';
+    document.getElementById("company").value = company;
+</script>
+EOM;
+?>
                 <input type="hidden" name="state" value="insert">
+                <input type="hidden" name="companyName" value="<?= $companyName ?>">
                 <input type="submit">
             </form>
         </div>
         <form action="monthReport.php" method="post">
             <input type="hidden" name="state" value="select">
+            <input type="hidden" name="companyName" value="<?= $companyName ?>">
             <input type="submit" value="読込">
         </form>
         <button id="appendButton" type="button" onclick="append()">追加</button>
@@ -61,17 +79,13 @@
         <div class="link">
             <a href="index.html" id="topPage">トップページ</a>
         </div>
+        <form action="pdf.php" method="post">
         <script src="js/monthReport.js"></script>
+
 <?php
 // 入力欄を初期状態にするか(initial)、データベースに記録するか(insert)、データベースから挿入するか(select)
 switch ($_POST["state"]) {
     case "initial":
-        $company = json_encode($_POST["company"]);
-        echo <<< EOM
-        <script type="text/javascript">
-            initial($company);
-        </script>
-        EOM;
         break;
     case "insert":
         // 接続
@@ -155,7 +169,8 @@ switch ($_POST["state"]) {
         break;
 }
 ?>
-        <form action="pdf.php" method="post">
+            
+            <input type="hidden" name="companyJan" value="<?= $company ?>">
             <input type="submit" value="PDFで出力">
         </form>
     </body>
