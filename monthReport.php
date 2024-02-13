@@ -34,10 +34,9 @@
                 <div class="graphArea">
                     <div class="formArea">
                         <table class="inputTable" id="inputTable">
-                            <tr><th>日付</th><th>誰に</th><th>内容</th><th>詳細</th><th>時間</th><th>締切</th><th>担当者</th><th>作業状況</th></tr>
+                            <tr><th>日付</th><th>内容</th><th>詳細</th><th>時間</th><th>締切</th><th>担当者</th><th>作業状況</th></tr>
                             <tr>
                                 <td><input type="text" class="date" id="date0" name="date0"></td>
-                                <td><input type="text" class="who" id="who0" name="who0"/></td>
                                 <td><input type="text" class="category" id="category0" name="category0"/></td>
                                 <td><textarea class="detail" id="detail0" name="detail0"></textarea></td>
                                 <td><input type="text" class="time" id="time0" name="time0"/></td>
@@ -51,17 +50,36 @@
 <?php
 $companyName = $_POST["companyName"];
 // 企業名表示
-switch ($_POST["companyName"]) {
-    case 'asahikensetsu':
-        $company = '旭建設株式会社';
-        break;
+// 接続
+$mysqli = new mysqli('localhost', 'root', '2856', 'my_app');
+        
+//接続状況の確認
+if (mysqli_connect_errno()) {
+    echo "データベース接続失敗" . PHP_EOL;
+    echo "errno: " . mysqli_connect_errno() . PHP_EOL;
+    echo "error: " . mysqli_connect_error() . PHP_EOL;
+    exit();
 }
+
+// データを挿入する
+$sql = "SELECT company_Name FROM company_table WHERE company_code = ?";
+$stmt = $mysqli->prepare($sql);
+$stmt->bind_param('s', $companyName);            
+$stmt->execute();
+
+// 結果を取得
+$result = $stmt->get_result();
+$row_data = $result->fetch_array(MYSQLI_NUM);
+$companyNameJan = json_encode($row_data);
+
+// 結果を出力
 echo <<< EOM
 <script type="text/javascript">
-    let company = '$company';
-    document.getElementById("company").value = company;
+document.getElementById("company").value = $companyNameJan;
 </script>
 EOM;
+
+$mysqli->close();
 ?>
                 <input type="hidden" name="state" value="insert">
                 <input type="hidden" name="companyName" value="<?= $companyName ?>">
@@ -83,6 +101,11 @@ EOM;
         <script src="js/monthReport.js"></script>
 
 <?php
+echo <<< EOM
+<script type="text/javascript">
+document.getElementById("company").value = $companyNameJan;
+</script>
+EOM;
 // 入力欄を初期状態にするか(initial)、データベースに記録するか(insert)、データベースから挿入するか(select)
 switch ($_POST["state"]) {
     case "initial":
@@ -104,17 +127,18 @@ switch ($_POST["state"]) {
         $stmt->execute();
         // データを挿入する
         for ($i=0; isset($_POST["time$i"]); $i++) {
-            $sql = "INSERT INTO monthreport_table (date, who, category, detail, time, deadline, manager, status) VALUES (?,?,?,?,?,?,?,?)";
+            $sql = "INSERT INTO monthreport_table (id, company_id, date, category, detail, time, deadline, manager, status) VALUES (?,?,?,?,?,?,?,?,?)";
             $stmt = $mysqli->prepare($sql);
+            $id = $i + 1;
+            $company_id = 1;
             $date = $_POST["date$i"];
-            $who = $_POST["who$i"];
             $category = $_POST["category$i"];
             $detail = $_POST["detail$i"];
             $time = $_POST["time$i"];
             $deadline = $_POST["deadline$i"];
             $manager = $_POST["manager$i"];
             $status = $_POST["status$i"];
-            $stmt->bind_param('ssssisss', $date, $who, $category, $detail, $time, $deadline, $manager, $status);
+            $stmt->bind_param('iisssisss', $id, $company_id, $date, $category, $detail, $time, $deadline, $manager, $status);
             $stmt->execute();
         }
 
@@ -170,7 +194,14 @@ switch ($_POST["state"]) {
 }
 ?>
             
-            <input type="hidden" name="companyJan" value="<?= $company ?>">
+            <input type="hidden" id="companyNameJan" name="companyNameJan" value="">
+<?php
+echo <<< EOM
+<script type="text/javascript">
+document.getElementById("companyNameJan").value = $companyNameJan;
+</script>
+EOM;
+?>
             <input type="submit" value="PDFで出力">
         </form>
     </body>

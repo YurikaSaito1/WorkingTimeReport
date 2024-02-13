@@ -95,7 +95,6 @@ function append() {
     inputTable.insertAdjacentHTML("beforeend", `
     <tr>
         <td><input type="text" class="date" id="date${categoryNum}" name="date${categoryNum}"></td>
-        <td><input type="text" class="who" id="who${categoryNum}" name="who${categoryNum}"/></td>
         <td><input type="text" class="category" id="category${categoryNum}" name="category${categoryNum}"/></td>
         <td><textarea class="detail" id="detail${categoryNum}" name="detail${categoryNum}"></textarea></td>
         <td><input type="text" class="time" id="time${categoryNum}" name="time${categoryNum}"/></td>
@@ -130,13 +129,12 @@ calculateButton.addEventListener("click", () => {
 });
 
 function initial (company) {
-    
+
     document.getElementById("company").value = company;
 }
 
 function inputForm (i, row_data) {
-    document.getElementById("date" + i).value = row_data[1];
-    document.getElementById("who" + i).value = row_data[2];
+    document.getElementById("date" + i).value = row_data[2];
     document.getElementById("category" + i).value = row_data[3];
     document.getElementById("detail" + i).value = row_data[4];
     document.getElementById("time" + i).value = row_data[5];

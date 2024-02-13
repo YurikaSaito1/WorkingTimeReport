@@ -1,5 +1,5 @@
 <?php
-$company = $_POST["companyJan"]."　御中";
+$company = $_POST["companyNameJan"]."　御中";
 require_once("lib/TCPDF-main/tcpdf.php");
 $pdf = new TCPDF();
 $pdf->setPrintHeader( false );
