@@ -1,7 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="css/monthReport.css">
+        <title>作業時間報告</title>
+    </head>
+    <body>
 <?php
-$company = $_POST["companyNameJan"]."　御中";
+// 接続
+$mysqli = new mysqli('localhost', 'root', '2856', 'my_app');
+$mysqli->set_charset('utf8');
+        
+//接続状況の確認
+if (mysqli_connect_errno()) {
+    echo "データベース接続失敗" . PHP_EOL;
+    echo "errno: " . mysqli_connect_errno() . PHP_EOL;
+    echo "error: " . mysqli_connect_error() . PHP_EOL;
+    exit();
+}
+
+// Webサイト
+$sql = "SELECT * FROM company_table WHERE company_code = ?";
+$stmt = $mysqli -> prepare($sql);
+$stmt -> bind_param('s', $_POST["companyCode"]);
+$stmt -> execute();
+$result = $stmt -> get_result();
+$row_data = $result->fetch_array(MYSQLI_NUM);
+$companyName = mb_convert_encoding($row_data[2], "UTF-8");
+
 require_once("lib/TCPDF-main/tcpdf.php");
-$pdf = new TCPDF();
+$pdf = new TCPDF("P", "mm", "A4", true, "UTF-8");
 $pdf->setPrintHeader( false );
 $pdf->SetFont('kozminproregular', '', 11);
 $pdf -> AddPage();
@@ -9,7 +37,7 @@ $pdf -> setXY(150, 10);
 $pdf -> Write(10, date("Y年n月j日"));
 $pdf -> setXY(30, 25);
 $pdf -> setFont("", "U", 15);
-$pdf -> Write(20, $company);
+$pdf -> Write(20, $companyName."　御中");
 $pdf -> setXY(30, 40);
 $pdf -> setFont("", "", 10);
 $pdf -> MultiCell(130, 10, "下記の通り作業を行いましたのでご報告
@@ -24,30 +52,29 @@ FAX番号　06-6435-9982", 0, "L");
 $pdf -> setFont("", "", 20);
 $pdf -> setY(70);
 $pdf -> Write(40, "業務報告書", "", false, "C");
+
 $pdf -> setFont("", "", 10);
 
-// 接続
-$mysqli = new mysqli('localhost', 'root', '2856', 'my_app');
-        
-//接続状況の確認
-if (mysqli_connect_errno()) {
-    echo "データベース接続失敗" . PHP_EOL;
-    echo "errno: " . mysqli_connect_errno() . PHP_EOL;
-    echo "error: " . mysqli_connect_error() . PHP_EOL;
-    exit();
-}
+// Webサイト表示
+$sql = "SELECT web FROM company_table";
+$stmt = $mysqli -> prepare($sql);
+$stmt -> execute();
+$result = $stmt -> get_result();
+$row_data = $result -> fetch_array(MYSQLI_NUM);
+$pdf -> setY(100);
+$pdf -> MultiCell(170, 0, $row_data[0], 1, "C", 0, 1, 20);
 
 // データを挿入する
 $sql = "SELECT * FROM monthreport_table";
-$stmt = $mysqli->prepare($sql);
-$stmt->execute();
+$stmt = $mysqli -> prepare($sql);
+$stmt -> execute();
 
 // 結果を取得
-$result = $stmt->get_result();
+$result = $stmt -> get_result();
 
 $i = 0;
 
-$pdf -> setY(100);
+$pdf -> setY(120);
 
 // 結果を出力
 while( $row_data = $result->fetch_array(MYSQLI_NUM) ) {
@@ -64,7 +91,9 @@ while( $row_data = $result->fetch_array(MYSQLI_NUM) ) {
 
 $mysqli->close();
 
-$fileName = 'sample.pdf';
+$fileName = 'monthReport.pdf';
 ob_end_clean();
 $pdf -> Output($fileName, "I");
 ?>
+    </body>
+</html>

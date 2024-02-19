@@ -128,11 +128,6 @@ calculateButton.addEventListener("click", () => {
     }, 300);
 });
 
-function initial (company) {
-
-    document.getElementById("company").value = company;
-}
-
 function inputForm (i, row_data) {
     document.getElementById("date" + i).value = row_data[2];
     document.getElementById("category" + i).value = row_data[3];

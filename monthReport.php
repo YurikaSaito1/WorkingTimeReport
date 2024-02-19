@@ -6,7 +6,7 @@
         <title>作業時間報告</title>
     </head>
     <body>
-        <div class="percent">
+        <!--<div class="percent">
             <svg>
                 <circle class="base" cx="75" cy="75" r="70"></circle>
                 <circle class="active" id="line" cx="75" cy="75" r="70"></circle>
@@ -15,7 +15,7 @@
                 <p>残り</p>
                 <h3 id="title"><div id="time_form_area">5</div><span>時間</span></h3>
             </div>
-        </div>
+        </div>-->
         <!--<div id="appendCategory">
             <form id="categoryText" name="categoryText">
                 <input type="text" name="inputText"/>
@@ -23,13 +23,19 @@
             </form>
         </div>-->
 
-        <div id="contents">
+        <div class="contents">
             <form action="monthReport.php" method="post">
                 <div class="companyArea">
                     <input type="text" class="company" id="company" name="company">
+                    <span id="dummyTextBox" aria-hidden="true"></span>
                 </div>
                 <div class="webArea">
-                    <input type="text" class="web" id="web" name="web">
+                    <table>
+                        <tr>
+                            <td><p>Webサイト：</p></td>
+                            <td><input type="text" class="web" id="web" name="web"></td>
+                        </tr>
+                    </table>
                 </div>
                 <div class="graphArea">
                     <div class="formArea">
@@ -62,7 +68,7 @@ if (mysqli_connect_errno()) {
 }
 
 // データを挿入する
-$sql = "SELECT company_Name FROM company_table WHERE company_code = ?";
+$sql = "SELECT company_name FROM company_table WHERE company_code = ?";
 $stmt = $mysqli->prepare($sql);
 $stmt->bind_param('s', $companyName);            
 $stmt->execute();
@@ -72,38 +78,38 @@ $result = $stmt->get_result();
 $row_data = $result->fetch_array(MYSQLI_NUM);
 $companyNameJan = json_encode($row_data);
 
-// 結果を出力
-echo <<< EOM
-<script type="text/javascript">
-document.getElementById("company").value = $companyNameJan;
-</script>
-EOM;
-
 $mysqli->close();
 ?>
+                <div class="appendButtonArea">
+                    <button class="button" id="appendButton" type="button" onclick="append()">行追加</button>
+                </div>
                 <input type="hidden" name="state" value="insert">
                 <input type="hidden" name="companyName" value="<?= $companyName ?>">
-                <input type="submit">
+                <table>
+                    <tr>
+                        <td><input class="loadsaveButton" id="saveButton" type="submit" value="保存"></td>
+            </form>
+            <form action="monthReport.php" method="post">
+                <input type="hidden" name="state" value="select">
+                <input type="hidden" name="companyName" value="<?= $companyName ?>">
+                        <td><input class="loadsaveButton" id="loadButton" type="submit" value="読込"></td>
+                    </tr>
+                </table>
             </form>
         </div>
-        <form action="monthReport.php" method="post">
-            <input type="hidden" name="state" value="select">
-            <input type="hidden" name="companyName" value="<?= $companyName ?>">
-            <input type="submit" value="読込">
-        </form>
-        <button id="appendButton" type="button" onclick="append()">追加</button>
-        <button id="calculateButton" type="button">計算する</button>
-        <a href="yearGraph.html">月選択</a>
-        <div class="link">
-            <a href="index.html" id="topPage">トップページ</a>
-        </div>
+        <!--<button class="button" id="calculateButton" type="button">計算する</button>-->
+        <!--<a href="yearGraph.html">月選択</a>-->
         <form action="pdf.php" method="post">
         <script src="js/monthReport.js"></script>
 
 <?php
 echo <<< EOM
 <script type="text/javascript">
-document.getElementById("company").value = $companyNameJan;
+const company = document.getElementById("company");
+const dummyTextBox = document.getElementById("dummyTextBox");
+company.value = $companyNameJan;
+dummyTextBox.textContent = company.value;
+company.style.width = dummyTextBox.clientWidth * 2 + 'px';
 </script>
 EOM;
 // 入力欄を初期状態にするか(initial)、データベースに記録するか(insert)、データベースから挿入するか(select)
@@ -194,15 +200,11 @@ switch ($_POST["state"]) {
 }
 ?>
             
-            <input type="hidden" id="companyNameJan" name="companyNameJan" value="">
-<?php
-echo <<< EOM
-<script type="text/javascript">
-document.getElementById("companyNameJan").value = $companyNameJan;
-</script>
-EOM;
-?>
-            <input type="submit" value="PDFで出力">
+            <input type="hidden" id="companyNameJan" name="companyCode" value="<?= $companyName ?>">
+            <input class="pdfButton" type="submit" value="PDFで出力">
         </form>
+        <div class="link">
+            <a href="index.html" id="topPage">トップページ</a>
+        </div>
     </body>
 </html>
