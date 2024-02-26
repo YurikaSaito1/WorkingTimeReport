@@ -3,6 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <link rel="stylesheet" href="css/monthReport.css">
+        <script src="js/monthReport_init.js"></script>
         <title>作業時間報告</title>
     </head>
     <body>
@@ -42,6 +43,16 @@
                         <tr>
                             <td><p>業務概要　：</p></td>
                             <td><pre><textarea class="overview" id="overview" name="overview"></textarea></pre></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="periodArea">
+                    <table>
+                        <tr>
+                            <td><p>期間　　　：</p></td>
+                            <td><input type="month" class="period" id="periodStart" name="periodStart"></td>
+                            <td><p>～</p></td>
+                            <td><input type="month" class="period" id="periodEnd" name="periodEnd"></td>
                         </tr>
                     </table>
                 </div>

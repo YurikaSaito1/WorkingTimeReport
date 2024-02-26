@@ -56,13 +56,17 @@ $pdf -> Write(40, "業務報告書", "", false, "C");
 // Webサイト表示
 $pdf -> setFont("", "", 11);
 $pdf -> setFillColor(230);
-$pdf -> MultiCell(170, 0, "Webサイト", 1, "C", 1, 1, 20, 100);
-$sql = "SELECT web FROM company_table";
+$pdf -> MultiCell(170, 0, "Webサイト", 1, "", 1, 1, 20, 100);
+$sql = "SELECT * FROM company_table WHERE company_code = 'asahikensetsu'";
 $stmt = $mysqli -> prepare($sql);
 $stmt -> execute();
 $result = $stmt -> get_result();
 $row_data = $result -> fetch_array(MYSQLI_NUM);
-$pdf -> MultiCell(170, 0, $row_data[0], 1, "C", 0, 1, 20);
+$pdf -> MultiCell(170, 0, $row_data[3], 1, "", 0, 1, 20);
+
+// 業務概要表示
+$pdf -> MultiCell(170, 0, "業務概要", 1, "", 1, 1, 20);
+$pdf -> MultiCell(170, 0, $row_data[4], 1, "", 0, 1, 20);
 
 // データを挿入する
 $sql = "SELECT * FROM monthreport_table";
@@ -74,18 +78,19 @@ $result = $stmt -> get_result();
 
 $i = 0;
 
-$pdf -> setY(120);
-
 // 結果を出力
+$pdf -> MultiCell(10, 0, "No.", 1, "", 1, 0, 20);
+$pdf -> MultiCell(140, 0, "内容詳細", 1, "", 1, 0);
+$pdf -> MultiCell(20, 0, "状況報告", 1, "", 1, 1);
 while( $row_data = $result->fetch_array(MYSQLI_NUM) ) {
     $i++;
-    $count = substr_count($row_data[4], "\n");
-    $pdf -> MultiCell(10, $count*15, $i, 1, "C", 0, 0, 20);
-    $pdf -> MultiCell(140, $count*15, $row_data[4], 1, "L", 0, 0);
-    if ($row_data[9] == "済") {
-        $pdf -> MultiCell(20, $count*15, "完了", 1, "C", 0, 1);
+    $count = substr_count($row_data[4], "\n")+1;
+    $pdf -> MultiCell(10, $count*8, $i, 1, "", 0, 0, 20);
+    $pdf -> MultiCell(140, $count*8, $row_data[4], 1, "L", 0, 0);
+    if ($row_data[8] == "済") {
+        $pdf -> MultiCell(20, $count*8, "完了", 1, "", 0, 1);
     } else {
-        $pdf -> MultiCell(20, $count*15, "確認中", 1, "C", 0, 1);
+        $pdf -> MultiCell(20, $count*8, "確認中", 1, "", 0, 1);
     }
 }
 

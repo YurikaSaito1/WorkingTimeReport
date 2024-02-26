@@ -1,0 +1,1 @@
+var categoryNum = 0;

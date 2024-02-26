@@ -103,7 +103,7 @@ svg circle.passive {
 }
 
 .webArea {
-    margin: 0 0 40px 15px;
+    margin: 0 0 20px 15px;
     height: 30px;
     display: flex;
     align-items: stretch;
@@ -115,7 +115,7 @@ svg circle.passive {
 }
 
 .overviewArea {
-    margin: 0 0 40px 15px;
+    margin: 0 0 -10px 15px;
     display: flex;
     align-items: stretch;
 }
@@ -123,6 +123,12 @@ svg circle.passive {
 .overview {
     height: 90px;
     width: 500px;
+}
+
+.periodArea {
+    margin: 0 0 40px 15px;
+    display: flex;
+    align-items: stretch;
 }
 
 .formArea {

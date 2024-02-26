@@ -15,7 +15,6 @@ const calculateButton = document.getElementById("calculateButton");
 const memo = document.getElementById("memo");
 
 var MAX_TIME = Number(timeFormArea.innerHTML);
-var categoryNum = 0;
 
 timeFormArea.addEventListener("click", () => {
     if (document.getElementById("inputTime") != null) {
@@ -136,8 +135,4 @@ function inputForm (i, row_data) {
     document.getElementById("deadline" + i).value = row_data[6];
     document.getElementById("manager" + i).value = row_data[7];
     document.getElementById("status" + i).value = row_data[8];
-}
-
-function sanitize_br($str){
-    return nl2br(htmlspecialchars($str, ENT_QUOTES, 'UTF-8'));
 }
