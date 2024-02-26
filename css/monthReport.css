@@ -114,6 +114,17 @@ svg circle.passive {
     width: 200px;
 }
 
+.overviewArea {
+    margin: 0 0 40px 15px;
+    display: flex;
+    align-items: stretch;
+}
+
+.overview {
+    height: 90px;
+    width: 500px;
+}
+
 .formArea {
     display: flex;
     align-items: center;

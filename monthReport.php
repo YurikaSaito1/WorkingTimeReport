@@ -37,6 +37,14 @@
                         </tr>
                     </table>
                 </div>
+                <div class="overviewArea">
+                    <table>
+                        <tr>
+                            <td><p>業務概要　：</p></td>
+                            <td><pre><textarea class="overview" id="overview" name="overview"></textarea></pre></td>
+                        </tr>
+                    </table>
+                </div>
                 <div class="graphArea">
                     <div class="formArea">
                         <table class="inputTable" id="inputTable">
@@ -128,6 +136,15 @@ switch ($_POST["state"]) {
             exit();
         }
 
+        // 企業欄書き換え
+        $sql = "UPDATE company_table SET web = ?, overview = ? WHERE company_code = 'asahikensetsu'";
+        $stmt = $mysqli -> prepare($sql);
+        $web = $_POST["web"];
+        $overview = $_POST["overview"];
+        $stmt -> bind_param('ss', $web, $overview);
+        $stmt -> execute();
+
+        // 業務内容の書き換え
         $sql = "DELETE FROM monthreport_table";
         $stmt = $mysqli->prepare($sql);
         $stmt->execute();
@@ -162,6 +179,21 @@ switch ($_POST["state"]) {
             echo "error: " . mysqli_connect_error() . PHP_EOL;
             exit();
         }
+
+        // 企業欄取得
+        $sql = "SELECT * FROM company_table WHERE company_code = 'asahikensetsu'";
+        $stmt = $mysqli -> prepare($sql);
+        $stmt -> execute();
+        $result = $stmt -> get_result();
+        $row_data = $result -> fetch_array(MYSQLI_NUM);
+        $web = json_encode($row_data[3]);
+        $overview = json_encode($row_data[4]);
+        echo <<< EOM
+            <script type="text/javascript">
+                document.getElementById("web").value = $web;
+                document.getElementById("overview").value = $overview;
+            </script>
+        EOM;
 
         // データを挿入する
         $sql = "SELECT * FROM monthreport_table";

@@ -137,3 +137,7 @@ function inputForm (i, row_data) {
     document.getElementById("manager" + i).value = row_data[7];
     document.getElementById("status" + i).value = row_data[8];
 }
+
+function sanitize_br($str){
+    return nl2br(htmlspecialchars($str, ENT_QUOTES, 'UTF-8'));
+}

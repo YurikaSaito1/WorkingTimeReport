@@ -53,15 +53,15 @@ $pdf -> setFont("", "", 20);
 $pdf -> setY(70);
 $pdf -> Write(40, "業務報告書", "", false, "C");
 
-$pdf -> setFont("", "", 10);
-
 // Webサイト表示
+$pdf -> setFont("", "", 11);
+$pdf -> setFillColor(230);
+$pdf -> MultiCell(170, 0, "Webサイト", 1, "C", 1, 1, 20, 100);
 $sql = "SELECT web FROM company_table";
 $stmt = $mysqli -> prepare($sql);
 $stmt -> execute();
 $result = $stmt -> get_result();
 $row_data = $result -> fetch_array(MYSQLI_NUM);
-$pdf -> setY(100);
 $pdf -> MultiCell(170, 0, $row_data[0], 1, "C", 0, 1, 20);
 
 // データを挿入する
