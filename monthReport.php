@@ -152,10 +152,8 @@ switch ($_POST["state"]) {
         $stmt = $mysqli -> prepare($sql);
         $web = $_POST["web"];
         $overview = $_POST["overview"];
-        $periodStart = $_POST["periodStart"];
-        $periodStart = "2024-01-01";
-        $periodEnd = $_POST["periodEnd"];
-        $periodEnd = "2024-03-01";
+        $periodStart = date("Y-m-d", strtotime($_POST["periodStart"]));
+        $periodEnd = date("Y-m-d", strtotime($_POST["periodEnd"]));
         $stmt -> bind_param('ssss', $web, $overview, $periodStart, $periodEnd);
         $stmt -> execute();
 
@@ -178,10 +176,20 @@ switch ($_POST["state"]) {
             $status = $_POST["status$i"];
             $stmt->bind_param('iisssdsss', $id, $company_id, $date, $category, $detail, $time, $deadline, $manager, $status);
             $stmt->execute();
+            
+            echo <<< EOM
+                <script type="text/javascript">
+                    if ($i != 0) {
+                        append();
+                    }
+                    remain($i, $date);
+                </script>
+            EOM;
         }
 
         // 切断
         $stmt->close();
+
         break;
     case "select":
         // 接続
