@@ -176,7 +176,7 @@ switch ($_POST["state"]) {
             $deadline = $_POST["deadline$i"];
             $manager = $_POST["manager$i"];
             $status = $_POST["status$i"];
-            $stmt->bind_param('iisssisss', $id, $company_id, $date, $category, $detail, $time, $deadline, $manager, $status);
+            $stmt->bind_param('iisssdsss', $id, $company_id, $date, $category, $detail, $time, $deadline, $manager, $status);
             $stmt->execute();
         }
 
