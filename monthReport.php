@@ -148,11 +148,15 @@ switch ($_POST["state"]) {
         }
 
         // 企業欄書き換え
-        $sql = "UPDATE company_table SET web = ?, overview = ? WHERE company_code = 'asahikensetsu'";
+        $sql = "UPDATE company_table SET web = ?, overview = ?, periodStart = cast(? as date), periodEnd = cast(? as date) WHERE company_code = 'asahikensetsu'";
         $stmt = $mysqli -> prepare($sql);
         $web = $_POST["web"];
         $overview = $_POST["overview"];
-        $stmt -> bind_param('ss', $web, $overview);
+        $periodStart = $_POST["periodStart"];
+        $periodStart = "2024-01-01";
+        $periodEnd = $_POST["periodEnd"];
+        $periodEnd = "2024-03-01";
+        $stmt -> bind_param('ssss', $web, $overview, $periodStart, $periodEnd);
         $stmt -> execute();
 
         // 業務内容の書き換え
@@ -199,10 +203,17 @@ switch ($_POST["state"]) {
         $row_data = $result -> fetch_array(MYSQLI_NUM);
         $web = json_encode($row_data[3]);
         $overview = json_encode($row_data[4]);
+        $periodStart = json_encode(date("Y-m", strtotime($row_data[5])));
+        $periodEnd = json_encode(date("Y-m", strtotime($row_data[6])));
         echo <<< EOM
             <script type="text/javascript">
                 document.getElementById("web").value = $web;
                 document.getElementById("overview").value = $overview;
+                let date = "";
+                date = $periodStart;
+                document.getElementById("periodStart").value = date;
+                date = $periodEnd;
+                document.getElementById("periodEnd").value = date;
             </script>
         EOM;
 

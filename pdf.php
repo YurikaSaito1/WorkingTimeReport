@@ -35,34 +35,39 @@ $pdf->SetFont('kozminproregular', '', 11);
 $pdf -> AddPage();
 $pdf -> setXY(150, 10);
 $pdf -> Write(10, date("Y年n月j日"));
-$pdf -> setXY(30, 25);
+$pdf -> setXY(30, 15);
 $pdf -> setFont("", "U", 15);
 $pdf -> Write(20, $companyName."　御中");
-$pdf -> setXY(30, 40);
+$pdf -> setXY(30, 30);
 $pdf -> setFont("", "", 10);
 $pdf -> MultiCell(130, 10, "下記の通り作業を行いましたのでご報告
 いたします。", 0, "L");
-$pdf -> setCellHeightRatio(2);
-$pdf -> setXY(130, 40);
+$pdf -> setCellHeightRatio(1.5);
+$pdf -> setXY(130, 30);
 $pdf -> MultiCell(130, 10, "事業所名　株式会社エアグラウンド
 所在地　　尼崎市南武庫之荘二丁目2-7
 　　　　　新井ビル2F
 電話番号　06-6435-9992
 FAX番号　06-6435-9982", 0, "L");
 $pdf -> setFont("", "", 20);
-$pdf -> setY(70);
+$pdf -> setY(50);
 $pdf -> Write(40, "業務報告書", "", false, "C");
 
 // Webサイト表示
 $pdf -> setFont("", "", 11);
 $pdf -> setFillColor(230);
-$pdf -> MultiCell(170, 0, "Webサイト", 1, "", 1, 1, 20, 100);
+$pdf -> MultiCell(170, 0, "Webサイト", 1, "", 1, 1, 20, 80);
 $sql = "SELECT * FROM company_table WHERE company_code = 'asahikensetsu'";
 $stmt = $mysqli -> prepare($sql);
 $stmt -> execute();
 $result = $stmt -> get_result();
 $row_data = $result -> fetch_array(MYSQLI_NUM);
 $pdf -> MultiCell(170, 0, $row_data[3], 1, "", 0, 1, 20);
+
+// 対象期間表示
+$pdf -> MultiCell(170, 0, "対象期間", 1, "", 1, 1, 20);
+$date = date("Y年n月", strtotime($row_data[5])) . "～" . date("Y年n月", strtotime($row_data[6]));
+$pdf -> MultiCell(170, 0, $date, 1, "", 0, 1, 20);
 
 // 業務概要表示
 $pdf -> MultiCell(170, 0, "業務概要", 1, "", 1, 1, 20);
