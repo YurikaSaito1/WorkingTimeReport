@@ -157,6 +157,21 @@ switch ($_POST["state"]) {
         $stmt -> bind_param('ssss', $web, $overview, $periodStart, $periodEnd);
         $stmt -> execute();
 
+        // 企業欄再入力
+        $web = json_encode($web);
+        $overview = json_encode($overview);
+        $periodStart = json_encode($_POST["periodStart"]);
+        $periodEnd = json_encode($_POST["periodEnd"]);
+
+        echo <<< EOM
+            <script type="text/javascript">
+                document.getElementById("web").value = $web;
+                document.getElementById("overview").value = $overview;
+                document.getElementById("periodStart").value = $periodStart;
+                document.getElementById("periodEnd").value = $periodEnd;
+            </script>
+        EOM;
+
         // 業務内容の書き換え
         $sql = "DELETE FROM monthreport_table";
         $stmt = $mysqli->prepare($sql);
@@ -177,12 +192,27 @@ switch ($_POST["state"]) {
             $stmt->bind_param('iisssdsss', $id, $company_id, $date, $category, $detail, $time, $deadline, $manager, $status);
             $stmt->execute();
             
+            // 業務内容再入力
+            $date = json_encode($date);
+            $category = json_encode($category);
+            $detail = json_encode($detail);
+            $time = json_encode($time);
+            $deadline = json_encode($deadline);
+            $manager = json_encode($manager);
+            $status = json_encode($status);
+
             echo <<< EOM
                 <script type="text/javascript">
                     if ($i != 0) {
                         append();
                     }
-                    remain($i, $date);
+                    document.getElementById("date" + $i).value = $date;
+                    document.getElementById("category" + $i).value = $category;
+                    document.getElementById("detail" + $i).value = $detail;
+                    document.getElementById("time" + $i).value = $time;
+                    document.getElementById("deadline" + $i).value = $deadline;
+                    document.getElementById("manager" + $i).value = $manager;
+                    document.getElementById("status" + $i).value = $status;
                 </script>
             EOM;
         }

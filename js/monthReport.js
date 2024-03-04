@@ -127,16 +127,6 @@ calculateButton.addEventListener("click", () => {
     }, 300);
 });
 
-function remain (i, date) {
-    document.getElementById("date" + i).value = "月末";
-    document.getElementById("category" + i).value = $category;
-    document.getElementById("detail" + i).value = $detail;
-    document.getElementById("time" + i).value = $time;
-    document.getElementById("deadline" + i).value = $deadline;
-    document.getElementById("manager" + i).value = $manager;
-    document.getElementById("status" + i).value = $status;
-}
-
 function inputForm (i, row_data) {
     document.getElementById("date" + i).value = row_data[2];
     document.getElementById("category" + i).value = row_data[3];
