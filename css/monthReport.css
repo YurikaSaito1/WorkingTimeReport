@@ -102,6 +102,11 @@ svg circle.passive {
     clip: rect(0 0 0 0);
 }
 
+.month {
+    margin: 15px;
+    border: none;
+}
+
 .webArea {
     margin: 0 0 20px 15px;
     height: 30px;

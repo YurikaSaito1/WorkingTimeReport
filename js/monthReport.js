@@ -67,13 +67,13 @@ calculateButton.addEventListener("click", () => {
 });
 
 function inputForm (i, row_data) {
-    document.getElementById("date" + i).value = row_data[2];
-    document.getElementById("category" + i).value = row_data[3];
-    document.getElementById("detail" + i).value = row_data[4];
-    document.getElementById("time" + i).value = row_data[5];
-    document.getElementById("deadline" + i).value = row_data[6];
-    document.getElementById("manager" + i).value = row_data[7];
-    document.getElementById("status" + i).value = row_data[8];
+    document.getElementById("date" + i).value = row_data[3];
+    document.getElementById("category" + i).value = row_data[4];
+    document.getElementById("detail" + i).value = row_data[5];
+    document.getElementById("time" + i).value = row_data[6];
+    document.getElementById("deadline" + i).value = row_data[7];
+    document.getElementById("manager" + i).value = row_data[8];
+    document.getElementById("status" + i).value = row_data[9];
 }
 
 function deleteRow (num) {

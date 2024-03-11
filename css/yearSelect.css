@@ -1,0 +1,26 @@
+.company {
+    margin: 15px;
+    box-sizing: border-box;
+    border: none;
+    background: linear-gradient(transparent 70%, orange 0%);
+    color: dimgray;
+    font-size: 30px;
+}
+
+#dummyTextBox {
+    display: inline-block;
+    position: absolute;
+    overflow: hidden;
+    white-space: nowrap;
+    clip: rect(0 0 0 0);
+}
+
+.heading {
+    margin: 15px;
+    font-size: 20px;
+}
+
+.link {
+    margin-left: 15px;
+    padding: 10px 0;
+}

@@ -13,6 +13,9 @@
                     <input type="text" class="company" id="company" name="company">
                     <span id="dummyTextBox" aria-hidden="true"></span>
                 </div>
+                <div class="monthArea">
+                    <input type="text" class="month" id="month" name="month">
+                </div>
                 <div class="webArea">
                     <table>
                         <tr>
@@ -73,7 +76,7 @@ if (mysqli_connect_errno()) {
 // データを挿入する
 $sql = "SELECT company_name FROM company_table WHERE company_code = ?";
 $stmt = $mysqli->prepare($sql);
-$stmt->bind_param('s', $companyName);            
+$stmt->bind_param('s', $companyName);
 $stmt->execute();
 
 // 結果を取得
@@ -95,6 +98,7 @@ $mysqli->close();
             <form action="monthReport.php" method="post">
                 <input type="hidden" name="state" value="select">
                 <input type="hidden" name="companyName" value="<?= $companyName ?>">
+                <input type="hidden" name="month" value="<?= $_POST["month"] ?>">
                         <td><input class="loadsaveButton" id="loadButton" type="submit" value="読込"></td>
                     </tr>
                 </table>
@@ -104,6 +108,7 @@ $mysqli->close();
         <script src="js/monthReport.js"></script>
 
 <?php
+$month = json_encode($_POST["month"]);
 echo <<< EOM
 <script type="text/javascript">
 const company = document.getElementById("company");
@@ -111,6 +116,10 @@ const dummyTextBox = document.getElementById("dummyTextBox");
 company.value = $companyNameJan;
 dummyTextBox.textContent = company.value;
 company.style.width = dummyTextBox.clientWidth * 2 + 'px';
+const month = document.getElementById("month");
+let monthValue = "";
+monthValue = $month;
+month.value = monthValue;
 </script>
 EOM;
 // 入力欄を初期状態にするか(initial)、データベースに記録するか(insert)、データベースから挿入するか(select)
@@ -130,16 +139,18 @@ switch ($_POST["state"]) {
         }
 
         // 企業欄書き換え
-        $sql = "UPDATE company_table SET web = ?, overview = ?, periodStart = cast(? as date), periodEnd = cast(? as date) WHERE company_code = 'asahikensetsu'";
+        $sql = "UPDATE month_table SET web = ?, overview = ?, periodStart = cast(? as date), periodEnd = cast(? as date) WHERE company_code = 'asahikensetsu' AND month = ?";
         $stmt = $mysqli -> prepare($sql);
         $web = $_POST["web"];
         $overview = $_POST["overview"];
         $periodStart = date("Y-m-d", strtotime($_POST["periodStart"]));
         $periodEnd = date("Y-m-d", strtotime($_POST["periodEnd"]));
-        $stmt -> bind_param('ssss', $web, $overview, $periodStart, $periodEnd);
+        $month = $_POST["month"];
+        $stmt -> bind_param('sssss', $web, $overview, $periodStart, $periodEnd, $month);
         $stmt -> execute();
 
         // 企業欄再入力
+        $month = json_encode($month);
         $web = json_encode($web);
         $overview = json_encode($overview);
         $periodStart = json_encode($_POST["periodStart"]);
@@ -147,6 +158,7 @@ switch ($_POST["state"]) {
 
         echo <<< EOM
             <script type="text/javascript">
+                document.getElementById("month").value = $month;
                 document.getElementById("web").value = $web;
                 document.getElementById("overview").value = $overview;
                 document.getElementById("periodStart").value = $periodStart;
@@ -160,10 +172,11 @@ switch ($_POST["state"]) {
         $stmt->execute();
         // データを挿入する
         for ($i=0; isset($_POST["time$i"]); $i++) {
-            $sql = "INSERT INTO monthreport_table (id, company_id, date, category, detail, time, deadline, manager, status) VALUES (?,?,?,?,?,?,?,?,?)";
+            $sql = "INSERT INTO monthreport_table (id, company_code, month, date, category, detail, time, deadline, manager, status) VALUES (?,?,?,?,?,?,?,?,?,?)";
             $stmt = $mysqli->prepare($sql);
             $id = $i + 1;
-            $company_id = 1;
+            $company_code = 1;
+            $month = $_POST["month"];
             $date = $_POST["date$i"];
             $category = $_POST["category$i"];
             $detail = $_POST["detail$i"];
@@ -171,7 +184,7 @@ switch ($_POST["state"]) {
             $deadline = $_POST["deadline$i"];
             $manager = $_POST["manager$i"];
             $status = $_POST["status$i"];
-            $stmt->bind_param('iisssdsss', $id, $company_id, $date, $category, $detail, $time, $deadline, $manager, $status);
+            $stmt->bind_param('isssssdsss', $id, $company_code, $month, $date, $category, $detail, $time, $deadline, $manager, $status);
             $stmt->execute();
             
             // 業務内容再入力
@@ -216,7 +229,7 @@ switch ($_POST["state"]) {
         }
 
         // 企業欄取得
-        $sql = "SELECT * FROM company_table WHERE company_code = 'asahikensetsu'";
+        $sql = "SELECT * FROM month_table WHERE company_code = 'asahikensetsu'";
         $stmt = $mysqli -> prepare($sql);
         $stmt -> execute();
         $result = $stmt -> get_result();
