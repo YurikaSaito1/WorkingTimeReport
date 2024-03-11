@@ -1,0 +1,89 @@
+<!-- パーセント表示 -->
+<div class="percent">
+    <svg>
+        <circle class="base" cx="75" cy="75" r="70"></circle>
+        <circle class="active" id="line" cx="75" cy="75" r="70"></circle>
+    </svg>
+    <div class="number">
+        <p>残り</p>
+        <h3 id="title"><div id="time_form_area">5</div><span>時間</span></h3>
+    </div>
+</div>
+
+<!-- カテゴリー追加 -->
+<div id="appendCategory">
+    <form id="categoryText" name="categoryText">
+        <input type="text" name="inputText"/>
+        <button id="appendCategoryButton" type="button">カテゴリーの追加</button>
+    </form>
+</div>
+
+<!-- 計算ボタン -->
+<button class="button" id="calculateButton" type="button">計算する</button>
+
+<!-- 月選択ボタン -->
+<a href="yearGraph.html">月選択</a>
+
+// ファイルから読込
+selectedFile.addEventListener("change", (event) => {
+    var files = selectedFile.files;
+    var f = files[0];
+    var reader = new FileReader();
+    reader.readAsText(f);
+    reader.onload = function() {
+        let array = reader.result.split(",");
+        workInput(array);
+    }
+});
+
+// カテゴリー代入
+function workInput(array) {
+    const category = document.getElementById("categoryPullDown" + categoryNum);
+    let options = category.options;
+    let i = 0;
+    for (let option of options) {
+        if (option.value == array[1]) {
+            category.value = array[1];
+            break;
+        }
+        i++;
+        if (options.length == i) {
+            var newOption = new Option();
+            newOption.text = array[1];
+            category.appendChild(newOption);
+            category.value = array[1];
+        }
+    }
+    const time = document.getElementById("time" + categoryNum);
+    time.value = array[2];
+}
+
+// カテゴリー追加
+appendCategoryButton.addEventListener("click", () => {
+    var text = document.forms.categoryText.inputText.value;
+    var option = [];
+    let i = 0;
+    while(document.getElementById("categoryPullDown" + i) != null) {
+        option[i] = document.createElement("option");
+        option[i].text = text;
+        i++;
+    }
+    i = 0;
+    while(document.getElementById("categoryPullDown" + i) != null) {
+        document.getElementById("categoryPullDown" + i).appendChild(option[i]);
+        i++;
+    }
+    document.forms.categoryText.inputText.value = "";
+});
+
+// 追加ボタンによるカテゴリー追加
+const categoryPullDown0 = document.getElementById("categoryPullDown0");
+    let str = [];
+    for (let i = 0; i < categoryPullDown0.length; i++) {
+        str[i] = categoryPullDown0.options[i];
+    }
+    for (let i = 0; i < categoryPullDown0.length; i++) {
+        let option = document.createElement('option');
+        option.textContent = str[i].value;
+        document.getElementById("categoryPullDown" + categoryNum).appendChild(option);
+    }

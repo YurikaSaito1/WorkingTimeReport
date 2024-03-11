@@ -7,23 +7,6 @@
         <title>作業時間報告</title>
     </head>
     <body>
-        <!--<div class="percent">
-            <svg>
-                <circle class="base" cx="75" cy="75" r="70"></circle>
-                <circle class="active" id="line" cx="75" cy="75" r="70"></circle>
-            </svg>
-            <div class="number">
-                <p>残り</p>
-                <h3 id="title"><div id="time_form_area">5</div><span>時間</span></h3>
-            </div>
-        </div>-->
-        <!--<div id="appendCategory">
-            <form id="categoryText" name="categoryText">
-                <input type="text" name="inputText"/>
-                <button id="appendCategoryButton" type="button">カテゴリーの追加</button>
-            </form>
-        </div>-->
-
         <div class="contents">
             <form action="monthReport.php" method="post">
                 <div class="companyArea">
@@ -60,7 +43,7 @@
                     <div class="formArea">
                         <table class="inputTable" id="inputTable">
                             <tr><th>日付</th><th>内容</th><th>詳細</th><th>時間</th><th>締切</th><th>担当者</th><th>作業状況</th></tr>
-                            <tr>
+                            <tr id="inputTabletr0">
                                 <td><input type="text" class="date" id="date0" name="date0"></td>
                                 <td><input type="text" class="category" id="category0" name="category0"/></td>
                                 <td><textarea class="detail" id="detail0" name="detail0"></textarea></td>
@@ -68,6 +51,7 @@
                                 <td><input type="date" class="deadline" id="deadline0" name="deadline0"></td>
                                 <td><input type="text" class="manager" id="manager0" name="manager0"></td>
                                 <td><input type="text" class="status" id="status0" name="status0"></td>
+                                <td><button onclick="deleteRow(0)">削除</button></td>
                             </tr>
                         </table>
                     </div>
@@ -116,8 +100,6 @@ $mysqli->close();
                 </table>
             </form>
         </div>
-        <!--<button class="button" id="calculateButton" type="button">計算する</button>-->
-        <!--<a href="yearGraph.html">月選択</a>-->
         <form action="pdf.php" method="post">
         <script src="js/monthReport.js"></script>
 

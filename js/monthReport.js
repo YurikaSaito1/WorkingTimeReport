@@ -3,9 +3,6 @@ const title = document.getElementById("title");
 const timeFormArea = document.getElementById("time_form_area");
 const load = document.getElementById("load");
 const save = document.getElementById("save");
-//const selectedFile = document.getElementById("selectedFile");
-//const appendCategory = document.getElementById("appendCategory");
-//const appendCategoryButton = document.getElementById("appendCategoryButton");
 const contents = document.getElementById("contents");
 const inputTable = document.getElementById("inputTable");
 const graphArea = document.getElementById("graphArea");
@@ -40,59 +37,10 @@ document.body.addEventListener("keydown", (e) => {
     }
 });
 
-/*selectedFile.addEventListener("change", (event) => {
-    var files = selectedFile.files;
-    var f = files[0];
-    var reader = new FileReader();
-    reader.readAsText(f);
-    reader.onload = function() {
-        let array = reader.result.split(",");
-        workInput(array);
-    }
-});
-
-function workInput(array) {
-    const category = document.getElementById("categoryPullDown" + categoryNum);
-    let options = category.options;
-    let i = 0;
-    for (let option of options) {
-        if (option.value == array[1]) {
-            category.value = array[1];
-            break;
-        }
-        i++;
-        if (options.length == i) {
-            var newOption = new Option();
-            newOption.text = array[1];
-            category.appendChild(newOption);
-            category.value = array[1];
-        }
-    }
-    const time = document.getElementById("time" + categoryNum);
-    time.value = array[2];
-}*/
-
-/*appendCategoryButton.addEventListener("click", () => {
-    var text = document.forms.categoryText.inputText.value;
-    var option = [];
-    let i = 0;
-    while(document.getElementById("categoryPullDown" + i) != null) {
-        option[i] = document.createElement("option");
-        option[i].text = text;
-        i++;
-    }
-    i = 0;
-    while(document.getElementById("categoryPullDown" + i) != null) {
-        document.getElementById("categoryPullDown" + i).appendChild(option[i]);
-        i++;
-    }
-    document.forms.categoryText.inputText.value = "";
-});*/
-
 function append() {
     categoryNum++;
     inputTable.insertAdjacentHTML("beforeend", `
-    <tr>
+    <tr id="inputTabletr${categoryNum}">
         <td><input type="text" class="date" id="date${categoryNum}" name="date${categoryNum}"></td>
         <td><input type="text" class="category" id="category${categoryNum}" name="category${categoryNum}"/></td>
         <td><textarea class="detail" id="detail${categoryNum}" name="detail${categoryNum}"></textarea></td>
@@ -100,18 +48,9 @@ function append() {
         <td><input type="date" class="deadline" id="deadline${categoryNum}" name="deadline${categoryNum}"></td>
         <td><input type="text" class="manager" id="manager${categoryNum}" name="manager${categoryNum}"></td>
         <td><input type="text" class="status" id="status${categoryNum}" name="status${categoryNum}"></td>
+        <td><button onclick="deleteRow(${categoryNum})">削除</button></td>
     </tr>
     `);
-    /*const categoryPullDown0 = document.getElementById("categoryPullDown0");
-    let str = [];
-    for (let i = 0; i < categoryPullDown0.length; i++) {
-        str[i] = categoryPullDown0.options[i];
-    }
-    for (let i = 0; i < categoryPullDown0.length; i++) {
-        let option = document.createElement('option');
-        option.textContent = str[i].value;
-        document.getElementById("categoryPullDown" + categoryNum).appendChild(option);
-    }*/
 }
 
 calculateButton.addEventListener("click", () => {
@@ -135,4 +74,8 @@ function inputForm (i, row_data) {
     document.getElementById("deadline" + i).value = row_data[6];
     document.getElementById("manager" + i).value = row_data[7];
     document.getElementById("status" + i).value = row_data[8];
+}
+
+function deleteRow (num) {
+    document.getElementById("inputTabletr" + num).remove();
 }
