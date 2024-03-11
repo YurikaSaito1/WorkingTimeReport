@@ -108,7 +108,7 @@ $mysqli->close();
         <script src="js/monthReport.js"></script>
 
 <?php
-$month = json_encode($_POST["month"]);
+$month = json_encode(date("Y年n月", strtotime($_POST["month"])));
 echo <<< EOM
 <script type="text/javascript">
 const company = document.getElementById("company");
