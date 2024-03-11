@@ -26,7 +26,7 @@ if (mysqli_connect_errno()) {
 
 // 企業名表示
 $companyName = $_POST["companyName"];
-$sql = "SELECT company_name FROM company_table_2 WHERE company_code = ?";
+$sql = "SELECT company_name FROM company_table WHERE company_code = ?";
 $stmt = $mysqli->prepare($sql);
 $stmt->bind_param('s', $companyName);            
 $stmt->execute();

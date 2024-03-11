@@ -57,8 +57,9 @@ $pdf -> Write(40, "業務報告書", "", false, "C");
 $pdf -> setFont("", "", 11);
 $pdf -> setFillColor(230);
 $pdf -> MultiCell(170, 0, "Webサイト", 1, "", 1, 1, 20, 80);
-$sql = "SELECT * FROM company_table WHERE company_code = 'asahikensetsu'";
+$sql = "SELECT * FROM month_table WHERE company_code = ?";
 $stmt = $mysqli -> prepare($sql);
+$stmt -> bind_param('s', $_POST["companyCode"]);
 $stmt -> execute();
 $result = $stmt -> get_result();
 $row_data = $result -> fetch_array(MYSQLI_NUM);
@@ -74,8 +75,9 @@ $pdf -> MultiCell(170, 0, "業務概要", 1, "", 1, 1, 20);
 $pdf -> MultiCell(170, 0, $row_data[4], 1, "", 0, 1, 20);
 
 // データを挿入する
-$sql = "SELECT * FROM monthreport_table";
+$sql = "SELECT * FROM monthreport_table WHERE company_code = ? AND month = ?";
 $stmt = $mysqli -> prepare($sql);
+$stmt -> bind_param('ss', $_POST["companyCode"], $_POST["month"]);
 $stmt -> execute();
 
 // 結果を取得
@@ -90,12 +92,12 @@ $pdf -> MultiCell(20, 0, "状況報告", 1, "", 1, 1);
 while( $row_data = $result->fetch_array(MYSQLI_NUM) ) {
     $i++;
     $count = substr_count($row_data[4], "\n")+1;
-    $pdf -> MultiCell(10, $count*8, $i, 1, "", 0, 0, 20);
-    $pdf -> MultiCell(140, $count*8, $row_data[4], 1, "L", 0, 0);
+    $pdf -> MultiCell(10, $count*16, $i, 1, "", 0, 0, 20);
+    $pdf -> MultiCell(140, $count*16, $row_data[5], 1, "L", 0, 0);
     if ($row_data[8] == "済") {
-        $pdf -> MultiCell(20, $count*8, "完了", 1, "", 0, 1);
+        $pdf -> MultiCell(20, $count*16, "完了", 1, "", 0, 1);
     } else {
-        $pdf -> MultiCell(20, $count*8, "確認中", 1, "", 0, 1);
+        $pdf -> MultiCell(20, $count*16, "確認中", 1, "", 0, 1);
     }
 }
 

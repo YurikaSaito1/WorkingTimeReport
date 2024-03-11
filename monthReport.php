@@ -14,7 +14,7 @@
                     <span id="dummyTextBox" aria-hidden="true"></span>
                 </div>
                 <div class="monthArea">
-                    <input type="text" class="month" id="month" name="month">
+                    <input type="text" class="month" id="month">
                 </div>
                 <div class="webArea">
                     <table>
@@ -91,6 +91,7 @@ $mysqli->close();
                 </div>
                 <input type="hidden" name="state" value="insert">
                 <input type="hidden" name="companyName" value="<?= $companyName ?>">
+                <input type="hidden" name="month" value="<?= $_POST["month"] ?>">
                 <table>
                     <tr>
                         <td><input class="loadsaveButton" id="saveButton" type="submit" value="保存"></td>
@@ -117,9 +118,7 @@ company.value = $companyNameJan;
 dummyTextBox.textContent = company.value;
 company.style.width = dummyTextBox.clientWidth * 2 + 'px';
 const month = document.getElementById("month");
-let monthValue = "";
-monthValue = $month;
-month.value = monthValue;
+month.value = $month;
 </script>
 EOM;
 // 入力欄を初期状態にするか(initial)、データベースに記録するか(insert)、データベースから挿入するか(select)
@@ -139,14 +138,13 @@ switch ($_POST["state"]) {
         }
 
         // 企業欄書き換え
-        $sql = "UPDATE month_table SET web = ?, overview = ?, periodStart = cast(? as date), periodEnd = cast(? as date) WHERE company_code = 'asahikensetsu' AND month = ?";
+        $sql = "UPDATE month_table SET web = ?, overview = ?, periodStart = cast(? as date), periodEnd = cast(? as date) WHERE company_code = ? AND month = ?";
         $stmt = $mysqli -> prepare($sql);
         $web = $_POST["web"];
         $overview = $_POST["overview"];
         $periodStart = date("Y-m-d", strtotime($_POST["periodStart"]));
         $periodEnd = date("Y-m-d", strtotime($_POST["periodEnd"]));
-        $month = $_POST["month"];
-        $stmt -> bind_param('sssss', $web, $overview, $periodStart, $periodEnd, $month);
+        $stmt -> bind_param('ssssss', $web, $overview, $periodStart, $periodEnd, $companyName, $_POST["month"]);
         $stmt -> execute();
 
         // 企業欄再入力
@@ -167,16 +165,15 @@ switch ($_POST["state"]) {
         EOM;
 
         // 業務内容の書き換え
-        $sql = "DELETE FROM monthreport_table";
+        $sql = "DELETE FROM monthreport_table WHERE company_code = ? AND month = ?";
         $stmt = $mysqli->prepare($sql);
+        $stmt -> bind_param('ss', $companyName, $_POST["month"]);
         $stmt->execute();
         // データを挿入する
         for ($i=0; isset($_POST["time$i"]); $i++) {
-            $sql = "INSERT INTO monthreport_table (id, company_code, month, date, category, detail, time, deadline, manager, status) VALUES (?,?,?,?,?,?,?,?,?,?)";
+            $sql = "INSERT INTO monthreport_table (company_code, month, date, category, detail, time, deadline, manager, status) VALUES (?,?,?,?,?,?,?,?,?)";
             $stmt = $mysqli->prepare($sql);
-            $id = $i + 1;
-            $company_code = 1;
-            $month = $_POST["month"];
+            $company_code = $companyName;
             $date = $_POST["date$i"];
             $category = $_POST["category$i"];
             $detail = $_POST["detail$i"];
@@ -184,7 +181,7 @@ switch ($_POST["state"]) {
             $deadline = $_POST["deadline$i"];
             $manager = $_POST["manager$i"];
             $status = $_POST["status$i"];
-            $stmt->bind_param('isssssdsss', $id, $company_code, $month, $date, $category, $detail, $time, $deadline, $manager, $status);
+            $stmt->bind_param('sssssdsss', $company_code, $_POST["month"], $date, $category, $detail, $time, $deadline, $manager, $status);
             $stmt->execute();
             
             // 業務内容再入力
@@ -251,8 +248,9 @@ switch ($_POST["state"]) {
         EOM;
 
         // データを挿入する
-        $sql = "SELECT * FROM monthreport_table";
+        $sql = "SELECT * FROM monthreport_table WHERE company_code = ? AND month = ?";
         $stmt = $mysqli->prepare($sql);
+        $stmt -> bind_param('ss', $_POST["companyName"], $_POST["month"]);
         $stmt->execute();
 
         // 結果を取得
@@ -288,6 +286,7 @@ switch ($_POST["state"]) {
 ?>
             
             <input type="hidden" id="companyNameJan" name="companyCode" value="<?= $companyName ?>">
+            <input type="hidden" id="month" name="month" value="<?= $_POST["month"] ?>">
             <input class="pdfButton" type="submit" value="PDFで出力">
         </form>
         <div class="link">
