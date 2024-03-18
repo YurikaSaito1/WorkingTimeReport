@@ -52,7 +52,7 @@ $mysqli->close();
             <input type="hidden" name="state" value="select">
             <input type="hidden" name="companyName" value="asahikensetsu">
             <input type="hidden" name="month" value="2024-03-01">
-            <input type="submit" value="2024年3月">
+            <input class="submitButton" type="submit" value="2024年3月">
         </form>
 
         <div class="link">

@@ -8,11 +8,11 @@
     font-size: 18pt;
     text-align: center;
     cursor: pointer;
-    background: #ffcc99;
+    background: orange;
     color: #ffffff;
     border: 2px solid #ffcc99;
 }
 
 .submitButton:hover {
-    background: orange;
+    background: #ffcc99;
 }

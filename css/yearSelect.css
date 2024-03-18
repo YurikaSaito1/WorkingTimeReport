@@ -20,6 +20,21 @@
     font-size: 20px;
 }
 
+.submitButton {
+    margin: 10px;
+    border-radius: 5%;
+    font-size: 18pt;
+    text-align: center;
+    cursor: pointer;
+    background: orange;
+    color: #ffffff;
+    border: 2px solid #ffcc99;
+}
+
+.submitButton:hover {
+    background: #ffcc99;
+}
+
 .link {
     margin-left: 15px;
     padding: 10px 0;
