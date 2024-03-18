@@ -60,7 +60,7 @@
                     </div>
                 </div>
 <?php
-$companyName = $_POST["companyName"];
+$companyCode = $_POST["company-code"];
 // 企業名表示
 // 接続
 $mysqli = new mysqli('localhost', 'root', '2856', 'my_app');
@@ -76,7 +76,7 @@ if (mysqli_connect_errno()) {
 // データを挿入する
 $sql = "SELECT company_name FROM company_table WHERE company_code = ?";
 $stmt = $mysqli->prepare($sql);
-$stmt->bind_param('s', $companyName);
+$stmt->bind_param('s', $companyCode);
 $stmt->execute();
 
 // 結果を取得
@@ -90,7 +90,7 @@ $mysqli->close();
                     <button class="button" id="appendButton" type="button" onclick="append()">行追加</button>
                 </div>
                 <input type="hidden" name="state" value="insert">
-                <input type="hidden" name="companyName" value="<?= $companyName ?>">
+                <input type="hidden" name="company-code" value="<?= $companyCode ?>">
                 <input type="hidden" name="month" value="<?= $_POST["month"] ?>">
                 <table>
                     <tr>
@@ -98,7 +98,7 @@ $mysqli->close();
             </form>
             <form action="monthReport.php" method="post">
                 <input type="hidden" name="state" value="select">
-                <input type="hidden" name="companyName" value="<?= $companyName ?>">
+                <input type="hidden" name="company-code" value="<?= $companyCode ?>">
                 <input type="hidden" name="month" value="<?= $_POST["month"] ?>">
                         <td><input class="loadsaveButton" id="loadButton" type="submit" value="読込"></td>
                     </tr>
@@ -144,7 +144,7 @@ switch ($_POST["state"]) {
         $overview = $_POST["overview"];
         $periodStart = date("Y-m-d", strtotime($_POST["periodStart"]));
         $periodEnd = date("Y-m-d", strtotime($_POST["periodEnd"]));
-        $stmt -> bind_param('ssssss', $web, $overview, $periodStart, $periodEnd, $companyName, $_POST["month"]);
+        $stmt -> bind_param('ssssss', $web, $overview, $periodStart, $periodEnd, $companyCode, $_POST["month"]);
         $stmt -> execute();
 
         // 企業欄再入力
@@ -167,13 +167,13 @@ switch ($_POST["state"]) {
         // 業務内容の書き換え
         $sql = "DELETE FROM monthreport_table WHERE company_code = ? AND month = ?";
         $stmt = $mysqli->prepare($sql);
-        $stmt -> bind_param('ss', $companyName, $_POST["month"]);
+        $stmt -> bind_param('ss', $companyCode, $_POST["month"]);
         $stmt->execute();
         // データを挿入する
         for ($i=0; isset($_POST["time$i"]); $i++) {
             $sql = "INSERT INTO monthreport_table (company_code, month, date, category, detail, time, deadline, manager, status) VALUES (?,?,?,?,?,?,?,?,?)";
             $stmt = $mysqli->prepare($sql);
-            $company_code = $companyName;
+            $company_code = $companyCode;
             $date = $_POST["date$i"];
             $category = $_POST["category$i"];
             $detail = $_POST["detail$i"];
@@ -250,7 +250,7 @@ switch ($_POST["state"]) {
         // データを挿入する
         $sql = "SELECT * FROM monthreport_table WHERE company_code = ? AND month = ?";
         $stmt = $mysqli->prepare($sql);
-        $stmt -> bind_param('ss', $_POST["companyName"], $_POST["month"]);
+        $stmt -> bind_param('ss', $_POST["company-code"], $_POST["month"]);
         $stmt->execute();
 
         // 結果を取得
@@ -285,7 +285,7 @@ switch ($_POST["state"]) {
 }
 ?>
             
-            <input type="hidden" id="companyNameJan" name="companyCode" value="<?= $companyName ?>">
+            <input type="hidden" id="companyNameJan" name="company-code" value="<?= $companyCode ?>">
             <input type="hidden" id="month" name="month" value="<?= $_POST["month"] ?>">
             <input class="pdfButton" type="submit" value="PDFで出力">
         </form>

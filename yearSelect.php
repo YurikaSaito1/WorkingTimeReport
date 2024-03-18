@@ -25,10 +25,15 @@ if (mysqli_connect_errno()) {
 }
 
 // 企業名表示
-$companyName = $_POST["companyName"];
+session_start();
+if (isset($_SESSION["company-code"])) {
+    $companyCode = $_SESSION["company-code"];
+} else if (isset($_POST["company-code"])) {
+    $companyCode = $_POST["company-code"];
+}
 $sql = "SELECT company_name FROM company_table WHERE company_code = ?";
 $stmt = $mysqli->prepare($sql);
-$stmt->bind_param('s', $companyName);            
+$stmt->bind_param('s', $companyCode);            
 $stmt->execute();
 $result = $stmt->get_result();
 $row_data = $result->fetch_array(MYSQLI_NUM);
@@ -62,15 +67,32 @@ while( $row_data = $result->fetch_array(MYSQLI_NUM) ) {
 
         <form action="monthReport.php" method="post">
             <input type="hidden" name="state" value="select">
-            <input type="hidden" name="companyName" value="asahikensetsu">
+            <input type="hidden" name="company-code" value="asahikensetsu">
             <input type="hidden" name="month" value="<?= $current ?>">
             <input class="submitButton" type="submit" value="<?= $currentJan ?>">
         </form>
 <?php
 }
 ?>
+        <button class="append-button" id="append-button" type="button">追加</button>
+        <div id="popup-wrapper">
+            <div id="close">×</div>
+            <form action="yearRegister.php" method="post">
+                <div id="select-month">
+                    <h2>年月を選択してください</h2>
+                    <input id="select-month" type="month" name="select-month">
+                </div>
+                <input type="hidden" name="company-code" value="<?= $companyCode ?>">
+                <input class="append-button" type="submit" value="決定">
+            </form>
+        </div>
+
         <div class="link">
             <a href="index.html" id="topPage">トップページ</a>
         </div>
+        <script src="js/yearSelect.js"></script>
     </body>
 </html>
+<?php
+exit;
+?>

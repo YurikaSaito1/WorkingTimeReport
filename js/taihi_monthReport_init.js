@@ -1,1 +1,0 @@
-var categoryNum = 0;
