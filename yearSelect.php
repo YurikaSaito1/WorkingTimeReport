@@ -43,18 +43,32 @@ company.style.width = dummyTextBox.clientWidth * 2 + 'px';
 </script>
 EOM;
 
+$sql = "SELECT month FROM month_table";
+$stmt = $mysqli->prepare($sql);
+$stmt->execute();
+$result = $stmt->get_result();
+
 $mysqli->close();
 ?>
 
         <div><p class="heading">月選択</p></div>
 
+<?php
+
+while( $row_data = $result->fetch_array(MYSQLI_NUM) ) {
+    $current = date("Y-m-d", strtotime($row_data[0]));
+    $currentJan = date("Y年n月", strtotime($row_data[0]));
+?>
+
         <form action="monthReport.php" method="post">
             <input type="hidden" name="state" value="select">
             <input type="hidden" name="companyName" value="asahikensetsu">
-            <input type="hidden" name="month" value="2024-03-01">
-            <input class="submitButton" type="submit" value="2024年3月">
+            <input type="hidden" name="month" value="<?= $current ?>">
+            <input class="submitButton" type="submit" value="<?= $currentJan ?>">
         </form>
-
+<?php
+}
+?>
         <div class="link">
             <a href="index.html" id="topPage">トップページ</a>
         </div>
