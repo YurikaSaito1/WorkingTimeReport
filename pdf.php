@@ -91,13 +91,13 @@ $pdf -> MultiCell(140, 0, "内容詳細", 1, "", 1, 0);
 $pdf -> MultiCell(20, 0, "状況報告", 1, "", 1, 1);
 while( $row_data = $result->fetch_array(MYSQLI_NUM) ) {
     $i++;
-    $count = substr_count($row_data[4], "\n")+1;
-    $pdf -> MultiCell(10, $count*16, $i, 1, "", 0, 0, 20);
-    $pdf -> MultiCell(140, $count*16, $row_data[5], 1, "L", 0, 0);
+    $count = substr_count($row_data[5], "\r\n") + 1;
+    $pdf -> MultiCell(10, $count*8, $count, 1, "", 0, 0, 20);
+    $pdf -> MultiCell(140, $count*8, $row_data[5], 1, "L", 0, 0);
     if ($row_data[8] == "済") {
-        $pdf -> MultiCell(20, $count*16, "完了", 1, "", 0, 1);
+        $pdf -> MultiCell(20, $count*8, "完了", 1, "", 0, 1);
     } else {
-        $pdf -> MultiCell(20, $count*16, "確認中", 1, "", 0, 1);
+        $pdf -> MultiCell(20, $count*8, "確認中", 1, "", 0, 1);
     }
 }
 
