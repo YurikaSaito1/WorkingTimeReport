@@ -1,3 +1,18 @@
 .link {
     padding: 0 10px;
 }
+
+.submitButton {
+    margin: 10px;
+    border-radius: 5%;
+    font-size: 18pt;
+    text-align: center;
+    cursor: pointer;
+    background: #ffcc99;
+    color: #ffffff;
+    border: 2px solid #ffcc99;
+}
+
+.submitButton:hover {
+    background: orange;
+}
