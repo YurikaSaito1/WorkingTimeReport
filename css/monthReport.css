@@ -205,6 +205,17 @@ svg circle.passive {
     background-color: whitesmoke;
 }
 
+.analyticsArea {
+    margin: 0 0 -10px 15px;
+    display: flex;
+    align-items: stretch;
+}
+
+.analytics {
+    height: 90px;
+    width: 500px;
+}
+
 .loadsaveButton {
     margin: 15px 10px 10px 15px;
     height: 40px;

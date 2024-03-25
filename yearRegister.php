@@ -19,7 +19,7 @@ if (mysqli_connect_errno()) {
 $companyCode = $_POST["company-code"];
 $selectMonth = date('Y-m-d', strtotime($_POST["select-month"]));
 
-$sql = "INSERT INTO month_table (company_code, month, web, overview, periodStart, periodEnd) VALUES (?,?,'', '', ?, ?)";
+$sql = "INSERT INTO month_table (company_code, month, web, overview, periodStart, periodEnd, analytics) VALUES (?, ?, '', '', ?, ?, '')";
 $stmt = $mysqli->prepare($sql);
 $stmt->bind_param('ssss', $companyCode, $selectMonth, $selectMonth, $selectMonth);
 $stmt->execute();

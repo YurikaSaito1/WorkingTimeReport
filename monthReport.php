@@ -59,6 +59,7 @@
                         </table>
                     </div>
                 </div>
+                
 <?php
 $companyCode = $_POST["company-code"];
 // 企業名表示
@@ -89,6 +90,16 @@ $mysqli->close();
                 <div class="appendButtonArea">
                     <button class="button" id="appendButton" type="button" onclick="append()">行追加</button>
                 </div>
+
+                <div class="analyticsArea">
+                    <table>
+                        <tr>
+                            <td><p>アナリティクス：</p></td>
+                            <td><textarea class="analytics" name="analytics"></textarea></td>
+                        </tr>
+                    </table>
+                </div>
+                
                 <input type="hidden" name="state" value="insert">
                 <input type="hidden" name="company-code" value="<?= $companyCode ?>">
                 <input type="hidden" name="month" value="<?= $_POST["month"] ?>">
@@ -153,6 +164,7 @@ switch ($_POST["state"]) {
         $overview = json_encode($overview);
         $periodStart = json_encode($_POST["periodStart"]);
         $periodEnd = json_encode($_POST["periodEnd"]);
+        $analytics = json_encode($_POST["analytics"]);
 
         echo <<< EOM
             <script type="text/javascript">
@@ -161,6 +173,7 @@ switch ($_POST["state"]) {
                 document.getElementById("overview").value = $overview;
                 document.getElementById("periodStart").value = $periodStart;
                 document.getElementById("periodEnd").value = $periodEnd;
+                document.getElementById("analytics").value = $analytics;
             </script>
         EOM;
 
@@ -238,6 +251,7 @@ switch ($_POST["state"]) {
         $overview = json_encode($row_data[4]);
         $periodStart = json_encode(date("Y-m", strtotime($row_data[5])));
         $periodEnd = json_encode(date("Y-m", strtotime($row_data[6])));
+        $analytics = json_encode($row_data[7]);
         echo <<< EOM
             <script type="text/javascript">
                 document.getElementById("web").value = $web;
@@ -247,6 +261,7 @@ switch ($_POST["state"]) {
                 document.getElementById("periodStart").value = date;
                 date = $periodEnd;
                 document.getElementById("periodEnd").value = date;
+                document.getElementById("analytics").value = $analytics;
             </script>
         EOM;
 
