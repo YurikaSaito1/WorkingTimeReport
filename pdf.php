@@ -57,9 +57,9 @@ $pdf -> Write(40, "業務報告書", "", false, "C");
 $pdf -> setFont("", "", 11);
 $pdf -> setFillColor(230);
 $pdf -> MultiCell(170, 0, "Webサイト", 1, "", 1, 1, 20, 80);
-$sql = "SELECT * FROM month_table WHERE company_code = ?";
+$sql = "SELECT * FROM month_table WHERE company_code = ? AND month = ?";
 $stmt = $mysqli -> prepare($sql);
-$stmt -> bind_param('s', $_POST["company-code"]);
+$stmt -> bind_param('ss', $_POST["company-code"], $_POST["month"]);
 $stmt -> execute();
 $result = $stmt -> get_result();
 $row_data = $result -> fetch_array(MYSQLI_NUM);
@@ -89,17 +89,26 @@ $i = 0;
 $pdf -> MultiCell(10, 0, "No.", 1, "", 1, 0, 20);
 $pdf -> MultiCell(140, 0, "内容詳細", 1, "", 1, 0);
 $pdf -> MultiCell(20, 0, "状況報告", 1, "", 1, 1);
-while( $row_data = $result->fetch_array(MYSQLI_NUM) ) {
+while( $row_data_contents = $result->fetch_array(MYSQLI_NUM) ) {
     $i++;
-    $count = substr_count($row_data[5], "\r\n") + 1;
+    $count = substr_count($row_data_contents[5], "\r\n") + 1;
     $pdf -> MultiCell(10, $count*8, $count, 1, "", 0, 0, 20);
-    $pdf -> MultiCell(140, $count*8, $row_data[5], 1, "L", 0, 0);
-    if ($row_data[8] == "済") {
+    $pdf -> MultiCell(140, $count*8, $row_data_contents[5], 1, "L", 0, 0);
+    if ($row_data_contents[9] == "済") {
         $pdf -> MultiCell(20, $count*8, "完了", 1, "", 0, 1);
     } else {
         $pdf -> MultiCell(20, $count*8, "確認中", 1, "", 0, 1);
     }
 }
+
+$pdf -> AddPage();
+// アナリティクス
+$pdf -> setFont("", "", 20);
+$pdf -> Write(40, "アナリティクス", "", false, "C");
+$pdf -> setFont("", "", 10);
+$pdf -> setXY(20, 40);
+$pdf -> setCellHeightRatio(0.5);
+$pdf -> Write(10, $row_data[7]);
 
 $mysqli->close();
 

@@ -95,11 +95,11 @@ $mysqli->close();
                     <table>
                         <tr>
                             <td><p>アナリティクス：</p></td>
-                            <td><textarea class="analytics" name="analytics"></textarea></td>
+                            <td><pre><textarea class="analytics" id="analytics" name="analytics"></textarea></pre></td>
                         </tr>
                     </table>
                 </div>
-                
+
                 <input type="hidden" name="state" value="insert">
                 <input type="hidden" name="company-code" value="<?= $companyCode ?>">
                 <input type="hidden" name="month" value="<?= $_POST["month"] ?>">
@@ -149,13 +149,14 @@ switch ($_POST["state"]) {
         }
 
         // 企業欄書き換え
-        $sql = "UPDATE month_table SET web = ?, overview = ?, periodStart = cast(? as date), periodEnd = cast(? as date) WHERE company_code = ? AND month = ?";
+        $sql = "UPDATE month_table SET web = ?, overview = ?, periodStart = cast(? as date), periodEnd = cast(? as date), analytics = ? WHERE company_code = ? AND month = ?";
         $stmt = $mysqli -> prepare($sql);
         $web = $_POST["web"];
         $overview = $_POST["overview"];
         $periodStart = date("Y-m-d", strtotime($_POST["periodStart"]));
         $periodEnd = date("Y-m-d", strtotime($_POST["periodEnd"]));
-        $stmt -> bind_param('ssssss', $web, $overview, $periodStart, $periodEnd, $companyCode, $_POST["month"]);
+        $analytics = $_POST["analytics"];
+        $stmt -> bind_param('sssssss', $web, $overview, $periodStart, $periodEnd, $analytics, $companyCode, $_POST["month"]);
         $stmt -> execute();
 
         // 企業欄再入力
