@@ -148,7 +148,7 @@ switch ($_POST["state"]) {
         $stmt -> execute();
 
         // 企業欄再入力
-        $month = json_encode($month);
+        $month = json_encode(date("Y年n月", strtotime($_POST["month"])));
         $web = json_encode($web);
         $overview = json_encode($overview);
         $periodStart = json_encode($_POST["periodStart"]);

@@ -22,7 +22,7 @@ if (mysqli_connect_errno()) {
 // Webサイト
 $sql = "SELECT * FROM company_table WHERE company_code = ?";
 $stmt = $mysqli -> prepare($sql);
-$stmt -> bind_param('s', $_POST["companyCode"]);
+$stmt -> bind_param('s', $_POST["company-code"]);
 $stmt -> execute();
 $result = $stmt -> get_result();
 $row_data = $result->fetch_array(MYSQLI_NUM);
@@ -59,7 +59,7 @@ $pdf -> setFillColor(230);
 $pdf -> MultiCell(170, 0, "Webサイト", 1, "", 1, 1, 20, 80);
 $sql = "SELECT * FROM month_table WHERE company_code = ?";
 $stmt = $mysqli -> prepare($sql);
-$stmt -> bind_param('s', $_POST["companyCode"]);
+$stmt -> bind_param('s', $_POST["company-code"]);
 $stmt -> execute();
 $result = $stmt -> get_result();
 $row_data = $result -> fetch_array(MYSQLI_NUM);
@@ -77,7 +77,7 @@ $pdf -> MultiCell(170, 0, $row_data[4], 1, "", 0, 1, 20);
 // データを挿入する
 $sql = "SELECT * FROM monthreport_table WHERE company_code = ? AND month = ?";
 $stmt = $mysqli -> prepare($sql);
-$stmt -> bind_param('ss', $_POST["companyCode"], $_POST["month"]);
+$stmt -> bind_param('ss', $_POST["company-code"], $_POST["month"]);
 $stmt -> execute();
 
 // 結果を取得
