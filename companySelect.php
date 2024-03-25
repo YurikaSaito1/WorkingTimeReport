@@ -48,6 +48,21 @@ while( $row_data = $result->fetch_array(MYSQLI_NUM) ) {
             <form action="companyRegister.php" method="post">
                 <div id="input-company">
                     <h2>企業コードを入力してください</h2>
+<?php
+session_start();
+if (isset($_SESSION["input-error"])) {
+?>
+                    <p class="error">この企業コードは使われています</p>
+<?php
+    echo <<< EOM
+    <script type="text/javascript">
+    const popupWrapper = document.getElementById("popup-wrapper");
+    popupWrapper.style.display = "block";
+    </script>
+    EOM;
+    $_SESSION = array();
+}
+?>
                     <input id="input-company-code" type="text" name="input-company-code">
                     <h2>企業名を入力してください</h2>
                     <input id="input-company-name" type="text" name="input-company-name">
@@ -62,3 +77,6 @@ while( $row_data = $result->fetch_array(MYSQLI_NUM) ) {
         <script src="js/companySelect.js"></script>
     </body>
 </html>
+<?php
+exit;
+?>

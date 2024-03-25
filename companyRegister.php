@@ -26,7 +26,10 @@ $result = $stmt->get_result();
 
 while( $row_data = $result->fetch_array(MYSQLI_NUM) ) {
     if ($row_data[0] == $companyCode) {
-        
+        session_start();
+        $_SESSION["input-error"] = "error";
+        header("Location: companySelect.php");
+        exit;
     }
 }
 
