@@ -7,15 +7,12 @@
     </head>
     <body>
         <div class="link">
+            <form action="companySelect.php" method="post">
+                <input class="submitButton" type="submit" value="企業選択">
+            </form>
             <form action="yearSelect.php" method="post">
                 <input type="hidden" name="company-code" value="asahikensetsu">
                 <input class="submitButton" type="submit" value="旭建設">
-            </form>
-            <form action="monthReport.php" method="post">
-                <input type="hidden" name="state" value="select">
-                <input type="hidden" name="companyName" value="asahikensetsu">
-                <input type="hidden" name="month" value="2024-03-01">
-                <input class="submitButton" type="submit" value="旭建設(修正前)">
             </form>
             <!--<a href="taihi_monthReport.html" class="taihi">taihi</a><br>
             <a href="yearGraph.html" class="yearGraph">月毎のグラフ</a>
