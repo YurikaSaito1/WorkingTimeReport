@@ -37,10 +37,25 @@ while( $row_data = $result->fetch_array(MYSQLI_NUM) ) {
             <input type="hidden" name="company-code" value="<?= $company_code ?>">
             <input class="submitButton" type="submit" value="<?= $company_name ?>">
         </form>
-        
+
 <?php
 }
 ?>
+
+        <button class="append-button" id="append-button" type="button">追加</button>
+        <div id="popup-wrapper">
+            <div id="close">×</div>
+            <form action="companyRegister.php" method="post">
+                <div id="input-company">
+                    <h2>企業コードを入力してください</h2>
+                    <input id="input-company-code" type="text" name="input-company-code">
+                    <h2>企業名を入力してください</h2>
+                    <input id="input-company-name" type="text" name="input-company-name">
+                </div>
+                <input class="append-button" type="submit" value="決定">
+            </form>
+        </div>
+
         <div class="link">
             <a href="index.html" id="topPage">トップページ</a>
         </div>

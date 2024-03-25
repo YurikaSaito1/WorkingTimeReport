@@ -24,6 +24,8 @@ $stmt = $mysqli->prepare($sql);
 $stmt->bind_param('ssss', $companyCode, $selectMonth, $selectMonth, $selectMonth);
 $stmt->execute();
 
+$mysqli->close();
+
 session_start();
 $_SESSION["company-code"] = $_POST["company-code"];
 $_SESSION["select-month"] = $_POST["select-month"];

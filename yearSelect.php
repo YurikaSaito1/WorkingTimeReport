@@ -28,6 +28,7 @@ if (mysqli_connect_errno()) {
 session_start();
 if (isset($_SESSION["company-code"])) {
     $companyCode = $_SESSION["company-code"];
+    $_SESSION = array();
 } else if (isset($_POST["company-code"])) {
     $companyCode = $_POST["company-code"];
 }
@@ -48,8 +49,9 @@ company.style.width = dummyTextBox.clientWidth * 2 + 'px';
 </script>
 EOM;
 
-$sql = "SELECT month FROM month_table";
+$sql = "SELECT month FROM month_table WHERE company_code = ?";
 $stmt = $mysqli->prepare($sql);
+$stmt -> bind_param('s', $companyCode);
 $stmt->execute();
 $result = $stmt->get_result();
 
@@ -67,7 +69,7 @@ while( $row_data = $result->fetch_array(MYSQLI_NUM) ) {
 
         <form action="monthReport.php" method="post">
             <input type="hidden" name="state" value="select">
-            <input type="hidden" name="company-code" value="asahikensetsu">
+            <input type="hidden" name="company-code" value="<?= $companyCode ?>">
             <input type="hidden" name="month" value="<?= $current ?>">
             <input class="submitButton" type="submit" value="<?= $currentJan ?>">
         </form>

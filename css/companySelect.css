@@ -12,3 +12,37 @@
 .submitButton:hover {
     background: #ffcc99;
 }
+
+.append-button {
+    margin: 15px;
+    border-radius: 10%;
+    font-size: 12pt;
+    text-align: center;
+    cursor: pointer;
+    background: lightpink;
+    color: lightpink;
+    color: black;
+    border: 2px solid lightpink;
+}
+
+.append-button:hover {
+    background: pink;
+}
+
+#popup-wrapper {
+    background-color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+}
+
+#close {
+    position: absolute;
+    top: 0;
+    right: 10px;
+    font-size: 30px;
+    cursor: pointer;
+}

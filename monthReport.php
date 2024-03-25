@@ -226,8 +226,11 @@ switch ($_POST["state"]) {
         }
 
         // 企業欄取得
-        $sql = "SELECT * FROM month_table WHERE company_code = 'asahikensetsu'";
+        $sql = "SELECT * FROM month_table WHERE company_code = ? AND month = ?";
         $stmt = $mysqli -> prepare($sql);
+        $company_code = $_POST["company-code"];
+        $month = $_POST["month"];
+        $stmt -> bind_param('ss', $company_code, $month);
         $stmt -> execute();
         $result = $stmt -> get_result();
         $row_data = $result -> fetch_array(MYSQLI_NUM);
