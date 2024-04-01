@@ -106,9 +106,14 @@ $pdf -> AddPage();
 $pdf -> setFont("", "", 20);
 $pdf -> Write(40, "アナリティクス", "", false, "C");
 $pdf -> setFont("", "", 10);
-$pdf -> setXY(20, 40);
-$pdf -> setCellHeightRatio(0.5);
-$pdf -> Write(10, $row_data[7]);
+$pdf -> SetXY(10, 40);
+$pdf -> Write(0, $row_data[7]);
+if(!empty($_FILES)){
+    $filename = $_FILES['analyticsFileName']['name'];
+    $uploaded_path = 'images/'.$filename;
+    $result = move_uploaded_file($_FILES['analyticsFileName']['tmp_name'],$uploaded_path);
+    $pdf -> Image($uploaded_path, 10);
+}
 
 $mysqli->close();
 

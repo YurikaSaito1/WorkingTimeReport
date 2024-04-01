@@ -93,10 +93,10 @@ $mysqli->close();
 
                 <div class="analyticsArea">
                     <table>
-                        <tr>
-                            <td><p>アナリティクス：</p></td>
-                            <td><pre><textarea class="analytics" id="analytics" name="analytics"></textarea></pre></td>
-                        </tr>
+                        <tr><td><p>アナリティクス：</p></td></tr>
+                        <tr><td><p class="smallText">資料添付</p></td></tr>
+                        <tr><td><input type="file" name="analyticsFile" form="pdfForm"></td></tr>
+                        <tr><td><pre><textarea class="analytics" id="analytics" name="analytics"></textarea></pre></td></tr>
                     </table>
                 </div>
 
@@ -116,7 +116,8 @@ $mysqli->close();
                 </table>
             </form>
         </div>
-        <form action="pdf.php" method="post">
+        <form action="pdf.php" method="post" id="pdfForm" enctype="multipart/form-data">
+            <input type="file" name="analyticsFileName">
         <script src="js/monthReport.js"></script>
 
 <?php

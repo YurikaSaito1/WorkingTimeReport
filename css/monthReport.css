@@ -211,6 +211,11 @@ svg circle.passive {
     align-items: stretch;
 }
 
+.smallText {
+    margin: -10px 0 -5px 0;
+    font-size: small;
+}
+
 .analytics {
     height: 90px;
     width: 500px;
