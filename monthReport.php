@@ -7,6 +7,17 @@
         <title>作業時間報告</title>
     </head>
     <body>
+        <!-- パーセント表示 -->
+        <div class="percent">
+            <svg>
+                <circle class="base" cx="75" cy="75" r="70"></circle>
+                <circle class="active" id="line" cx="75" cy="75" r="70"></circle>
+            </svg>
+            <div class="number">
+                <p>残り</p>
+                <h3 id="title"><div id="time_form_area">5</div><span>時間</span></h3>
+            </div>
+        </div>
         <div class="contents">
             <form action="monthReport.php" method="post">
                 <div class="companyArea">
@@ -117,7 +128,6 @@ $mysqli->close();
             </form>
         </div>
         <form action="pdf.php" method="post" id="pdfForm" enctype="multipart/form-data">
-            <input type="file" name="analyticsFileName">
         <script src="js/monthReport.js"></script>
 
 <?php

@@ -26,7 +26,7 @@
 
 svg circle.active {
     stroke-dashoffset: 0;
-    stroke: #03a9f4;
+    stroke: orange;
     animation: circleAnim 1s forwards;
 }
 

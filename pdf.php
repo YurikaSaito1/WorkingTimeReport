@@ -109,9 +109,9 @@ $pdf -> setFont("", "", 10);
 $pdf -> SetXY(10, 40);
 $pdf -> Write(0, $row_data[7]);
 if(!empty($_FILES)){
-    $filename = $_FILES['analyticsFileName']['name'];
+    $filename = $_FILES['analyticsFile']['name'];
     $uploaded_path = 'images/'.$filename;
-    $result = move_uploaded_file($_FILES['analyticsFileName']['tmp_name'],$uploaded_path);
+    $result = move_uploaded_file($_FILES['analyticsFile']['tmp_name'],$uploaded_path);
     $pdf -> Image($uploaded_path, 10);
 }
 
