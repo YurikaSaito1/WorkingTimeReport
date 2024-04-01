@@ -108,7 +108,7 @@ $pdf -> Write(40, "アナリティクス", "", false, "C");
 $pdf -> setFont("", "", 10);
 $pdf -> SetXY(10, 40);
 $pdf -> Write(0, $row_data[7]);
-if(!empty($_FILES)){
+if(!empty($_FILES) && file_exists($_FILES["$analyticsFile"])){
     $filename = $_FILES['analyticsFile']['name'];
     $uploaded_path = 'images/'.$filename;
     $result = move_uploaded_file($_FILES['analyticsFile']['tmp_name'],$uploaded_path);
