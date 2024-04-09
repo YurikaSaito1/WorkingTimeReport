@@ -1,6 +1,7 @@
 const line = document.getElementById("line");
 const title = document.getElementById("title");
 const timeFormArea = document.getElementById("time_form_area");
+const maxTime = document.getElementById("max_time");
 const load = document.getElementById("load");
 const save = document.getElementById("save");
 const contents = document.getElementById("contents");
@@ -10,8 +11,6 @@ const time = document.getElementsByClassName("time");
 const appendButton = document.getElementById("appendButton");
 const calculateButton = document.getElementById("calculateButton");
 const memo = document.getElementById("memo");
-
-var MAX_TIME = Number(timeFormArea.innerHTML);
 
 timeFormArea.addEventListener("click", () => {
     if (document.getElementById("inputTime") != null) {
@@ -31,8 +30,10 @@ timeFormArea.addEventListener("click", () => {
 document.body.addEventListener("keydown", (e) => {
     const inputTime = document.getElementById("inputTime");
     if (e.key == "Enter" && inputTime === document.activeElement) {
-        timeFormArea.innerHTML = inputTime.value;
-        MAX_TIME = Number(inputTime.value);
+        timeFormArea.innerHTML = parseFloat(inputTime.value);
+        MAX_TIME = parseFloat(inputTime.value);
+        maxTime.value = MAX_TIME;
+        calculate();
         inputTime.remove();
     }
 });
@@ -44,7 +45,7 @@ function append() {
         <td><input type="text" class="date" id="date${categoryNum}" name="date${categoryNum}"></td>
         <td><input type="text" class="category" id="category${categoryNum}" name="category${categoryNum}"/></td>
         <td><textarea class="detail" id="detail${categoryNum}" name="detail${categoryNum}"></textarea></td>
-        <td><input type="text" class="time" id="time${categoryNum}" name="time${categoryNum}"/></td>
+        <td><input type="text" class="time" id="time${categoryNum}" name="time${categoryNum}" value="0"/></td>
         <td><input type="date" class="deadline" id="deadline${categoryNum}" name="deadline${categoryNum}"></td>
         <td><input type="text" class="manager" id="manager${categoryNum}" name="manager${categoryNum}"></td>
         <td><input type="text" class="status" id="status${categoryNum}" name="status${categoryNum}"></td>
@@ -53,18 +54,18 @@ function append() {
     `);
 }
 
-calculateButton.addEventListener("click", () => {
+function calculate() {
     line.classList.replace("active", "passive");
     let sum = 0;
     for(let i=0; i<time.length; i++) {
-        sum += parseInt(time.item(i).value);
+        sum += parseFloat(time.item(i).value);
     }
-    timeFormArea.innerHTML = Number(timeFormArea.innerHTML) - sum;
-    line.style.strokeDashoffset = 440 - (440 * (MAX_TIME - (MAX_TIME - Number(timeFormArea.innerHTML)))) / MAX_TIME;
+    timeFormArea.innerHTML = MAX_TIME - sum;
+    line.style.strokeDashoffset = 440 - (440 * (MAX_TIME - (MAX_TIME - parseFloat(timeFormArea.innerHTML)))) / MAX_TIME;
     setTimeout(() => {
         line.classList.replace("passive", "active");
     }, 300);
-});
+}
 
 function inputForm (i, row_data) {
     document.getElementById("date" + i).value = row_data[3];

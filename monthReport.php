@@ -15,7 +15,7 @@
             </svg>
             <div class="number">
                 <p>残り</p>
-                <h3 id="title"><div id="time_form_area">5</div><span>時間</span></h3>
+                <h3 id="title"><div id="time_form_area">100</div><span>時間</span></h3>
             </div>
         </div>
         <div class="contents">
@@ -61,7 +61,7 @@
                                 <td><input type="text" class="date" id="date0" name="date0"></td>
                                 <td><input type="text" class="category" id="category0" name="category0"/></td>
                                 <td><textarea class="detail" id="detail0" name="detail0"></textarea></td>
-                                <td><input type="text" class="time" id="time0" name="time0"/></td>
+                                <td><input type="text" class="time" id="time0" name="time0" value="0"/></td>
                                 <td><input type="date" class="deadline" id="deadline0" name="deadline0"></td>
                                 <td><input type="text" class="manager" id="manager0" name="manager0"></td>
                                 <td><input type="text" class="status" id="status0" name="status0"></td>
@@ -100,6 +100,8 @@ $mysqli->close();
 ?>
                 <div class="appendButtonArea">
                     <button class="button" id="appendButton" type="button" onclick="append()">行追加</button>
+                    <!-- 計算ボタン -->
+                    <button class="button" id="calculateButton" type="button" onclick="calculate()">計算する</button>
                 </div>
 
                 <div class="analyticsArea">
@@ -114,6 +116,7 @@ $mysqli->close();
                 <input type="hidden" name="state" value="insert">
                 <input type="hidden" name="company-code" value="<?= $companyCode ?>">
                 <input type="hidden" name="month" value="<?= $_POST["month"] ?>">
+                <input type="hidden" id="max_time" name="max_time" value="100">
                 <table>
                     <tr>
                         <td><input class="loadsaveButton" id="saveButton" type="submit" value="保存"></td>
@@ -160,14 +163,15 @@ switch ($_POST["state"]) {
         }
 
         // 企業欄書き換え
-        $sql = "UPDATE month_table SET web = ?, overview = ?, periodStart = cast(? as date), periodEnd = cast(? as date), analytics = ? WHERE company_code = ? AND month = ?";
+        $sql = "UPDATE month_table SET web = ?, overview = ?, periodStart = cast(? as date), periodEnd = cast(? as date), analytics = ?, max_time = ? WHERE company_code = ? AND month = ?";
         $stmt = $mysqli -> prepare($sql);
         $web = $_POST["web"];
         $overview = $_POST["overview"];
         $periodStart = date("Y-m-d", strtotime($_POST["periodStart"]));
         $periodEnd = date("Y-m-d", strtotime($_POST["periodEnd"]));
         $analytics = $_POST["analytics"];
-        $stmt -> bind_param('sssssss', $web, $overview, $periodStart, $periodEnd, $analytics, $companyCode, $_POST["month"]);
+        $max_time = $_POST["max_time"];
+        $stmt -> bind_param('sssssdss', $web, $overview, $periodStart, $periodEnd, $analytics, $max_time, $companyCode, $_POST["month"]);
         $stmt -> execute();
 
         // 企業欄再入力
@@ -177,6 +181,7 @@ switch ($_POST["state"]) {
         $periodStart = json_encode($_POST["periodStart"]);
         $periodEnd = json_encode($_POST["periodEnd"]);
         $analytics = json_encode($_POST["analytics"]);
+        $max_time = json_encode($_POST["max_time"]);
 
         echo <<< EOM
             <script type="text/javascript">
@@ -186,6 +191,8 @@ switch ($_POST["state"]) {
                 document.getElementById("periodStart").value = $periodStart;
                 document.getElementById("periodEnd").value = $periodEnd;
                 document.getElementById("analytics").value = $analytics;
+                document.getElementById("max_time").value = $max_time;
+                MAX_TIME = $max_time;
             </script>
         EOM;
 
@@ -264,6 +271,7 @@ switch ($_POST["state"]) {
         $periodStart = json_encode(date("Y-m", strtotime($row_data[5])));
         $periodEnd = json_encode(date("Y-m", strtotime($row_data[6])));
         $analytics = json_encode($row_data[7]);
+        $max_time = json_encode($row_data[8]);
         echo <<< EOM
             <script type="text/javascript">
                 document.getElementById("web").value = $web;
@@ -274,6 +282,8 @@ switch ($_POST["state"]) {
                 date = $periodEnd;
                 document.getElementById("periodEnd").value = date;
                 document.getElementById("analytics").value = $analytics;
+                document.getElementById("max_time").value = $max_time;
+                MAX_TIME = $max_time;
             </script>
         EOM;
 
@@ -313,6 +323,7 @@ switch ($_POST["state"]) {
 
         break;
 }
+echo "<script>calculate();</script>";
 ?>
             
             <input type="hidden" id="companyNameJan" name="company-code" value="<?= $companyCode ?>">

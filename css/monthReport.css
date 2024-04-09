@@ -4,7 +4,7 @@
 
 .percent {
     position: relative;
-    width: 150px;
+    width: 160px;
     height: 150px;
 }
 
@@ -61,8 +61,8 @@ svg circle.passive {
 }
 
 .percent .number #title {
-    font-size: 50px;
-    margin-top: 0;
+    font-size: 40px;
+    margin-top: 15px;
     display: flex;
     align-items: center;
     justify-items: right;
@@ -70,12 +70,11 @@ svg circle.passive {
 }
 
 #time_form_area {
-    height: 75px;
-    width: 101.52px;
+    height: 70px;
 }
 
 #title span {
-    font-size: 22px;
+    font-size: 20px;
 }
 
 .text {
@@ -193,7 +192,7 @@ svg circle.passive {
     padding: 10px;
 }
 
-#appendButton {
+.button {
     margin-left: 18px;
     height: 25px;
     background-color: white;
@@ -201,12 +200,12 @@ svg circle.passive {
     border-radius: 5px;
 }
 
-#appendButton:hover {
+.button:hover {
     background-color: whitesmoke;
 }
 
 .analyticsArea {
-    margin: 0 0 -10px 15px;
+    margin: 20px 0 0 15px;
     display: flex;
     align-items: stretch;
 }
