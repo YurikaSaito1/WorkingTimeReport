@@ -130,8 +130,11 @@ $mysqli->close();
                 </table>
             </form>
         </div>
-        <form action="pdf.php" method="post" id="pdfForm" enctype="multipart/form-data">
-        <script src="js/monthReport.js"></script>
+        <button class="pdf-button" id="pdf-button">pdfで出力</button>
+        <div id="popup-wrapper">
+            <div id="close">×</div>
+            <form action="pdf.php" method="post" id="pdfForm" enctype="multipart/form-data">
+                <script src="js/monthReport.js"></script>
 
 <?php
 $month = json_encode(date("Y年n月", strtotime($_POST["month"])));
@@ -326,10 +329,20 @@ switch ($_POST["state"]) {
 echo "<script>calculate();</script>";
 ?>
             
-            <input type="hidden" id="companyNameJan" name="company-code" value="<?= $companyCode ?>">
-            <input type="hidden" id="month" name="month" value="<?= $_POST["month"] ?>">
-            <input class="pdfButton" type="submit" value="PDFで出力">
-        </form>
+                <label class="output"><input type="checkbox" name="output_web" value="web">webサイト</label>
+                <label class="output"><input type="checkbox" name="output_overview" value="overview">業務概要</label>
+                <label class="output"><input type="checkbox" name="output_analytics" value="analytics">アナリティクス</label>
+                <label class="output"><input type="checkbox" name="output_no" value="no">連番</label>
+                <label class="output"><input type="checkbox" name="output_category" value="category">内容</label>
+                <label class="output"><input type="checkbox" name="output_detail" value="detail">詳細</label>
+                <label class="output"><input type="checkbox" name="output_time" value="time">時間</label>
+                <label class="output"><input type="checkbox" name="output_manager" value="manager">担当者</label>
+                <label class="output"><input type="checkbox" name="output_status" value="status">作業状況</label>
+                <input type="hidden" id="companyNameJan" name="company-code" value="<?= $companyCode ?>">
+                <input type="hidden" id="month" name="month" value="<?= $_POST["month"] ?>">
+                <input class="pdf-button" type="submit" value="決定">
+            </form>
+        </div>
         <div class="link">
             <a href="index.html" id="topPage">トップページ</a>
         </div>

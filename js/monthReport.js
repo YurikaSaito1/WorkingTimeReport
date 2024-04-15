@@ -10,6 +10,9 @@ const graphArea = document.getElementById("graphArea");
 const time = document.getElementsByClassName("time");
 const appendButton = document.getElementById("appendButton");
 const calculateButton = document.getElementById("calculateButton");
+const pdfButton = document.getElementById("pdf-button");
+const popupWrapper = document.getElementById("popup-wrapper");
+const close = document.getElementById("close");
 const memo = document.getElementById("memo");
 
 timeFormArea.addEventListener("click", () => {
@@ -80,3 +83,13 @@ function inputForm (i, row_data) {
 function deleteRow (num) {
     document.getElementById("inputTabletr" + num).remove();
 }
+
+pdfButton.addEventListener('click', () => {
+    popupWrapper.style.display = "block";
+});
+
+popupWrapper.addEventListener('click', e => {
+    if (e.target.id === popupWrapper.id || e.target.id === close.id) {
+        popupWrapper.style.display = "none";
+    }
+});
