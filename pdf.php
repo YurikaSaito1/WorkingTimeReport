@@ -104,7 +104,7 @@ if (isset($_POST["output_detail"])) {
     $pdf -> MultiCell(130, 6, "内容詳細", 1, "", 1, 0);
 }
 if (isset($_POST["output_time"])) {
-    $pdf -> MultiCell(0, 6, "時間", 1, "", 1, 0);
+    $pdf -> MultiCell(10, 6, "時間", 1, "", 1, 0);
 }
 if (isset($_POST["output_manager"])) {
     $pdf -> MultiCell(20, 6, "担当者", 1, "", 1, 0);
