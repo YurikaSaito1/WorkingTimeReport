@@ -20,21 +20,25 @@
         </div>
         <div class="contents">
             <form action="monthReport.php" method="post">
+                <!-- 会社名表示 -->
                 <div class="companyArea">
                     <input type="text" class="company" id="company" name="company">
                     <span id="dummyTextBox" aria-hidden="true"></span>
                 </div>
+                <!-- 月表示 -->
                 <div class="monthArea">
                     <input type="text" class="month" id="month">
                 </div>
+                <!-- webサイト表示 -->
                 <div class="webArea">
                     <table>
                         <tr>
                             <td><p>Webサイト：</p></td>
-                            <td><input type="text" class="web" id="web" name="web"></td>
+                            <td><textarea class="web" id="web" name="web"></textarea></td>
                         </tr>
                     </table>
                 </div>
+                <!-- 業務概要表示 -->
                 <div class="overviewArea">
                     <table>
                         <tr>
@@ -43,6 +47,7 @@
                         </tr>
                     </table>
                 </div>
+                <!-- 期間表示 -->
                 <div class="periodArea">
                     <table>
                         <tr>
@@ -55,6 +60,7 @@
                 </div>
                 <div class="graphArea">
                     <div class="formArea">
+                        <!-- 内容入力 -->
                         <table class="inputTable" id="inputTable">
                             <tr><th>日付</th><th>内容</th><th>詳細</th><th>時間</th><th>締切</th><th>担当者</th><th>作業状況</th></tr>
                             <tr id="inputTabletr0">
