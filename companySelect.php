@@ -48,16 +48,19 @@ while( $row_data = $result->fetch_array(MYSQLI_NUM) ) {
             <form action="companyRegister.php" method="post">
                 <div id="input-company">
                     <h2>企業コードを入力してください</h2>
+                    <p class="error" id="error">この企業コードは使われています</p>
 <?php
 session_start();
-if (isset($_SESSION["input-error"])) {
+if (isset($_SESSION["input-error"]) && $_SESSION["input-error"] == "error") {
+    $_SESSION["input-error"] = "";
 ?>
-                    <p class="error">この企業コードは使われています</p>
+                    
 <?php
     echo <<< EOM
+    <script type="text/javascript" src="js/companySelect.js"></script>
     <script type="text/javascript">
-    const popupWrapper = document.getElementById("popup-wrapper");
-    popupWrapper.style.display = "block";
+    appendButton.click();
+    errorDisplay();
     </script>
     EOM;
     $_SESSION = array();

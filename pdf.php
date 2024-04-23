@@ -143,7 +143,7 @@ while( $row_data_contents = $result->fetch_array(MYSQLI_NUM) ) {
     }
 }
 
-if (isset($_POST["output_anaytics"])) {
+//if (isset($_POST["output_analytics"])) {
     $pdf -> AddPage();
     // アナリティクス
     $pdf -> setFont("", "", 20);
@@ -151,13 +151,14 @@ if (isset($_POST["output_anaytics"])) {
     $pdf -> setFont("", "", 10);
     $pdf -> SetXY(10, 40);
     $pdf -> Write(0, $row_data[7]);
-    if(!empty($_FILES) && file_exists($_FILES["$analyticsFile"])){
+    //if(!empty($_FILES) && file_exists($_FILES["$analyticsFile"])){
+    if (is_uploaded_file($_FILES['analyticsFile']['tmp_name'])) {
         $filename = $_FILES['analyticsFile']['name'];
         $uploaded_path = 'images/'.$filename;
         $result = move_uploaded_file($_FILES['analyticsFile']['tmp_name'],$uploaded_path);
-        $pdf -> Image($uploaded_path, 10);
+        $pdf -> Image($uploaded_path, 10, '', 180);
     }
-}
+//}
 
 $mysqli->close();
 
