@@ -19,7 +19,7 @@
             </div>
         </div>
         <div class="contents">
-            <form action="monthReport.php" method="post">
+            
                 <!-- 会社名表示 -->
                 <div class="companyArea">
                     <input type="text" class="company" id="company" name="company">
@@ -34,7 +34,7 @@
                     <table>
                         <tr>
                             <td><p>Webサイト：</p></td>
-                            <td><textarea class="web" id="web" name="web"></textarea></td>
+                            <td><textarea class="web" id="web" name="web" form="save"></textarea></td>
                         </tr>
                     </table>
                 </div>
@@ -43,7 +43,7 @@
                     <table>
                         <tr>
                             <td><p>業務概要　：</p></td>
-                            <td><pre><textarea class="overview" id="overview" name="overview"></textarea></pre></td>
+                            <td><pre><textarea class="overview" id="overview" name="overview" form="save"></textarea></pre></td>
                         </tr>
                     </table>
                 </div>
@@ -52,9 +52,9 @@
                     <table>
                         <tr>
                             <td><p>期間　　　：</p></td>
-                            <td><input type="month" class="period" id="periodStart" name="periodStart"></td>
+                            <td><input type="month" class="period" id="periodStart" name="periodStart" form="save"></td>
                             <td><p>～</p></td>
-                            <td><input type="month" class="period" id="periodEnd" name="periodEnd"></td>
+                            <td><input type="month" class="period" id="periodEnd" name="periodEnd" form="save"></td>
                         </tr>
                     </table>
                 </div>
@@ -64,14 +64,14 @@
                         <table class="inputTable" id="inputTable">
                             <tr><th>日付</th><th>内容</th><th>詳細</th><th>時間</th><th>締切</th><th>担当者</th><th>作業状況</th></tr>
                             <tr id="inputTabletr0">
-                                <td><input type="text" class="date" id="date0" name="date0"></td>
-                                <td><input type="text" class="category" id="category0" name="category0"/></td>
-                                <td><textarea class="detail" id="detail0" name="detail0"></textarea></td>
-                                <td><input type="text" class="time" id="time0" name="time0" value="0"/></td>
-                                <td><input type="date" class="deadline" id="deadline0" name="deadline0"></td>
-                                <td><input type="text" class="manager" id="manager0" name="manager0"></td>
-                                <td><input type="text" class="status" id="status0" name="status0"></td>
-                                <td><button onclick="deleteRow(0)">削除</button></td>
+                                <td><input type="text" class="date" id="date0" name="date0" form="save"></td>
+                                <td><input type="text" class="category" id="category0" name="category0" form="save"/></td>
+                                <td><textarea class="detail" id="detail0" name="detail0" form="save"></textarea></td>
+                                <td><input type="text" class="time" id="time0" name="time0" value="0" form="save"/></td>
+                                <td><input type="date" class="deadline" id="deadline0" name="deadline0" form="save"></td>
+                                <td><input type="text" class="manager" id="manager0" name="manager0" form="save"></td>
+                                <td><input type="text" class="status" id="status0" name="status0" form="save"></td>
+                                <td><button id="delete-row-btn0" onclick="return deleteRow(0)">削除</button></td>
                             </tr>
                         </table>
                     </div>
@@ -118,7 +118,7 @@ $mysqli->close();
                         <tr><td><pre><textarea class="analytics" id="analytics" name="analytics"></textarea></pre></td></tr>
                     </table>
                 </div>
-
+                <form id="save" action="monthReport.php" method="post">
                 <input type="hidden" name="state" value="insert">
                 <input type="hidden" name="company-code" value="<?= $companyCode ?>">
                 <input type="hidden" name="month" value="<?= $_POST["month"] ?>">

@@ -41,18 +41,28 @@ document.body.addEventListener("keydown", (e) => {
     }
 });
 
+function deleteRow (num) {
+    var result = window.confirm("本当に削除しますか？");
+    if (result) {
+        document.getElementById("inputTabletr" + num).remove();
+        return true;
+    } else {
+        return false;
+    }
+}
+
 function append() {
     categoryNum++;
     inputTable.insertAdjacentHTML("beforeend", `
     <tr id="inputTabletr${categoryNum}">
-        <td><input type="text" class="date" id="date${categoryNum}" name="date${categoryNum}"></td>
-        <td><input type="text" class="category" id="category${categoryNum}" name="category${categoryNum}"/></td>
-        <td><textarea class="detail" id="detail${categoryNum}" name="detail${categoryNum}"></textarea></td>
-        <td><input type="text" class="time" id="time${categoryNum}" name="time${categoryNum}" value="0"/></td>
-        <td><input type="date" class="deadline" id="deadline${categoryNum}" name="deadline${categoryNum}"></td>
-        <td><input type="text" class="manager" id="manager${categoryNum}" name="manager${categoryNum}"></td>
-        <td><input type="text" class="status" id="status${categoryNum}" name="status${categoryNum}"></td>
-        <td><button onclick="deleteRow(${categoryNum})">削除</button></td>
+        <td><input type="text" class="date" id="date${categoryNum}" name="date${categoryNum}" form="save"></td>
+        <td><input type="text" class="category" id="category${categoryNum}" name="category${categoryNum}" form="save"/></td>
+        <td><textarea class="detail" id="detail${categoryNum}" name="detail${categoryNum}" form="save"></textarea></td>
+        <td><input type="text" class="time" id="time${categoryNum}" name="time${categoryNum}" value="0" form="save"/></td>
+        <td><input type="date" class="deadline" id="deadline${categoryNum}" name="deadline${categoryNum}" form="save"></td>
+        <td><input type="text" class="manager" id="manager${categoryNum}" name="manager${categoryNum}" form="save"></td>
+        <td><input type="text" class="status" id="status${categoryNum}" name="status${categoryNum}" form="save"></td>
+        <td><button id=delete-row-btn${categoryNum}" onclick="return deleteRow(${categoryNum})">削除</button></td>
     </tr>
     `);
 }
@@ -78,10 +88,6 @@ function inputForm (i, row_data) {
     document.getElementById("deadline" + i).value = row_data[7];
     document.getElementById("manager" + i).value = row_data[8];
     document.getElementById("status" + i).value = row_data[9];
-}
-
-function deleteRow (num) {
-    document.getElementById("inputTabletr" + num).remove();
 }
 
 pdfButton.addEventListener('click', () => {
