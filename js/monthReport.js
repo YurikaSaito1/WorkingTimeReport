@@ -44,7 +44,18 @@ document.body.addEventListener("keydown", (e) => {
 function deleteRow (num) {
     var result = window.confirm("本当に削除しますか？");
     if (result) {
-        document.getElementById("inputTabletr" + num).remove();
+        for (let i=num; i<categoryNum; i++) {
+            document.getElementById("date" + num).value = document.getElementById("date" + (num + 1)).value;
+            document.getElementById("category" + num).value = document.getElementById("category" + (num + 1)).value;
+            document.getElementById("detail" + num).value = document.getElementById("detail" + (num + 1)).value;
+            document.getElementById("time" + num).value = document.getElementById("time" + (num + 1)).value;
+            document.getElementById("deadline" + num).value = document.getElementById("deadline" + (num + 1)).value;
+            document.getElementById("manager" + num).value = document.getElementById("manager" + (num + 1)).value;
+            document.getElementById("date" + num).value = document.getElementById("date" + (num + 1)).value;
+            document.getElementById("status" + num).value = document.getElementById("status" + (num + 1)).value;
+        }
+        document.getElementById("inputTabletr" + categoryNum).remove();
+        categoryNum--;
         return true;
     } else {
         return false;
