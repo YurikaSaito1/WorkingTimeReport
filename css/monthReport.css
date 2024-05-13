@@ -106,6 +106,18 @@ svg circle.passive {
     border: none;
 }
 
+.plan-area {
+    margin: 0 0 0 15px;
+    display: flex;
+    align-items: center;
+}
+
+.plan {
+    height: 20px;
+    width: 20px;
+    text-align: center;
+}
+
 .webArea {
     margin: 0 0 20px 15px;
     height: 30px;

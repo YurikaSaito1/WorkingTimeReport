@@ -29,6 +29,11 @@
                 <div class="monthArea">
                     <input type="text" class="month" id="month">
                 </div>
+                <!-- プラン表示 -->
+                <div class="plan-area">
+                    <p>プラン名　 ：</p>
+                    <input type="text" class="plan" id="plan">
+                </div>
                 <!-- webサイト表示 -->
                 <div class="webArea">
                     <table>
@@ -42,7 +47,7 @@
                 <div class="overviewArea">
                     <table>
                         <tr>
-                            <td><p>業務概要　：</p></td>
+                            <td><p>業務概要　 ：</p></td>
                             <td><pre><textarea class="overview" id="overview" name="overview" form="save"></textarea></pre></td>
                         </tr>
                     </table>
