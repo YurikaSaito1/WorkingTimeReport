@@ -206,8 +206,6 @@ svg circle.passive {
 
 .analyticsArea {
     margin: 20px 0 0 15px;
-    display: flex;
-    align-items: stretch;
 }
 
 .smallText {
@@ -247,6 +245,10 @@ svg circle.passive {
 .pdf-button:hover {
     background-color: orangered;
     border: 1px solid orangered;
+}
+
+.pdf-save-btn {
+    display: none;
 }
 
 #popup-wrapper {

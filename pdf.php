@@ -143,22 +143,28 @@ while( $row_data_contents = $result->fetch_array(MYSQLI_NUM) ) {
     }
 }
 
-//if (isset($_POST["output_analytics"])) {
-    $pdf -> AddPage();
-    // アナリティクス
-    $pdf -> setFont("", "", 20);
-    $pdf -> Write(40, "アナリティクス", "", false, "C");
-    $pdf -> setFont("", "", 10);
-    $pdf -> SetXY(10, 40);
-    $pdf -> Write(0, $row_data[7]);
-    //if(!empty($_FILES) && file_exists($_FILES["$analyticsFile"])){
-    if (is_uploaded_file($_FILES['analyticsFile']['tmp_name'])) {
-        $filename = $_FILES['analyticsFile']['name'];
-        $uploaded_path = 'images/'.$filename;
-        $result = move_uploaded_file($_FILES['analyticsFile']['tmp_name'],$uploaded_path);
-        $pdf -> Image($uploaded_path, 10, '', 180);
+$pdf -> AddPage();
+// アナリティクス
+$pdf -> setFont("", "", 20);
+$pdf -> Write(40, "アナリティクス", "", false, "C");
+$pdf -> setFont("", "", 10);
+$pdf -> SetXY(10, 40);
+
+$sql = "SELECT * FROM analytics_table WHERE company_code = ? AND month = ?";
+$stmt = $mysqli -> prepare($sql);
+$stmt -> bind_param('ss', $_POST["company-code"], $_POST["month"]);
+$stmt -> execute();
+$result = $stmt -> get_result();
+
+$i = 0;
+while ($row_data = $result->fetch_array(MYSQLI_NUM)){
+    if (isset($row_data[3])) {
+        $uploaded_path = "images/$row_data[3]";
+        $pdf -> Image($uploaded_path, 10, '', 180, '', '', '', 'N');
     }
-//}
+    $pdf -> Write(0, "\n".$row_data[4], '', false, '', true);
+    $i++;
+}
 
 $mysqli->close();
 

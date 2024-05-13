@@ -8,6 +8,7 @@ const contents = document.getElementById("contents");
 const inputTable = document.getElementById("inputTable");
 const graphArea = document.getElementById("graphArea");
 const time = document.getElementsByClassName("time");
+const analyticsTable = document.getElementById("analytics-table");
 const appendButton = document.getElementById("appendButton");
 const calculateButton = document.getElementById("calculateButton");
 const pdfButton = document.getElementById("pdf-button");
@@ -101,8 +102,26 @@ function inputForm (i, row_data) {
     document.getElementById("status" + i).value = row_data[9];
 }
 
+function addAnalytics () {
+    analyticsTable.insertAdjacentHTML("beforeend", `
+        <tr><td><p>アナリティクス${analyticsNum + 1}：</p></td></tr>
+        <tr><td><p class="smallText">資料添付</p></td></tr>
+        <tr><td><p id="analytics-file-select${analyticsNum}"></p></td></tr>
+        <tr><td><input type="file" id="analyticsFile${analyticsNum}" name="analyticsFile${analyticsNum}" form="save"></td></tr>
+        <tr><td><pre><textarea class="analytics" id="analytics${analyticsNum}" name="analytics${analyticsNum}" form="save"></textarea></pre></td></tr>
+    `);
+    analyticsNum++;
+}
+
 pdfButton.addEventListener('click', () => {
-    popupWrapper.style.display = "block";
+    var result = window.confirm("保存しますか？");
+    if (result) {
+        document.getElementById("popup").value = "true";
+        document.getElementById("save").submit();
+        return true;
+    } else {
+        return false;
+    }
 });
 
 popupWrapper.addEventListener('click', e => {

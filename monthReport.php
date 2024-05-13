@@ -111,18 +111,15 @@ $mysqli->close();
                 </div>
 
                 <div class="analyticsArea">
-                    <table>
-                        <tr><td><p>アナリティクス：</p></td></tr>
-                        <tr><td><p class="smallText">資料添付</p></td></tr>
-                        <tr><td><input type="file" name="analyticsFile" form="pdfForm"></td></tr>
-                        <tr><td><pre><textarea class="analytics" id="analytics" name="analytics"></textarea></pre></td></tr>
-                    </table>
+                    <table id="analytics-table"></table>
+                    <button id="analytics-append-btn" onclick="addAnalytics()">アナリティクス追加</button>
                 </div>
-                <form id="save" action="monthReport.php" method="post">
+                <form id="save" action="monthReport.php" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="state" value="insert">
                 <input type="hidden" name="company-code" value="<?= $companyCode ?>">
                 <input type="hidden" name="month" value="<?= $_POST["month"] ?>">
                 <input type="hidden" id="max_time" name="max_time" value="100">
+                <input type="hidden" id="popup" name="popup" value="false">
                 <table>
                     <tr>
                         <td><input class="loadsaveButton" id="saveButton" type="submit" value="保存"></td>
@@ -172,15 +169,14 @@ switch ($_POST["state"]) {
         }
 
         // 企業欄書き換え
-        $sql = "UPDATE month_table SET web = ?, overview = ?, periodStart = cast(? as date), periodEnd = cast(? as date), analytics = ?, max_time = ? WHERE company_code = ? AND month = ?";
+        $sql = "UPDATE month_table SET web = ?, overview = ?, periodStart = cast(? as date), periodEnd = cast(? as date), max_time = ? WHERE company_code = ? AND month = ?";
         $stmt = $mysqli -> prepare($sql);
         $web = $_POST["web"];
         $overview = $_POST["overview"];
         $periodStart = date("Y-m-d", strtotime($_POST["periodStart"]));
         $periodEnd = date("Y-m-d", strtotime($_POST["periodEnd"]));
-        $analytics = $_POST["analytics"];
         $max_time = $_POST["max_time"];
-        $stmt -> bind_param('sssssdss', $web, $overview, $periodStart, $periodEnd, $analytics, $max_time, $companyCode, $_POST["month"]);
+        $stmt -> bind_param('ssssdss', $web, $overview, $periodStart, $periodEnd, $max_time, $companyCode, $_POST["month"]);
         $stmt -> execute();
 
         // 企業欄再入力
@@ -189,7 +185,6 @@ switch ($_POST["state"]) {
         $overview = json_encode($overview);
         $periodStart = json_encode($_POST["periodStart"]);
         $periodEnd = json_encode($_POST["periodEnd"]);
-        $analytics = json_encode($_POST["analytics"]);
         $max_time = json_encode($_POST["max_time"]);
 
         echo <<< EOM
@@ -199,7 +194,6 @@ switch ($_POST["state"]) {
                 document.getElementById("overview").value = $overview;
                 document.getElementById("periodStart").value = $periodStart;
                 document.getElementById("periodEnd").value = $periodEnd;
-                document.getElementById("analytics").value = $analytics;
                 document.getElementById("max_time").value = $max_time;
                 MAX_TIME = $max_time;
             </script>
@@ -233,7 +227,7 @@ switch ($_POST["state"]) {
             $deadline = json_encode($deadline);
             $manager = json_encode($manager);
             $status = json_encode($status);
-
+            
             echo <<< EOM
                 <script type="text/javascript">
                     if ($i != 0) {
@@ -250,8 +244,52 @@ switch ($_POST["state"]) {
             EOM;
         }
 
+        // アナリティクス欄の保存
+        $sql = "SELECT image_path FROM analytics_table WHERE company_code = ? AND month = ?";
+        $stmt = $mysqli -> prepare($sql);
+        $stmt -> bind_param('ss', $companyCode, $_POST["month"]);
+        $stmt -> execute();
+        $result = $stmt -> get_result();
+        $row_data = $result -> fetch_array(MYSQLI_NUM);
+        $fileName = $row_data[0];
+
+        $sql = "DELETE FROM analytics_table WHERE company_code = ? AND month = ?";
+        $stmt = $mysqli -> prepare($sql);
+        $stmt -> bind_param('ss', $companyCode, $_POST["month"]);
+        $stmt -> execute();
+
+        for ($i=0; isset($_POST["analytics$i"]); $i++) {
+            if ($_FILES["analyticsFile$i"]["size"] != 0){
+                $fileName = $_FILES["analyticsFile$i"]["name"];
+                move_uploaded_file($_FILES["analyticsFile$i"]['tmp_name'], "images/" .$_FILES["analyticsFile$i"]["name"]);
+            }
+            $sql = "INSERT INTO analytics_table (company_code, month, image_path, analytics) VALUES(?, ?, ?, ?)";
+            $stmt = $mysqli -> prepare($sql);
+            $stmt -> bind_param('ssss', $companyCode, $_POST["month"], $fileName, $_POST["analytics$i"]);
+            $stmt -> execute();
+            $current = json_encode($fileName);
+            $analytics = json_encode($_POST["analytics$i"]);
+            
+            echo <<< EOM
+                <script type="text/javascript">
+                    addAnalytics();
+                    document.getElementById("analytics-file-select" + $i).innerText = "現在の添付資料：" + $current;
+                    document.getElementById("analytics" + $i).value = $analytics;
+                </script>
+            EOM;
+        }
+
         // 切断
         $stmt->close();
+
+        $popup = $_POST["popup"];
+        echo <<< EOM
+            <script type="text/javascript">
+                if ($popup) {
+                    popupWrapper.style.display = "block";
+                }
+            </script>
+        EOM;
 
         break;
     case "select":
@@ -279,8 +317,7 @@ switch ($_POST["state"]) {
         $overview = json_encode($row_data[4]);
         $periodStart = json_encode(date("Y-m", strtotime($row_data[5])));
         $periodEnd = json_encode(date("Y-m", strtotime($row_data[6])));
-        $analytics = json_encode($row_data[7]);
-        $max_time = json_encode($row_data[8]);
+        $max_time = json_encode($row_data[7]);
         echo <<< EOM
             <script type="text/javascript">
                 document.getElementById("web").value = $web;
@@ -290,7 +327,6 @@ switch ($_POST["state"]) {
                 document.getElementById("periodStart").value = date;
                 date = $periodEnd;
                 document.getElementById("periodEnd").value = date;
-                document.getElementById("analytics").value = $analytics;
                 document.getElementById("max_time").value = $max_time;
                 MAX_TIME = $max_time;
             </script>
@@ -322,6 +358,30 @@ switch ($_POST["state"]) {
             echo <<<EOM
             <script type="text/javascript">
                 inputForm($i, $current);
+            </script>
+            EOM;
+
+            $i++;
+        }
+
+        // アナリティクス表示
+        $sql = "SELECT * FROM analytics_table WHERE company_code = ? AND month = ?";
+        $stmt = $mysqli -> prepare($sql);
+        $stmt -> bind_param('ss', $companyCode, $_POST["month"]);
+        $stmt -> execute();
+        $result = $stmt -> get_result();
+
+        $i = 0;
+        while( $row_data = $result->fetch_array(MYSQLI_NUM) ) {
+            $analyticsName = json_encode($row_data[3]);
+            $analytics = json_encode($row_data[4]);
+            echo <<< EOM
+            <script type="text/javascript">
+                addAnalytics();
+                if ($analyticsName != null) {
+                    document.getElementById("analytics-file-select" + $i).innerText = "現在の添付資料：" + $analyticsName;
+                }
+                document.getElementById("analytics" + $i).value = $analytics;
             </script>
             EOM;
 
