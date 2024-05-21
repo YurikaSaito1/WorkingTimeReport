@@ -32,7 +32,7 @@
                 <!-- プラン表示 -->
                 <div class="plan-area">
                     <p>プラン名　 ：</p>
-                    <input type="text" class="plan" id="plan">
+                    <input type="text" class="plan" id="plan" name="plan" form="save">
                 </div>
                 <!-- webサイト表示 -->
                 <div class="webArea">
@@ -174,14 +174,15 @@ switch ($_POST["state"]) {
         }
 
         // 企業欄書き換え
-        $sql = "UPDATE month_table SET web = ?, overview = ?, periodStart = cast(? as date), periodEnd = cast(? as date), max_time = ? WHERE company_code = ? AND month = ?";
+        $sql = "UPDATE month_table SET web = ?, overview = ?, periodStart = cast(? as date), periodEnd = cast(? as date), max_time = ?, plan = ? WHERE company_code = ? AND month = ?";
         $stmt = $mysqli -> prepare($sql);
         $web = $_POST["web"];
         $overview = $_POST["overview"];
         $periodStart = date("Y-m-d", strtotime($_POST["periodStart"]));
         $periodEnd = date("Y-m-d", strtotime($_POST["periodEnd"]));
         $max_time = $_POST["max_time"];
-        $stmt -> bind_param('ssssdss', $web, $overview, $periodStart, $periodEnd, $max_time, $companyCode, $_POST["month"]);
+        $plan = $_POST["plan"];
+        $stmt -> bind_param('ssssdsss', $web, $overview, $periodStart, $periodEnd, $max_time, $plan, $companyCode, $_POST["month"]);
         $stmt -> execute();
 
         // 企業欄再入力
@@ -191,6 +192,7 @@ switch ($_POST["state"]) {
         $periodStart = json_encode($_POST["periodStart"]);
         $periodEnd = json_encode($_POST["periodEnd"]);
         $max_time = json_encode($_POST["max_time"]);
+        $plan = json_encode($_POST["plan"]);
 
         echo <<< EOM
             <script type="text/javascript">
@@ -201,6 +203,7 @@ switch ($_POST["state"]) {
                 document.getElementById("periodEnd").value = $periodEnd;
                 document.getElementById("max_time").value = $max_time;
                 MAX_TIME = $max_time;
+                document.getElementById("plan").value = $plan;
             </script>
         EOM;
 
@@ -323,6 +326,7 @@ switch ($_POST["state"]) {
         $periodStart = json_encode(date("Y-m", strtotime($row_data[5])));
         $periodEnd = json_encode(date("Y-m", strtotime($row_data[6])));
         $max_time = json_encode($row_data[7]);
+        $plan = json_encode($row_data[8]);
         echo <<< EOM
             <script type="text/javascript">
                 document.getElementById("web").value = $web;
@@ -334,6 +338,7 @@ switch ($_POST["state"]) {
                 document.getElementById("periodEnd").value = date;
                 document.getElementById("max_time").value = $max_time;
                 MAX_TIME = $max_time;
+                document.getElementById("plan").value = $plan;
             </script>
         EOM;
 
@@ -399,7 +404,7 @@ switch ($_POST["state"]) {
 }
 echo "<script>calculate();</script>";
 ?>
-            
+                <label class="output"><input type="checkbox" name="output_plan" value="plan">プラン</label>
                 <label class="output"><input type="checkbox" name="output_web" value="web">webサイト</label>
                 <label class="output"><input type="checkbox" name="output_overview" value="overview">業務概要</label>
                 <label class="output"><input type="checkbox" name="output_analytics" value="analytics">アナリティクス</label>

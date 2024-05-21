@@ -65,6 +65,12 @@ $stmt -> execute();
 $result = $stmt -> get_result();
 $row_data = $result -> fetch_array(MYSQLI_NUM);
 
+// プラン表示
+if (isset($_POST["output_plan"])) {
+    $pdf -> MultiCell(30, 0, "プラン", 1, "", 1, 0, 15);
+    $pdf -> MultiCell(0, 0, $row_data[8], 1, "", 0, 1, 45);
+}
+
 // Webサイト表示
 if (isset($_POST["output_web"])) {
     $pdf -> MultiCell(0, 0, "Webサイト", 1, "", 1, 1, 15);
