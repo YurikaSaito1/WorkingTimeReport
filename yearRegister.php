@@ -18,10 +18,45 @@ if (mysqli_connect_errno()) {
 // データを挿入する
 $companyCode = $_POST["company-code"];
 $selectMonth = date('Y-m-d', strtotime($_POST["select-month"]));
+$lastMonth = date("Y-m-d", strtotime("-1 year", strtotime($selectMonth)));
 
-$sql = "INSERT INTO month_table (company_code, month, web, overview, periodStart, periodEnd, max_time) VALUES (?, ?, '', '', ?, ?, 100)";
+// 前月の残り時間とプラン取得
+$sql = "SELECT COUNT(*) FROM month_table WHERE company_code = ? AND month = ? LIMIT 1";
+$stmt = $mysqli -> prepare($sql);
+$stmt -> bind_param('ss', $companyCode, $lastMonth);
+$stmt -> execute();
+$result = $stmt -> get_result();
+$row_data = $result -> fetch_column();
+
+if ($row_data != 0) {
+$sql = "SELECT remaining_time, plan FROM month_table WHERE company_code = ? AND month = ?";
+$stmt = $mysqli -> prepare($sql);
+$stmt -> bind_param('ss', $companyCode, $lastMonth);
+$stmt -> execute();
+$result = $stmt->get_result();
+$row_data = $result->fetch_array(MYSQLI_NUM);
+$remainingTime = json_encode($row_data[0]);
+} else {
+    $remainingTime = 0;
+}
+$plan = $_POST["plan"];
+
+$sql = "INSERT INTO month_table (company_code, month, web, overview, periodStart, periodEnd, max_time, remaining_time, plan) VALUES (?, ?, '', '', ?, ?, ?, ?, ?)";
 $stmt = $mysqli->prepare($sql);
-$stmt->bind_param('ssss', $companyCode, $selectMonth, $selectMonth, $selectMonth);
+switch ($plan) {
+    case "S":
+        $maxTime = $remainingTime + 10;
+        break;
+    case "M":
+        $maxTime = $remainingTime + 20;
+        break;
+    case "L":
+        $maxTime = $remainingTime + 30;
+        break;
+    default:
+        $maxTime = $remainingTime;
+}
+$stmt->bind_param('ssssdds', $companyCode, $selectMonth, $selectMonth, $selectMonth, $maxTime, $maxTime, $plan);
 $stmt->execute();
 
 $mysqli->close();

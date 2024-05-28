@@ -68,7 +68,7 @@ $row_data = $result -> fetch_array(MYSQLI_NUM);
 // プラン表示
 if (isset($_POST["output_plan"])) {
     $pdf -> MultiCell(30, 0, "プラン", 1, "", 1, 0, 15);
-    $pdf -> MultiCell(0, 0, $row_data[8], 1, "", 0, 1, 45);
+    $pdf -> MultiCell(0, 0, $row_data[9], 1, "", 0, 1, 45);
 }
 
 // Webサイト表示

@@ -81,8 +81,14 @@ while( $row_data = $result->fetch_array(MYSQLI_NUM) ) {
             <div id="close">×</div>
             <form action="yearRegister.php" method="post">
                 <div id="select-month">
-                    <h2>年月を選択してください</h2>
+                    <h2>年月を選択</h2>
                     <input id="select-month" type="month" name="select-month">
+                    <h2>プランを選択</h2>
+                    <select id="plan" name="plan">
+                        <option value="S" selected>S</option>
+                        <option value="M">M</option>
+                        <option value="L">L</option>
+                    </select>
                 </div>
                 <input type="hidden" name="company-code" value="<?= $companyCode ?>">
                 <input class="append-button" type="submit" value="決定">

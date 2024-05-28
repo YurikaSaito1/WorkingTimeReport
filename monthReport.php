@@ -15,7 +15,7 @@
             </svg>
             <div class="number">
                 <p>残り</p>
-                <h3 id="title"><div id="time_form_area">100</div><span>時間</span></h3>
+                <h3 id="title"><input type="text" id="time_form_area" name="remaining-time" value="50" form="save"><span>時間</span></h3>
             </div>
         </div>
         <div class="contents">
@@ -32,7 +32,11 @@
                 <!-- プラン表示 -->
                 <div class="plan-area">
                     <p>プラン名　 ：</p>
-                    <input type="text" class="plan" id="plan" name="plan" form="save">
+                    <select id="plan" name="plan" form="save">
+                        <option value="S">S</option>
+                        <option value="M">M</option>
+                        <option value="L">L</option>
+                    </select>
                 </div>
                 <!-- webサイト表示 -->
                 <div class="webArea">
@@ -123,7 +127,7 @@ $mysqli->close();
                 <input type="hidden" name="state" value="insert">
                 <input type="hidden" name="company-code" value="<?= $companyCode ?>">
                 <input type="hidden" name="month" value="<?= $_POST["month"] ?>">
-                <input type="hidden" id="max_time" name="max_time" value="100">
+                <input type="hidden" id="max-time" name="max-time" value="50">
                 <input type="hidden" id="popup" name="popup" value="false">
                 <table>
                     <tr>
@@ -161,7 +165,7 @@ EOM;
 switch ($_POST["state"]) {
     case "initial":
         break;
-    case "insert":
+    case "insert": // 保存
         // 接続
         $mysqli = new mysqli('localhost', 'root', '2856', 'my_app');
         
@@ -174,15 +178,15 @@ switch ($_POST["state"]) {
         }
 
         // 企業欄書き換え
-        $sql = "UPDATE month_table SET web = ?, overview = ?, periodStart = cast(? as date), periodEnd = cast(? as date), max_time = ?, plan = ? WHERE company_code = ? AND month = ?";
+        $sql = "UPDATE month_table SET web = ?, overview = ?, periodStart = cast(? as date), periodEnd = cast(? as date), remaining_time = ?, plan = ? WHERE company_code = ? AND month = ?";
         $stmt = $mysqli -> prepare($sql);
         $web = $_POST["web"];
         $overview = $_POST["overview"];
         $periodStart = date("Y-m-d", strtotime($_POST["periodStart"]));
         $periodEnd = date("Y-m-d", strtotime($_POST["periodEnd"]));
-        $max_time = $_POST["max_time"];
+        $remainingTime = $_POST["remaining-time"];
         $plan = $_POST["plan"];
-        $stmt -> bind_param('ssssdsss', $web, $overview, $periodStart, $periodEnd, $max_time, $plan, $companyCode, $_POST["month"]);
+        $stmt -> bind_param('ssssdsss', $web, $overview, $periodStart, $periodEnd, $remainingTime, $plan, $companyCode, $_POST["month"]);
         $stmt -> execute();
 
         // 企業欄再入力
@@ -191,8 +195,21 @@ switch ($_POST["state"]) {
         $overview = json_encode($overview);
         $periodStart = json_encode($_POST["periodStart"]);
         $periodEnd = json_encode($_POST["periodEnd"]);
-        $max_time = json_encode($_POST["max_time"]);
-        $plan = json_encode($_POST["plan"]);
+        $maxTime = json_encode($_POST["max-time"]);
+        $plan = $_POST["plan"];
+        switch ($plan) {
+            case "S":
+                $optionNum = 0;
+                break;
+            case "M":
+                $optionNum = 1;
+                break;
+            case "L":
+                $optionNum = 2;
+                break;
+            default:
+                $optionNum = 0;
+        }
 
         echo <<< EOM
             <script type="text/javascript">
@@ -201,9 +218,8 @@ switch ($_POST["state"]) {
                 document.getElementById("overview").value = $overview;
                 document.getElementById("periodStart").value = $periodStart;
                 document.getElementById("periodEnd").value = $periodEnd;
-                document.getElementById("max_time").value = $max_time;
-                MAX_TIME = $max_time;
-                document.getElementById("plan").value = $plan;
+                MAX_TIME = $maxTime;
+                document.getElementById("plan").selectedIndex = $optionNum;
             </script>
         EOM;
 
@@ -325,8 +341,21 @@ switch ($_POST["state"]) {
         $overview = json_encode($row_data[4]);
         $periodStart = json_encode(date("Y-m", strtotime($row_data[5])));
         $periodEnd = json_encode(date("Y-m", strtotime($row_data[6])));
-        $max_time = json_encode($row_data[7]);
-        $plan = json_encode($row_data[8]);
+        $maxTime = json_encode($row_data[7]);
+        $plan = $row_data[9];
+        switch ($plan) {
+            case "S":
+                $optionNum = 0;
+                break;
+            case "M":
+                $optionNum = 1;
+                break;
+            case "L":
+                $optionNum = 2;
+                break;
+            default:
+                $optionNum = 0;
+        }
         echo <<< EOM
             <script type="text/javascript">
                 document.getElementById("web").value = $web;
@@ -336,9 +365,9 @@ switch ($_POST["state"]) {
                 document.getElementById("periodStart").value = date;
                 date = $periodEnd;
                 document.getElementById("periodEnd").value = date;
-                document.getElementById("max_time").value = $max_time;
-                MAX_TIME = $max_time;
-                document.getElementById("plan").value = $plan;
+                document.getElementById("max-time").value = $maxTime;
+                MAX_TIME = $maxTime;
+                document.getElementById("plan").selectedIndex = $optionNum;
             </script>
         EOM;
 

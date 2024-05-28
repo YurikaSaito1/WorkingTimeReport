@@ -1,7 +1,8 @@
 const line = document.getElementById("line");
 const title = document.getElementById("title");
 const timeFormArea = document.getElementById("time_form_area");
-const maxTime = document.getElementById("max_time");
+const maxTime = document.getElementById("max-time");
+const remainingTime = document.getElementById("remaining-time");
 const load = document.getElementById("load");
 const save = document.getElementById("save");
 const contents = document.getElementById("contents");
@@ -35,8 +36,7 @@ document.body.addEventListener("keydown", (e) => {
     const inputTime = document.getElementById("inputTime");
     if (e.key == "Enter" && inputTime === document.activeElement) {
         timeFormArea.innerHTML = parseFloat(inputTime.value);
-        MAX_TIME = parseFloat(inputTime.value);
-        maxTime.value = MAX_TIME;
+
         calculate();
         inputTime.remove();
     }
@@ -85,8 +85,8 @@ function calculate() {
     for(let i=0; i<time.length; i++) {
         sum += parseFloat(time.item(i).value);
     }
-    timeFormArea.innerHTML = MAX_TIME - sum;
-    line.style.strokeDashoffset = 440 - (440 * (MAX_TIME - (MAX_TIME - parseFloat(timeFormArea.innerHTML)))) / MAX_TIME;
+    timeFormArea.value = MAX_TIME - sum;
+    line.style.strokeDashoffset = 440 - (440 * (MAX_TIME - (MAX_TIME - parseFloat(timeFormArea.value)))) / MAX_TIME;
     setTimeout(() => {
         line.classList.replace("passive", "active");
     }, 300);

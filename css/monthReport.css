@@ -48,7 +48,7 @@ svg circle.passive {
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
+    width: 120%;
     height: 100%;
     display: flex;
     flex-flow: column;
@@ -61,8 +61,7 @@ svg circle.passive {
 }
 
 .percent .number #title {
-    font-size: 40px;
-    margin-top: 15px;
+    margin-top: 0px;
     display: flex;
     align-items: center;
     justify-items: right;
@@ -70,7 +69,13 @@ svg circle.passive {
 }
 
 #time_form_area {
-    height: 70px;
+    height: 80px;
+    width: 140px;
+    border: none;
+    background-color: rgba(0, 0, 0, 0);
+    text-align: center;
+    font-size: 60px;
+    font-weight: bold;
 }
 
 #title span {
