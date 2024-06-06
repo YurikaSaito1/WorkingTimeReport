@@ -70,7 +70,22 @@ if (isset($_POST["output_plan"])) {
     $pdf -> MultiCell(30, 0, "プラン", 1, "", 1, 0, 15);
     $pdf -> MultiCell(30, 0, $row_data[9], 1, "", 0, 0, 45);
     $pdf -> MultiCell(30, 0, "繰越時間", 1, "", 1, 0, 75);
-    $pdf -> MultiCell(0, 0, $row_data[8], 1, "", 0, 1, 105);
+    $pdf -> MultiCell(30, 0, $row_data[8], 1, "", 0, 0, 105);
+    $pdf -> MultiCell(30, 0, "月毎追加時間", 1, "", 1, 0, 135);
+    switch ($row_data[9]) {
+        case "S":
+            $pdf -> MultiCell(0, 0, "10", 1, "", 0, 1, 165);
+            break;
+        case "M":
+            $pdf -> MultiCell(0, 0, "20", 1, "", 0, 1, 165);
+            break;
+        case "L":
+            $pdf -> MultiCell(0, 0, "30", 1, "", 0, 1, 165);
+            break;
+        default:
+            $pdf -> MultiCell(0, 0, "10", 1, "", 0, 1, 165);
+            break;
+    }
 }
 
 // Webサイト表示
