@@ -65,10 +65,12 @@ $stmt -> execute();
 $result = $stmt -> get_result();
 $row_data = $result -> fetch_array(MYSQLI_NUM);
 
-// プラン表示
+// プラン・残り時間表示
 if (isset($_POST["output_plan"])) {
     $pdf -> MultiCell(30, 0, "プラン", 1, "", 1, 0, 15);
-    $pdf -> MultiCell(0, 0, $row_data[9], 1, "", 0, 1, 45);
+    $pdf -> MultiCell(30, 0, $row_data[9], 1, "", 0, 0, 45);
+    $pdf -> MultiCell(30, 0, "繰越時間", 1, "", 1, 0, 75);
+    $pdf -> MultiCell(0, 0, $row_data[8], 1, "", 0, 1, 105);
 }
 
 // Webサイト表示
