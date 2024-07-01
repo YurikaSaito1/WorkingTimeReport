@@ -119,43 +119,45 @@ $result = $stmt -> get_result();
 $i = 0;
 
 // 結果を出力
+$pdf -> MultiCell(15, 6, "", 0, "", 0, 0, 0);
 if (array_search("no", $output) !== false) {
-    $pdf -> MultiCell(8, 6, "No.", 1, "", 1, 0, 15);
+    $pdf -> MultiCell(8, 6, "No.", "LTB", "", 1, 0);
 }
 if (array_search("category", $output) !== false) {
-    $pdf -> MultiCell(30, 6, "内容", 1, "", 1, 0);
+    $pdf -> MultiCell(30, 6, "内容", "LTB", "", 1, 0);
 }
 if (array_search("detail", $output) !== false) {
-    $pdf -> MultiCell(130, 6, "内容詳細", 1, "", 1, 0);
+    $pdf -> MultiCell(130, 6, "内容詳細", "LTB", "", 1, 0);
 }
 if (array_search("time", $output) !== false) {
-    $pdf -> MultiCell(10, 6, "時間", 1, "", 1, 0);
+    $pdf -> MultiCell(10, 6, "時間", "LTB", "", 1, 0);
 }
 if (array_search("manager", $output) !== false) {
-    $pdf -> MultiCell(20, 6, "担当者", 1, "", 1, 0);
+    $pdf -> MultiCell(20, 6, "担当者", "LTB", "", 1, 0);
 }
 if (array_search("status", $output) !== false) {
     $pdf -> MultiCell(0, 6, "状況", 1, "", 1, 1);
 } else {
-    $pdf -> ln(6);
+    $pdf -> MultiCell(0, 6, "", "TBR", "", 1, 1);
 }
 while( $row_data_contents = $result->fetch_array(MYSQLI_NUM) ) {
     $i++;
     $count = substr_count($row_data_contents[5], "\r\n") + 1;
+    $pdf -> MultiCell(15, $count*8, "", 0, "", 0, 0, 0);
     if (array_search("no", $output) !== false) {
-        $pdf -> MultiCell(8, $count*8, $i, 1, "", 0, 0, 15);
+        $pdf -> MultiCell(8, $count*8, $i, "LTB", "", 0, 0);
     }
     if (array_search("categoty", $output) !== false) {
-        $pdf -> MultiCell(30, $count*8, $row_data_contents[4], 1, "L", 0, 0);
+        $pdf -> MultiCell(30, $count*8, $row_data_contents[4], "LTB", "L", 0, 0);
     }
     if (array_search("detail", $output) !== false) {
-        $pdf -> MultiCell(130, $count*8, $row_data_contents[5], 1, "L", 0, 0);
+        $pdf -> MultiCell(130, $count*8, $row_data_contents[5], "LTB", "L", 0, 0);
     }
     if (array_search("time", $output) !== false) {
-        $pdf -> MultiCell(10, $count*8, $row_data_contents[6], 1, "L", 0, 0);
+        $pdf -> MultiCell(10, $count*8, $row_data_contents[6], "LTB", "L", 0, 0);
     }
     if (array_search("manager", $output) !== false) {
-        $pdf -> MultiCell(20, $count*8, $row_data_contents[8], 1, "L", 0, 0);
+        $pdf -> MultiCell(20, $count*8, $row_data_contents[8], "LTB", "L", 0, 0);
     }
     if (array_search("status", $output) !== false) {
         if ($row_data_contents[9] == "済") {
@@ -164,7 +166,7 @@ while( $row_data_contents = $result->fetch_array(MYSQLI_NUM) ) {
             $pdf -> MultiCell(0, $count*8, "確認中", 1, "", 0, 1);
         }
     } else {
-        $pdf -> MultiCell(0, $count*8, "", 0, 1);
+        $pdf -> MultiCell(0, $count*8, "", "TBR", "", 0, 1);
     }
 }
 
