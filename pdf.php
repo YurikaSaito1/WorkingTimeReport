@@ -65,8 +65,10 @@ $stmt -> execute();
 $result = $stmt -> get_result();
 $row_data = $result -> fetch_array(MYSQLI_NUM);
 
+$output = $_POST["output"]; // 選択した出力項目の配列
+
 // プラン・残り時間表示
-if (isset($_POST["output_plan"])) {
+if (array_search("plan", $output) !== false) {
     $pdf -> MultiCell(30, 0, "プラン", 1, "", 1, 0, 15);
     $pdf -> MultiCell(30, 0, $row_data[9], 1, "", 0, 0, 45);
     $pdf -> MultiCell(30, 0, "繰越時間", 1, "", 1, 0, 75);
@@ -89,7 +91,7 @@ if (isset($_POST["output_plan"])) {
 }
 
 // Webサイト表示
-if (isset($_POST["output_web"])) {
+if (array_search("web", $output) !== false) {
     $pdf -> MultiCell(0, 0, "Webサイト", 1, "", 1, 1, 15);
     $pdf -> MultiCell(0, 0, $row_data[3], 1, "", 0, 1, 15);
 }
@@ -100,7 +102,7 @@ $date = date("Y年n月", strtotime($row_data[5])) . "～" . date("Y年n月", str
 $pdf -> MultiCell(0, 0, $date, 1, "", 0, 1, 15);
 
 // 業務概要表示
-if (isset($_POST["output_overview"])) {
+if (array_search("overview", $output) !== false) {
     $pdf -> MultiCell(0, 0, "業務概要", 1, "", 1, 1, 15);
     $pdf -> MultiCell(0, 0, $row_data[4], 1, "", 0, 1, 15);
 }
@@ -117,22 +119,22 @@ $result = $stmt -> get_result();
 $i = 0;
 
 // 結果を出力
-if (isset($_POST["output_no"])) {
+if (array_search("no", $output) !== false) {
     $pdf -> MultiCell(8, 6, "No.", 1, "", 1, 0, 15);
 }
-if (isset($_POST["output_category"])) {
+if (array_search("category", $output) !== false) {
     $pdf -> MultiCell(30, 6, "内容", 1, "", 1, 0);
 }
-if (isset($_POST["output_detail"])) {
+if (array_search("detail", $output) !== false) {
     $pdf -> MultiCell(130, 6, "内容詳細", 1, "", 1, 0);
 }
-if (isset($_POST["output_time"])) {
+if (array_search("time", $output) !== false) {
     $pdf -> MultiCell(10, 6, "時間", 1, "", 1, 0);
 }
-if (isset($_POST["output_manager"])) {
+if (array_search("manager", $output) !== false) {
     $pdf -> MultiCell(20, 6, "担当者", 1, "", 1, 0);
 }
-if (isset($_POST["output_status"])) {
+if (array_search("status", $output) !== false) {
     $pdf -> MultiCell(0, 6, "状況", 1, "", 1, 1);
 } else {
     $pdf -> ln(6);
@@ -140,22 +142,22 @@ if (isset($_POST["output_status"])) {
 while( $row_data_contents = $result->fetch_array(MYSQLI_NUM) ) {
     $i++;
     $count = substr_count($row_data_contents[5], "\r\n") + 1;
-    if (isset($_POST["output_no"])) {
+    if (array_search("no", $output) !== false) {
         $pdf -> MultiCell(8, $count*8, $i, 1, "", 0, 0, 15);
     }
-    if (isset($_POST["output_category"])) {
+    if (array_search("categoty", $output) !== false) {
         $pdf -> MultiCell(30, $count*8, $row_data_contents[4], 1, "L", 0, 0);
     }
-    if (isset($_POST["output_detail"])) {
+    if (array_search("detail", $output) !== false) {
         $pdf -> MultiCell(130, $count*8, $row_data_contents[5], 1, "L", 0, 0);
     }
-    if (isset($_POST["output_time"])) {
+    if (array_search("time", $output) !== false) {
         $pdf -> MultiCell(10, $count*8, $row_data_contents[6], 1, "L", 0, 0);
     }
-    if (isset($_POST["output_manager"])) {
+    if (array_search("manager", $output) !== false) {
         $pdf -> MultiCell(20, $count*8, $row_data_contents[8], 1, "L", 0, 0);
     }
-    if (isset($_POST["output_status"])) {
+    if (array_search("status", $output) !== false) {
         if ($row_data_contents[9] == "済") {
             $pdf -> MultiCell(0, $count*8, "完了", 1, "", 0, 1);
         } else {
@@ -167,7 +169,7 @@ while( $row_data_contents = $result->fetch_array(MYSQLI_NUM) ) {
 }
 
 // アナリティクス
-if (isset($_POST["output_analytics"])) {
+if (array_search("analytics", $output) !== false) {
     $pdf -> AddPage();
     $pdf -> setFont("", "", 20);
     $pdf -> Write(40, "アナリティクス", "", false, "C");

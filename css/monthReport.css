@@ -286,9 +286,29 @@ svg circle.passive {
     cursor: pointer;
 }
 
+.output-checkbox {
+    display: none;
+}
+
 .output {
     display: block;
     margin: 10px 0 0 10px;
+    width: 120px;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+    border: 2px solid dodgerblue;
+    border-radius: 5px;
+}
+
+.output-checkbox:checked + label {
+    background: dodgerblue;
+    color: white;
+}
+
+.save-checkbox {
+    display: block;
+    margin: 20px 0 0 10px;
 }
 
 .link {

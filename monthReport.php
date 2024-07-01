@@ -145,7 +145,7 @@ $mysqli->close();
         <button class="pdf-button" id="pdf-button">pdfで出力</button>
         <div id="popup-wrapper">
             <div id="close">×</div>
-            <form action="pdf.php" method="post" id="pdfForm" enctype="multipart/form-data">
+            <form action="pdf.php" method="post" name="pdf-form" id="pdfForm" enctype="multipart/form-data">
                 <script src="js/monthReport.js"></script>
 
 <?php
@@ -275,7 +275,11 @@ switch ($_POST["state"]) {
         $stmt -> execute();
         $result = $stmt -> get_result();
         $row_data = $result -> fetch_array(MYSQLI_NUM);
-        $fileName = $row_data[0];
+        if (!empty($row_data)) {
+            $fileName = $row_data[0];
+        } else {
+            $fileName = "";
+        }
 
         $sql = "DELETE FROM analytics_table WHERE company_code = ? AND month = ?";
         $stmt = $mysqli -> prepare($sql);
@@ -433,16 +437,18 @@ switch ($_POST["state"]) {
 }
 echo "<script>calculate();</script>";
 ?>
-                <label class="output"><input type="checkbox" name="output_plan" value="plan">プラン</label>
-                <label class="output"><input type="checkbox" name="output_web" value="web">webサイト</label>
-                <label class="output"><input type="checkbox" name="output_overview" value="overview">業務概要</label>
-                <label class="output"><input type="checkbox" name="output_analytics" value="analytics">アナリティクス</label>
-                <label class="output"><input type="checkbox" name="output_no" value="no">連番</label>
-                <label class="output"><input type="checkbox" name="output_category" value="category">内容</label>
-                <label class="output"><input type="checkbox" name="output_detail" value="detail">詳細</label>
-                <label class="output"><input type="checkbox" name="output_time" value="time">時間</label>
-                <label class="output"><input type="checkbox" name="output_manager" value="manager">担当者</label>
-                <label class="output"><input type="checkbox" name="output_status" value="status">作業状況</label>
+                <input type="checkbox" class="output-checkbox" id="check-plan" name="output[]" value="plan"><label class="output" for="check-plan">プラン</label>
+                <input type="checkbox" class="output-checkbox" id="check-web" name="output[]" value="web"><label class="output" for="check-web">webサイト</label>
+                <input type="checkbox" class="output-checkbox" id="check-overview" name="output[]" value="overview"><label class="output" for="check-overview">業務概要</label>
+                <input type="checkbox" class="output-checkbox" id="check-analytics" name="output[]" value="analytics"><label class="output" for="check-analytics">アナリティクス</label>
+                <input type="checkbox" class="output-checkbox" id="check-no" name="output[]" value="no"><label class="output" for="check-no">連番</label>
+                <input type="checkbox" class="output-checkbox" id="check-category" name="output[]" value="category"><label class="output" for="check-category">内容</label>
+                <input type="checkbox" class="output-checkbox" id="check-detail" name="output[]" value="detail"><label class="output" for="check-detail">詳細</label>
+                <input type="checkbox" class="output-checkbox" id="check-time" name="output[]" value="time"><label class="output" for="check-time">時間</label>
+                <input type="checkbox" class="output-checkbox" id="check-manager" name="output[]" value="manager"><label class="output" for="check-manager">担当者</label>
+                <input type="checkbox" class="output-checkbox" id="check-status" name="output[]" value="status"><label class="output" for="check-status">作業状況</label>
+                <label class="save-checkbox"><input type="checkbox" id="save-checkbox" name="save-checkbox">選択項目の保存</label>
+                <input type="hidden" name="output[]" value="NULL回避用">
                 <input type="hidden" id="companyNameJan" name="company-code" value="<?= $companyCode ?>">
                 <input type="hidden" id="month" name="month" value="<?= $_POST["month"] ?>">
                 <input class="pdf-button" type="submit" value="決定">

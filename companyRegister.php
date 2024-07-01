@@ -34,10 +34,25 @@ while( $row_data = $result->fetch_array(MYSQLI_NUM) ) {
 }
 
 // データを挿入する
-$sql = "INSERT INTO company_table (company_code, company_name) VALUES (?,?)";
+$sql = "INSERT INTO company_table (company_code, company_name) VALUES (?,?);";
 $stmt = $mysqli->prepare($sql);
 $stmt->bind_param('ss', $companyCode, $companyName);
 $stmt->execute();
+
+$sql = "INSERT INTO checkbox_table (company_code, check_id, checked) 
+VALUES (?, 'plan', false),
+(?, 'web', false),
+(?, 'overview', false),
+(?, 'analytics', false),
+(?, 'no', false),
+(?, 'category', false),
+(?, 'detail', false),
+(?, 'time', false),
+(?, 'manager', false),
+(?, 'status', false)";
+$stmt = $mysqli -> prepare($sql);
+$stmt -> bind_param('ssssssssss', $companyCode, $companyCode, $companyCode, $companyCode, $companyCode, $companyCode, $companyCode, $companyCode, $companyCode, $companyCode);
+$stmt -> execute();
 
 $mysqli->close();
 

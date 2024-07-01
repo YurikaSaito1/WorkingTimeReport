@@ -129,3 +129,41 @@ popupWrapper.addEventListener('click', e => {
         popupWrapper.style.display = "none";
     }
 });
+
+/*
+function saveCheckbox () {
+    const mysql = require('mysql2');
+    const connection = mysql.createConnection({
+        host : 'localhost',
+        user : 'root',
+        password: '2856',
+        databse: 'my_app'
+    });
+    connection.connect((err) => {
+        if(err) {
+            console.error('Error!: ${err.stack}');
+            return;
+        }
+    });
+
+    let plan=0, web=0, overview=0, analytics=0, no=0, category=0, detail=0, time=0, manager=0, status=0;
+
+    if (document.getElementById("check-plan").checked) plan = 1;
+    if (document.getElementById("check-web").checked) web = 1;
+    if (document.getElementById("check-overview").checked) overview = 1;
+    if (document.getElementById("check-analytics").checked) analytics = 1;
+    if (document.getElementById("check-no").checked) no = 1;
+    if (document.getElementById("check-category").checked) category = 1;
+    if (document.getElementById("check-time").checked) detail = 1;
+    if (document.getElementById("check-time").checked) time = 1;
+    if (document.getElementById("check-manager").checked) manager = 1;
+    if (document.getElementById("check-status").checked) status = 1;
+
+    return 
+
+    /*const sql = "UPDATE checkbox_table SET plan=?, web=?, overview=?, analytics=?, no=?, category=?, detail=?, time=?, manager=?, status=? WHERE company_code = ?";
+    mysql.sql(sql, [plan, web, overview, analytics, no, category, detail, time, manager, status, 'asahikensetsu']);
+
+    connection.end();
+}
+*/
