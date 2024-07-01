@@ -58,6 +58,7 @@ $pdf -> setFont("", "", 11);
 $pdf -> setFillColor(230);
 $pdf -> setY(80);
 
+// 企業情報の取得
 $sql = "SELECT * FROM month_table WHERE company_code = ? AND month = ?";
 $stmt = $mysqli -> prepare($sql);
 $stmt -> bind_param('ss', $_POST["company-code"], $_POST["month"]);
@@ -66,6 +67,16 @@ $result = $stmt -> get_result();
 $row_data = $result -> fetch_array(MYSQLI_NUM);
 
 $output = $_POST["output"]; // 選択した出力項目の配列
+
+// 出力選択項目の保存
+if (!empty($_POST["save-checkbox"])) {
+    foreach ($output as $value) {
+        $sql = "UPDATE checkbox_table SET checked = 1 WHERE company_code = ? AND check_id = ?";
+        $stmt = $mysqli -> prepare($sql);
+        $stmt -> bind_param('ss', $_POST["company-code"], $value);
+        $stmt -> execute();
+    }
+}
 
 // プラン・残り時間表示
 if (array_search("plan", $output) !== false) {
@@ -147,8 +158,8 @@ while( $row_data_contents = $result->fetch_array(MYSQLI_NUM) ) {
     if (array_search("no", $output) !== false) {
         $pdf -> MultiCell(8, $count*8, $i, "LTB", "", 0, 0);
     }
-    if (array_search("categoty", $output) !== false) {
-        $pdf -> MultiCell(30, $count*8, $row_data_contents[4], "LTB", "L", 0, 0);
+    if (array_search("category", $output) !== false) {
+        $pdf -> MultiCell(30, $count*8, $row_data_contents[4], "LTB", "", 0, 0);
     }
     if (array_search("detail", $output) !== false) {
         $pdf -> MultiCell(130, $count*8, $row_data_contents[5], "LTB", "L", 0, 0);
