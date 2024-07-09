@@ -436,17 +436,35 @@ switch ($_POST["state"]) {
         break;
 }
 echo "<script>calculate();</script>";
+
+// MySQL接続
+$mysqli = new mysqli('localhost', 'root', '2856', 'my_app');
+if (mysqli_connect_errno()) {
+    echo "データベース接続失敗" . PHP_EOL;
+    echo "errno: " . mysqli_connect_errno() . PHP_EOL;
+    echo "error: " . mysqli_connect_error() . PHP_EOL;
+    exit();
+}
+
+$sql = "SELECT * FROM checkbox_table WHERE company_code = ?";
+$stmt = $mysqli -> prepare($sql);
+$stmt -> bind_param('s', $companyCode);
+$stmt -> execute();
+$result = $stmt -> get_result();
+$row_data = $result -> fetch_array(MYSQLI_ASSOC);
+
+$mysqli->close();
 ?>
-                <input type="checkbox" class="output-checkbox" id="check-plan" name="output[]" value="plan"><label class="output" for="check-plan">プラン</label>
-                <input type="checkbox" class="output-checkbox" id="check-web" name="output[]" value="web"><label class="output" for="check-web">webサイト</label>
-                <input type="checkbox" class="output-checkbox" id="check-overview" name="output[]" value="overview"><label class="output" for="check-overview">業務概要</label>
-                <input type="checkbox" class="output-checkbox" id="check-analytics" name="output[]" value="analytics"><label class="output" for="check-analytics">アナリティクス</label>
-                <input type="checkbox" class="output-checkbox" id="check-no" name="output[]" value="no"><label class="output" for="check-no">連番</label>
-                <input type="checkbox" class="output-checkbox" id="check-category" name="output[]" value="category"><label class="output" for="check-category">内容</label>
-                <input type="checkbox" class="output-checkbox" id="check-detail" name="output[]" value="detail"><label class="output" for="check-detail">詳細</label>
-                <input type="checkbox" class="output-checkbox" id="check-time" name="output[]" value="time"><label class="output" for="check-time">時間</label>
-                <input type="checkbox" class="output-checkbox" id="check-manager" name="output[]" value="manager"><label class="output" for="check-manager">担当者</label>
-                <input type="checkbox" class="output-checkbox" id="check-status" name="output[]" value="status"><label class="output" for="check-status">作業状況</label>
+                <input type="checkbox" class="output-checkbox" id="check-plan" name="output[]" value="plan" <?= $row_data["plan"] == true ? "checked" : "" ?>><label class="output" for="check-plan">プラン</label>
+                <input type="checkbox" class="output-checkbox" id="check-web" name="output[]" value="web" <?= $row_data["web"] == true ? "checked" : "" ?>><label class="output" for="check-web">webサイト</label>
+                <input type="checkbox" class="output-checkbox" id="check-overview" name="output[]" value="overview" <?= $row_data["overview"] == true ? "checked" : "" ?>><label class="output" for="check-overview">業務概要</label>
+                <input type="checkbox" class="output-checkbox" id="check-no" name="output[]" value="no" <?= $row_data["no"] == true ? "checked" : "" ?>><label class="output" for="check-no">連番</label>
+                <input type="checkbox" class="output-checkbox" id="check-category" name="output[]" value="category" <?= $row_data["category"] == true ? "checked" : "" ?>><label class="output" for="check-category">内容</label>
+                <input type="checkbox" class="output-checkbox" id="check-detail" name="output[]" value="detail" <?= $row_data["detail"] == true ? "checked" : "" ?>><label class="output" for="check-detail">詳細</label>
+                <input type="checkbox" class="output-checkbox" id="check-time" name="output[]" value="time" <?= $row_data["time"] == true ? "checked" : "" ?>><label class="output" for="check-time">時間</label>
+                <input type="checkbox" class="output-checkbox" id="check-manager" name="output[]" value="manager" <?= $row_data["manager"] == true ? "checked" : "" ?>><label class="output" for="check-manager">担当者</label>
+                <input type="checkbox" class="output-checkbox" id="check-status" name="output[]" value="status" <?= $row_data["status"] == true ? "checked" : "" ?>><label class="output" for="check-status">作業状況</label>
+                <input type="checkbox" class="output-checkbox" id="check-analytics" name="output[]" value="analytics" <?= $row_data["analytics"] == true ? "checked" : "" ?>><label class="output" for="check-analytics">アナリティクス</label>
                 <label class="save-checkbox"><input type="checkbox" id="save-checkbox" name="save-checkbox">選択項目の保存</label>
                 <input type="hidden" name="output[]" value="NULL回避用">
                 <input type="hidden" id="companyNameJan" name="company-code" value="<?= $companyCode ?>">

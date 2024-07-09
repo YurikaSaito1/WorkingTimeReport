@@ -64,28 +64,36 @@ $stmt = $mysqli -> prepare($sql);
 $stmt -> bind_param('ss', $_POST["company-code"], $_POST["month"]);
 $stmt -> execute();
 $result = $stmt -> get_result();
-$row_data = $result -> fetch_array(MYSQLI_NUM);
+$row_data = $result -> fetch_array(MYSQLI_ASSOC);
 
 $output = $_POST["output"]; // 選択した出力項目の配列
 
 // 出力選択項目の保存
 if (!empty($_POST["save-checkbox"])) {
-    foreach ($output as $value) {
-        $sql = "UPDATE checkbox_table SET checked = 1 WHERE company_code = ? AND check_id = ?";
-        $stmt = $mysqli -> prepare($sql);
-        $stmt -> bind_param('ss', $_POST["company-code"], $value);
-        $stmt -> execute();
-    }
+    if (array_search("plan", $output) !== false) $plan = true;
+    if (array_search("web", $output) !== false) $web = true;
+    if (array_search("overview", $output) !== false) $overview = true;
+    if (array_search("analytics", $output) !== false) $analytics = true;
+    if (array_search("no", $output) !== false) $no = true;
+    if (array_search("category", $output) !== false) $category = true;
+    if (array_search("detail", $output) !== false) $detail = true;
+    if (array_search("time", $output) !== false) $time = true;
+    if (array_search("manager", $output) !== false) $manager = true;
+    if (array_search("status", $output) !== false) $status = true;
+    $sql = "UPDATE checkbox_table SET plan = ?, web = ?, overview = ?, analytics = ?, no = ?, category = ?, detail = ?, time = ?, manager = ?, status = ? WHERE company_code = ?";
+    $stmt = $mysqli -> prepare($sql);
+    $stmt -> bind_param('iiiiiiiiiis', $plan, $web, $overview, $analytics, $no, $category, $detail, $time, $manager, $status, $_POST["company-code"]);
+    $stmt -> execute();
 }
 
 // プラン・残り時間表示
-if (array_search("plan", $output) !== false) {
+if ($plan !== false) {
     $pdf -> MultiCell(30, 0, "プラン", 1, "", 1, 0, 15);
-    $pdf -> MultiCell(30, 0, $row_data[9], 1, "", 0, 0, 45);
+    $pdf -> MultiCell(30, 0, $row_data["plan"], 1, "", 0, 0, 45);
     $pdf -> MultiCell(30, 0, "繰越時間", 1, "", 1, 0, 75);
-    $pdf -> MultiCell(30, 0, $row_data[8], 1, "", 0, 0, 105);
+    $pdf -> MultiCell(30, 0, $row_data["remaining_time"], 1, "", 0, 0, 105);
     $pdf -> MultiCell(30, 0, "月毎追加時間", 1, "", 1, 0, 135);
-    switch ($row_data[9]) {
+    switch ($row_data["plan"]) {
         case "S":
             $pdf -> MultiCell(0, 0, "10", 1, "", 0, 1, 165);
             break;
@@ -102,20 +110,20 @@ if (array_search("plan", $output) !== false) {
 }
 
 // Webサイト表示
-if (array_search("web", $output) !== false) {
+if ($web !== false) {
     $pdf -> MultiCell(0, 0, "Webサイト", 1, "", 1, 1, 15);
-    $pdf -> MultiCell(0, 0, $row_data[3], 1, "", 0, 1, 15);
+    $pdf -> MultiCell(0, 0, $row_data["web"], 1, "", 0, 1, 15);
 }
 
 // 対象期間表示
 $pdf -> MultiCell(0, 0, "対象期間", 1, "", 1, 1, 15);
-$date = date("Y年n月", strtotime($row_data[5])) . "～" . date("Y年n月", strtotime($row_data[6]));
+$date = date("Y年n月", strtotime($row_data["periodStart"])) . "～" . date("Y年n月", strtotime($row_data["periodEnd"]));
 $pdf -> MultiCell(0, 0, $date, 1, "", 0, 1, 15);
 
 // 業務概要表示
-if (array_search("overview", $output) !== false) {
+if ($overview !== false) {
     $pdf -> MultiCell(0, 0, "業務概要", 1, "", 1, 1, 15);
-    $pdf -> MultiCell(0, 0, $row_data[4], 1, "", 0, 1, 15);
+    $pdf -> MultiCell(0, 0, $row_data["overview"], 1, "", 0, 1, 15);
 }
 
 // データを挿入する
