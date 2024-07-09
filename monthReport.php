@@ -67,6 +67,7 @@
                         </tr>
                     </table>
                 </div>
+                <!--<input type="text" id="memo">-->
                 <div class="graphArea">
                     <div class="formArea">
                         <!-- 内容入力 -->
@@ -224,6 +225,7 @@ switch ($_POST["state"]) {
         EOM;
 
         // 業務内容の書き換え
+        // 前回保存時のデータ削除
         $sql = "DELETE FROM monthreport_table WHERE company_code = ? AND month = ?";
         $stmt = $mysqli->prepare($sql);
         $stmt -> bind_param('ss', $companyCode, $_POST["month"]);
@@ -241,6 +243,10 @@ switch ($_POST["state"]) {
             $manager = $_POST["manager$i"];
             $status = $_POST["status$i"];
             $stmt->bind_param('sssssdsss', $company_code, $_POST["month"], $date, $category, $detail, $time, $deadline, $manager, $status);
+            $stmt->execute();
+            $sql = "INSERT INTO monthreport_table_bk (company_code, month, date, category, detail, time, deadline, manager, status, save_date) VALUES (?,?,?,?,?,?,?,?,?,now())";
+            $stmt = $mysqli->prepare($sql);
+            $stmt -> bind_param('sssssdsss', $company_code, $_POST["month"], $date, $category, $detail, $time, $deadline, $manager, $status);
             $stmt->execute();
             
             // 業務内容再入力
@@ -267,6 +273,18 @@ switch ($_POST["state"]) {
                 </script>
             EOM;
         }
+        /*$sql = "SELECT * FROM monthreport_table_bk WHERE company_code = ? AND month = ?";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param('ss', $company_code, $_POST["month"]);
+        $stmt->execute();
+        $result = $stmt -> get_result();
+        $row_data = $result -> fetch_array(MYSQLI_ASSOC);
+        $saveDate = json_encode($row_data["save_date"]);
+        echo <<< EOM
+            <script type="text/javascript">
+                document.getElementById("memo").value = $saveDate;
+            </script>
+        EOM;*/
 
         // アナリティクス欄の保存
         $sql = "SELECT image_path FROM analytics_table WHERE company_code = ? AND month = ?";
